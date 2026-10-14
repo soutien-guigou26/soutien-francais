@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="LHOUSSAINE BOURBI — S.S GUIGOU — BOULMANE 2026">
+<title>دعم اللغة العربية</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #0f766e; --primary-hover: #115e59; --primary-light: #ccfbf1; --primary-dark: #134e4a;
+    --accent: #f59e0b; --accent-light: #fef3c7;
+    --success: #16a34a; --success-light: #dcfce7;
+    --danger: #dc2626; --danger-light: #fee2e2;
+    --bg: #f6f7f4; --card: #ffffff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b;
+    --radius: 16px; --radius-sm: 10px;
+    --shadow: 0 4px 10px -2px rgb(0 0 0 / .06);
+  }
+  body {
+    font-family: 'Tajawal', 'Cairo', 'Segoe UI', 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh;
+    display: flex; flex-direction: column; font-size: 17px;
+  }
+  .ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 40; }
+  .header-container { max-width: 1150px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .logo { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #0ea5e9); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; }
+  .brand-title { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .badge { background: var(--primary-light); color: var(--primary-dark); font-size: .72rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid #99f6e4; }
+  .badge-amber { background: var(--accent-light); color: #92400e; border-color: #fde68a; }
+  .header-sub { font-size: .74rem; color: var(--muted); }
+  .header-actions { display: flex; gap: 6px; align-items: center; }
+  main { flex: 1; max-width: 1000px; width: 100%; margin: 0 auto; padding: 22px 14px; }
+  footer { background: #fff; border-top: 1px solid var(--border); padding: 12px 16px; text-align: center; font-size: .78rem; color: var(--muted); }
+  footer .credit { direction: ltr; font-weight: 800; color: var(--primary-dark); letter-spacing: .5px; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; position: relative; overflow: hidden; }
+  .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(to left, var(--primary), #0ea5e9, var(--accent)); }
+  .narrow { max-width: 600px; margin: 0 auto; }
+  .mid { max-width: 760px; margin: 0 auto; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 20px; font-size: .95rem; font-weight: 700; border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: all .15s; font-family: inherit; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:hover { filter: brightness(1.05); }
+  .btn-secondary { background: #fff; border-color: var(--border); color: var(--text); }
+  .btn-secondary:hover { background: #f1f5f9; }
+  .btn-soft { background: var(--primary-light); border-color: #99f6e4; color: var(--primary-dark); }
+  .btn-soft:hover { background: #99f6e4; }
+  .btn-sm { padding: 6px 12px; font-size: .8rem; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .icon-btn { padding: 7px 10px; border-radius: var(--radius-sm); background: #fff; border: 1px solid var(--border); cursor: pointer; font-size: 1rem; }
+
+  .screen { display: none; animation: fadeIn .25s ease-out; }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: .88rem; font-weight: 700; color: #334155; margin-bottom: 6px; }
+  .form-input, .form-select { width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #f8fafc; font-size: 1rem; font-family: inherit; color: var(--text); outline: none; }
+  .form-input:focus, .form-select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(15,118,110,.15); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip { padding: 4px 14px; font-size: .8rem; font-weight: 700; border-radius: 999px; background: #fff; border: 1px solid var(--border); cursor: pointer; }
+  .chip.active, .chip:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .level-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .level-card { border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 14px; cursor: pointer; text-align: center; background: #fff; transition: all .15s; }
+  .level-card .big { font-size: 2rem; font-weight: 900; color: var(--primary); line-height: 1.2; }
+  .level-card.active { border-color: var(--primary); background: var(--primary-light); }
+
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; margin-top: 16px; }
+  .game-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all .2s; display: flex; flex-direction: column; justify-content: space-between; }
+  .game-card:hover { border-color: #5eead4; transform: translateY(-2px); box-shadow: 0 10px 15px -5px rgb(0 0 0 / .08); }
+  .game-card.done { background: #f0fdf4; border-color: #86efac; }
+  .gc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .gc-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0; }
+  .gc-title { font-size: 1rem; font-weight: 800; }
+  .gc-desc { font-size: .82rem; color: var(--muted); margin-bottom: 10px; flex: 1; }
+  .gc-foot { display: flex; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 8px; font-size: .78rem; font-weight: 700; color: var(--primary); }
+
+  .hud { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #f8fafc; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 16px; border: 1px solid var(--border); font-size: .85rem; font-weight: 700; flex-wrap: wrap; }
+  .progress { height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-bottom: 16px; }
+  .progress > div { height: 100%; background: linear-gradient(to left, var(--primary), #0ea5e9); transition: width .3s; }
+  .q-box { background: #fff; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); padding: 16px; font-size: 1.1rem; font-weight: 800; text-align: center; margin-bottom: 16px; line-height: 1.8; }
+  .q-big { font-size: 2.2rem; font-weight: 900; letter-spacing: 1px; }
+  .answers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .ans-btn { background: #fff; border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 13px 15px; font-size: 1rem; font-weight: 700; text-align: right; cursor: pointer; font-family: inherit; color: var(--text); transition: all .15s; }
+  .ans-btn.center { text-align: center; font-size: 1.6rem; }
+  .ans-btn:hover:not(:disabled) { border-color: var(--primary); background: #f0fdfa; }
+  .ans-btn.correct { background: var(--success-light) !important; border-color: var(--success) !important; color: #14532d !important; }
+  .ans-btn.wrong { background: var(--danger-light) !important; border-color: var(--danger) !important; color: #7f1d1d !important; }
+  .feedback { padding: 13px 15px; border-radius: var(--radius-sm); margin: 14px 0; font-size: .92rem; font-weight: 600; }
+  .feedback.ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #14532d; }
+  .feedback.ko { background: #fef2f2; border: 1px solid #fecaca; color: #7f1d1d; }
+  .feedback ul { margin: 6px 22px 0 0; }
+  .row-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+  .num-in { width: 150px; padding: 8px; font-size: 1.8rem; font-weight: 800; text-align: center; direction: ltr; border: 2px solid #94a3b8; border-radius: 10px; font-family: inherit; outline: none; background: #fff; }
+  .num-in:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,118,110,.15); }
+  .num-in.sm { width: 90px; font-size: 1.3rem; }
+  .answer-line { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+
+  /* Reminder / modelling */
+  .rem-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  .rem-tag { background: var(--accent-light); color: #92400e; border: 1px solid #fde68a; font-size: .75rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+  .rem-list { list-style: none; display: grid; gap: 8px; margin-bottom: 14px; }
+  .rem-list li { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font-size: .93rem; }
+  .rem-list li::before { content: "💡 "; }
+  .model-box { background: #fffbeb; border: 2px dashed #fcd34d; border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+  .model-box h4 { font-size: .95rem; font-weight: 800; color: #92400e; margin-bottom: 8px; }
+  .steps { margin: 4px 22px 0 0; font-size: .92rem; }
+  .steps li { margin-bottom: 4px; }
+
+  /* Representations */
+  .pieces { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; justify-content: center; min-height: 80px; background: #fffbeb; border: 2px dashed #fcd34d; border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+  .builder { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 12px; }
+  .builder .unit { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 8px; text-align: center; font-size: .85rem; font-weight: 700; }
+  .builder .unit .ctrls { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
+  .wheel-wrap { display: flex; justify-content: center; margin-bottom: 12px; }
+
+  /* Place value table */
+  table.pv { border-collapse: collapse; margin: 0 auto 14px; direction: ltr; }
+  table.pv th { background: var(--primary); color: #fff; padding: 8px 14px; font-size: .9rem; border: 1px solid #0d5e57; }
+  table.pv td { border: 1px solid var(--border); padding: 8px; text-align: center; background: #fff; }
+  table.pv td input { width: 54px; height: 54px; font-size: 1.6rem; font-weight: 800; text-align: center; border: 2px solid #94a3b8; border-radius: 8px; font-family: inherit; }
+  table.pv td.show { font-size: 1.6rem; font-weight: 900; }
+
+  /* Column operations */
+  .col-op { display: grid; direction: ltr; gap: 4px; justify-content: center; margin: 0 auto 14px; background: #fff; padding: 14px 18px; border: 1px solid var(--border); border-radius: 12px; width: max-content; }
+  .cell { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 800; }
+  .cell.carry input { width: 28px; height: 28px; font-size: .9rem; color: #b45309; border: 1px dashed #f59e0b; border-radius: 6px; text-align: center; font-weight: 800; background: #fffbeb; }
+  .cell.res input { width: 44px; height: 48px; font-size: 1.6rem; font-weight: 800; text-align: center; border: 2px solid #94a3b8; border-radius: 8px; font-family: inherit; }
+  .cell.res input:focus { border-color: var(--primary); outline: none; }
+  .op-line { grid-column: 1 / -1; height: 3px; background: var(--text); border-radius: 2px; margin: 2px 0; }
+  .col-head { font-size: .7rem; color: var(--muted); font-weight: 700; height: 18px; }
+
+  /* Ordering */
+  .seq-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .seq-item { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid var(--border); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 1.4rem; font-weight: 800; }
+  .seq-btn { padding: 4px 10px; background: #f1f5f9; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: .9rem; margin-inline-start: 4px; }
+
+  /* Problems */
+  .problem-text { background: #f0fdfa; border-right: 5px solid var(--primary); padding: 14px; border-radius: 10px; font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; line-height: 2; }
+  .fourq { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .fourq span { padding: 4px 10px; border-radius: 999px; font-size: .75rem; font-weight: 800; background: #f1f5f9; color: var(--muted); border: 1px solid var(--border); }
+  .fourq span.on { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .fourq span.ok { background: var(--success-light); color: #14532d; border-color: #86efac; }
+
+  /* Timer */
+  .timer { height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+  .timer > div { height: 100%; background: var(--accent); width: 100%; }
+
+  .stars { font-size: 2.6rem; letter-spacing: 4px; margin: 6px 0 10px; animation: pop .4s ease-out; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .stat { background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; text-align: center; }
+  .stat .k { font-size: .75rem; color: var(--muted); }
+  .stat .v { font-size: 1.15rem; font-weight: 800; }
+
+  /* Drawer */
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.4); z-index: 100; display: none; }
+  .drawer { position: fixed; top: 0; bottom: 0; right: 0; width: 100%; max-width: 540px; background: #fff; z-index: 101; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .25s ease-out; box-shadow: -4px 0 25px -5px rgba(0,0,0,.2); }
+  .drawer.open { transform: none; }
+  .drawer-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .drawer-content { flex: 1; overflow-y: auto; padding: 18px; font-size: .92rem; }
+  .drawer-content h4 { color: var(--primary-dark); font-weight: 800; margin: 16px 0 6px; }
+  .drawer-content ul, .drawer-content ol { margin-right: 20px; margin-bottom: 8px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; margin-top: 14px; }
+  table.res { width: 100%; border-collapse: collapse; font-size: .8rem; }
+  table.res th, table.res td { padding: 8px 9px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
+  table.res th { background: #f8fafc; font-weight: 800; color: #334155; }
+  .pct { display: inline-block; min-width: 40px; text-align: center; padding: 1px 6px; border-radius: 6px; font-weight: 800; }
+  .pct.hi { background: #dcfce7; color: #166534; } .pct.mid { background: #fef9c3; color: #854d0e; } .pct.lo { background: #fee2e2; color: #991b1b; } .pct.na { color: #cbd5e1; }
+  .bars { display: grid; gap: 6px; margin-top: 10px; }
+  .bar-row { display: grid; grid-template-columns: 170px 1fr 48px; align-items: center; gap: 8px; font-size: .8rem; font-weight: 700; }
+  .bar-track { height: 12px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 99px; }
+
+  @media (max-width: 560px) {
+    .level-pick { grid-template-columns: 1fr; }
+    .cell { width: 38px; height: 40px; font-size: 1.45rem; }
+    .cell.res input { width: 36px; height: 42px; font-size: 1.35rem; }
+    .bar-row { grid-template-columns: 110px 1fr 40px; }
+    .header-sub { display: none; }
+  }
+  @media print {
+    header, footer, .no-print { display: none !important; }
+    body { background: #fff; }
+    .card { box-shadow: none; border: 2px solid #000; }
+  }
+
+  .hint { font-size: .75rem; color: var(--muted); margin: -2px 0 8px; }
+  .level-pick.lv5 { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .level-pick.lv5 .level-card { padding: 10px 4px; }
+  .level-pick.lv3 { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .level-pick.lv3 .level-card { padding: 10px 6px; }
+  .path-hint { font-size: .7rem; color: var(--muted); margin-top: 4px; min-height: 1em; line-height: 1.4; }
+  .brick-sec { margin-top: 18px; }
+  .brick-head { display: flex; align-items: center; gap: 10px; border-inline-start: 5px solid var(--primary); background: #fff; border-radius: 12px; padding: 8px 12px; box-shadow: var(--shadow); }
+  .brick-sec .games-grid { margin-top: 10px; }
+  .goal-block { margin-bottom: 10px; }
+  .goal-head { font-weight: 800; margin-bottom: 6px; color: var(--primary-dark); }
+  .passage { background: #fffdf5; border: 1px solid #fde68a; border-radius: 12px; padding: 14px 16px; font-size: 1.12rem; line-height: 2.1; margin-bottom: 14px; }
+  .passage .p-title { font-weight: 900; text-align: center; color: #92400e; margin-bottom: 6px; }
+  .passage .ln { display: block; }
+  .passage .ln b.no { display: inline-block; min-width: 26px; color: #b45309; font-size: .8rem; }
+  .q-box .speak { margin-inline-start: 10px; vertical-align: middle; }
+  .q-big { font-size: 2.4rem; font-weight: 900; line-height: 1.5; }
+  .q-pic { font-size: 3.6rem; line-height: 1.2; }
+  .flash-box { background: #eef2ff; border: 2px dashed #a5b4fc; border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 14px; }
+  .flash-word { font-size: 2.3rem; font-weight: 900; margin-bottom: 10px; }
+  .flash-hidden { font-size: 1rem; font-weight: 800; color: #4338ca; padding: 18px 0; }
+  .flash-box .timer > div { background: #6366f1; }
+  .answers.big .ans-btn { font-size: 1.6rem; text-align: center; }
+  .answers.center .ans-btn { text-align: center; }
+  .order-slot { min-height: 64px; border: 2px dashed #94a3b8; border-radius: 12px; padding: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; background: #f8fafc; margin-bottom: 12px; }
+  .order-slot.tight { gap: 3px; }
+  .order-slot.ok { border-color: var(--success); background: var(--success-light); }
+  .order-slot.ko { border-color: var(--danger); background: var(--danger-light); }
+  .order-slot.vertical, .order-pool.vertical { flex-direction: column; align-items: stretch; }
+  .slot-ph { color: var(--muted); font-size: .85rem; }
+  .order-pool { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .tile { background: #fff; border: 2px solid #cbd5e1; border-radius: 10px; padding: 8px 14px; font-size: 1.35rem; font-weight: 800; cursor: pointer; font-family: inherit; color: var(--text); box-shadow: 0 2px 0 #cbd5e1; }
+  .order-pool.vertical .tile, .order-slot.vertical .tile { font-size: 1rem; text-align: start; line-height: 1.8; }
+  .tile:hover:not(:disabled) { border-color: var(--primary); }
+  .tile.placed { background: var(--primary-light); border-color: #5eead4; }
+  .right-order { font-weight: 800; font-size: 1.1rem; margin-top: 4px; }
+  .letter-chip { display: inline-block; min-width: 44px; padding: 2px 10px; margin: 2px; border-radius: 10px; background: var(--primary-light); color: var(--primary-dark); font-weight: 900; font-size: 1.3rem; text-align: center; }
+  @media (max-width: 560px) {
+    .level-pick.lv5 { grid-template-columns: repeat(5, 1fr); }
+    .level-pick.lv5 .level-card .big { font-size: 1.5rem; }
+    .level-pick.lv5 .level-card div:last-child { font-size: .62rem !important; }
+    .level-pick.lv3 { grid-template-columns: repeat(3, 1fr); }
+    .passage { font-size: 1.02rem; }
+    .flash-word { font-size: 1.9rem; }
+  }
+  .word-chip { display: inline-block; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 4px 12px; margin: 3px; font-size: 1.35rem; font-weight: 800; }
+  .gap { display: inline-block; min-width: 1.4em; border-bottom: 3px solid var(--accent); color: var(--accent); text-align: center; }
+  mark { background: #fde68a; border-radius: 4px; padding: 0 2px; }
+  [dir=ltr] .ans-btn { text-align: left; }
+  [dir=ltr] table.res th, [dir=ltr] table.res td { text-align: left; }
+  [dir=ltr] .drawer { right: auto; left: 0; transform: translateX(-100%); }
+  [dir=ltr] .drawer.open { transform: none; }
+  [dir=ltr] .drawer-content ul, [dir=ltr] .drawer-content ol { margin-right: 0; margin-left: 20px; }
+  [dir=ltr] .feedback ul, [dir=ltr] .steps { margin: 6px 0 0 22px; }
+  [dir=ltr] body { font-family: 'Segoe UI', 'Trebuchet MS', Tahoma, Arial, sans-serif; }
+
+</style>
+</head>
+<body>
+<script>
+/* =====================================================================
+   تطبيق دعم اللغة العربية — برنامج دعم التعلمات الأساس (مدارس الريادة)
+   المحتوى مأخوذ من حصص «حصص التعلمات الأساس — اللغة العربية» (المستويات 2 إلى 6)
+   ===================================================================== */
+(function () {
+const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const shuffle = arr => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const uniq = arr => [...new Set(arr)];
+
+/* ---------------- Arabic text tools ---------------- */
+const MARK = /[ً-ْٰ]/;
+const VOWEL = /[ً-ِ]/;            // tanween + fatha/damma/kasra
+function units(w) { const out = []; for (const ch of w) { if (MARK.test(ch) && out.length) out[out.length - 1] += ch; else out.push(ch); } return out; }
+function syllables(w) { const out = []; units(w).forEach(u => { if (!out.length || VOWEL.test(u)) out.push(u); else out[out.length - 1] += u; }); return out; }
+const base = u => u.replace(/[ً-ْٰ]/g, '');
+const marks = u => u.replace(/[^ً-ْٰ]/g, '');
+const bare = w => w.replace(/[ً-ْٰ]/g, '');
+const CONF = [['ب', 'ت', 'ث', 'ن'], ['ج', 'ح', 'خ'], ['د', 'ذ'], ['ر', 'ز'], ['س', 'ش'], ['ص', 'ض'], ['ط', 'ظ'], ['ع', 'غ'], ['ف', 'ق'], ['ك', 'ل'], ['م', 'ن'], ['س', 'ص'], ['د', 'ض'], ['ت', 'ط'], ['ذ', 'ز'], ['ه', 'ح']];
+const confOf = l => uniq(CONF.filter(g => g.includes(l)).flat().filter(x => x !== l));
+function swapOne(w) {
+  const u = units(w), idx = shuffle(u.map((x, i) => i).filter(i => confOf(base(u[i])).length));
+  if (!idx.length) return null;
+  const i = idx[0], nb = pick(confOf(base(u[i]))); const v = [...u]; v[i] = nb + marks(u[i]); return v.join('');
+}
+function vowelSwap(w) {
+  const u = units(w), idx = shuffle(u.map((x, i) => i).filter(i => /[َُِ]/.test(u[i])));
+  if (!idx.length) return null;
+  const i = idx[0], m = u[i].match(/[َُِ]/)[0], nm = pick(['َ', 'ُ', 'ِ'].filter(x => x !== m));
+  const v = [...u]; v[i] = u[i].replace(m, nm); return v.join('');
+}
+function lookAlikes(w, n = 3) { const out = new Set(); for (let t = 0; out.size < n && t < 40; t++) { const d = (t % 3 === 2 ? vowelSwap(w) : swapOne(w)) || vowelSwap(w); if (d && d !== w) out.add(d); } return [...out]; }
+function misspell(w) {
+  const v = new Set();
+  if (/ة/.test(w)) { v.add(w.replace(/ة/, 'ه')); v.add(w.replace(/ة/, 'ت')); }
+  if (/ٌ$/.test(w)) v.add(w.replace(/ٌ$/, 'ُنْ'));
+  if (/ًا$/.test(w)) v.add(w.replace(/ًا$/, 'َنْ'));
+  if (/ّ/.test(w)) v.add(w.replace(/ّ/, ''));
+  if (/^أ/.test(w)) v.add(w.replace(/^أ/, 'ا'));
+  if (/ى$/.test(w)) v.add(w.replace(/ى$/, 'ي'));
+  if (/[^\s]ا/.test(w.slice(1))) { const u = units(w), i = u.findIndex((x, k) => k > 0 && base(x) === 'ا'); if (i > 0) v.add([...u.slice(0, i), ...u.slice(i + 1)].join('')); }
+  if (/ٱلْ|اَلْ/.test(w)) v.add(w.replace(/لْ/, 'ل'));
+  v.delete(w);
+  const out = [...v]; for (let t = 0; out.length < 3 && t < 30; t++) { const d = swapOne(w); if (!d) break; if (!out.includes(d) && d !== w) out.push(d); }
+  return out.slice(0, 3);
+}
+const big = s => `<span class="q-big">${s}</span>`;
+const picHtml = e => e ? `<div class="q-pic">${e}</div>` : '';
+const ex = (title, body) => `<div class="model-box"><h4>✍️ ${title}</h4>${body}</div>`;
+const tips = list => `<ul class="rem-list">${list.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const byLevel = (pool, lv) => { const near = pool.filter(x => Math.abs((x.lv || 4) - lv) <= 1); return near.length >= 3 ? near : pool; };
+
+/* =====================================================================
+   1. CONTENT BANK
+   ===================================================================== */
+/* الحروف: الكلمات المرجعية الأولى مأخوذة من حصص لبنة حرف (ديك – دب – درهم ...) */
+const LETTERS = [
+  { l: 'أ', n: 'الْأَلِف', w: [['أَرْنَبٌ', '🐰'], ['أَسَدٌ', '🦁'], ['أُذُنٌ', '👂']] },
+  { l: 'ب', n: 'الْباء', w: [['بابٌ', '🚪'], ['بَيْتٌ', '🏠'], ['بُلْبُلٌ', '🐦']] },
+  { l: 'ت', n: 'التّاء', w: [['تُوتٌ', '🫐'], ['تُفّاحٌ', '🍎'], ['تَمْرٌ', '🌴']] },
+  { l: 'ث', n: 'الثّاء', w: [['ثَعْلَبٌ', '🦊'], ['ثَلْجٌ', '❄️'], ['ثَوْبٌ', '👘']] },
+  { l: 'ج', n: 'الْجيم', w: [['جَمَلٌ', '🐫'], ['جَزَرٌ', '🥕'], ['جَبَلٌ', '⛰️']] },
+  { l: 'ح', n: 'الْحاء', w: [['حِصانٌ', '🐴'], ['حَليبٌ', '🥛'], ['حَديقَةٌ', '🌳']] },
+  { l: 'خ', n: 'الْخاء', w: [['خُبْزٌ', '🍞'], ['خَروفٌ', '🐑'], ['خَيْمَةٌ', '⛺']] },
+  { l: 'د', n: 'الدّال', w: [['ديكٌ', '🐓'], ['دُبٌّ', '🐻'], ['دِرْهَمٌ', '🪙']] },
+  { l: 'ذ', n: 'الذّال', w: [['ذِئْبٌ', '🐺'], ['ذَيْلٌ', '🐈'], ['ذُبابٌ', '🪰']] },
+  { l: 'ر', n: 'الرّاء', w: [['رَجُلٌ', '👨'], ['رَسْمٌ', '🎨'], ['رُمّانٌ', '']] },
+  { l: 'ز', n: 'الزّاي', w: [['زَيْتونٌ', '🫒'], ['زَهْرَةٌ', '🌸'], ['زَرافَةٌ', '🦒']] },
+  { l: 'س', n: 'السّين', w: [['سَمَكٌ', '🐟'], ['سَيّارَةٌ', '🚗'], ['سُلَّمٌ', '🪜']] },
+  { l: 'ش', n: 'الشّين', w: [['شَمْسٌ', '☀️'], ['شَجَرَةٌ', '🌳'], ['شايٌ', '🍵']] },
+  { l: 'ص', n: 'الصّاد', w: [['صَقْرٌ', '🦅'], ['صُنْدوقٌ', '📦'], ['صابونٌ', '🧼']] },
+  { l: 'ض', n: 'الضّاد', w: [['ضِفْدَعٌ', '🐸'], ['ضَوْءٌ', '💡'], ['ضَيْفٌ', '🧑']] },
+  { l: 'ط', n: 'الطّاء', w: [['طائِرَةٌ', '✈️'], ['طَبْلٌ', '🥁'], ['طَبيبٌ', '🧑‍⚕️']] },
+  { l: 'ظ', n: 'الظّاء', w: [['ظَرْفٌ', '✉️'], ['ظِلٌّ', '🌳'], ['ظُفْرٌ', '💅']] },
+  { l: 'ع', n: 'الْعَيْن', w: [['عِنَبٌ', '🍇'], ['عُصْفورٌ', '🐦'], ['عَيْنٌ', '👁️']] },
+  { l: 'غ', n: 'الْغَيْن', w: [['غَزالٌ', '🦌'], ['غَيْمَةٌ', '☁️'], ['غُرابٌ', '🐦‍⬛']] },
+  { l: 'ف', n: 'الْفاء', w: [['فَمٌ', '👄'], ['فُلْفُلٌ', '🌶️'], ['فَراشَةٌ', '🦋']] },
+  { l: 'ق', n: 'الْقاف', w: [['قِرْدٌ', '🐒'], ['قَفَصٌ', ''], ['قَلْبٌ', '❤️']] },
+  { l: 'ك', n: 'الْكاف', w: [['كِتابٌ', '📖'], ['كُرَةٌ', '⚽'], ['كَأْسٌ', '🏆']] },
+  { l: 'ل', n: 'اللّام', w: [['لَوْزٌ', ''], ['لُعْبَةٌ', '🧸'], ['لَيْمونٌ', '🍋']] },
+  { l: 'م', n: 'الْميم', w: [['مَوْزٌ', '🍌'], ['مِفْتاحٌ', '🔑'], ['مِظَلَّةٌ', '☂️']] },
+  { l: 'ن', n: 'النّون', w: [['نَمِرٌ', '🐯'], ['نَحْلَةٌ', '🐝'], ['نافِذَةٌ', '🪟']] },
+  { l: 'ه', n: 'الْهاء', w: [['هِلالٌ', '🌙'], ['هَدِيَّةٌ', '🎁'], ['هاتِفٌ', '📱']] },
+  { l: 'و', n: 'الْواو', w: [['وَرْدَةٌ', '🌹'], ['وَلَدٌ', '👦'], ['وِسادَةٌ', '🛏️']] },
+  { l: 'ي', n: 'الْياء', w: [['يَدٌ', '✋'], ['يَمامَةٌ', '🕊️'], ['يَقْطينٌ', '🎃']] }
+];
+const LBY = Object.fromEntries(LETTERS.map(x => [x.l, x]));
+const HARAKAT = [
+  { k: 'fatha', n: 'الْفَتْحَة', f: l => l + 'َ' }, { k: 'damma', n: 'الضَّمَّة', f: l => l + 'ُ' },
+  { k: 'kasra', n: 'الْكَسْرَة', f: l => l + 'ِ' }, { k: 'sukun', n: 'السُّكون', f: l => l + 'ْ' }
+];
+const MADD = [
+  { k: 'a', n: 'الْمَدِّ بِالْأَلِف', f: l => l + 'َا' }, { k: 'u', n: 'الْمَدِّ بِالْواو', f: l => l + 'ُو' }, { k: 'i', n: 'الْمَدِّ بِالْياء', f: l => l + 'ِي' }
+];
+const TANWIN = [
+  { k: 'an', n: 'تَنْوينِ الْفَتْح', f: l => l + 'ًا' }, { k: 'un', n: 'تَنْوينِ الضَّمّ', f: l => l + 'ٌ' }, { k: 'in', n: 'تَنْوينِ الْكَسْر', f: l => l + 'ٍ' }
+];
+
+/* معجم الحصص حسب الموضوعات (مع صورة تعبيرية) */
+const THEMES = {
+  'الْمَدْرَسَة': [['كِتابٌ', '📖'], ['قَلَمٌ', '✏️'], ['مِحْفَظَةٌ', '🎒'], ['مِسْطَرَةٌ', '📏'], ['دَفْتَرٌ', '📓'], ['مِقَصٌّ', '✂️'], ['مَدْرَسَةٌ', '🏫'], ['أُسْتاذٌ', '🧑‍🏫']],
+  'الْأُسْرَة': [['أَبٌ', '👨'], ['أُمٌّ', '👩'], ['جَدٌّ', '👴'], ['جَدَّةٌ', '👵'], ['أُخْتٌ', '👧'], ['أَخٌ', '👦'], ['طِفْلٌ', '👶'], ['بَيْتٌ', '🏠']],
+  'الْقَرْيَة': [['بَقَرَةٌ', '🐄'], ['دَجاجَةٌ', '🐔'], ['حِمارٌ', '🫏'], ['حَقْلٌ', '🌾'], ['فَلّاحٌ', '🧑‍🌾'], ['جَرّارٌ', '🚜'], ['خَروفٌ', '🐑'], ['شَجَرَةٌ', '🌳']],
+  'الْمَدينَة': [['سَيّارَةٌ', '🚗'], ['حافِلَةٌ', '🚌'], ['مُسْتَشْفى', '🏥'], ['مَسْجِدٌ', '🕌'], ['مَلْعَبٌ', '🏟️'], ['قِطارٌ', '🚆'], ['عِمارَةٌ', '🏢'], ['دَرّاجَةٌ', '🚲']],
+  'الْمِهَنُ وَالْحِرَف': [['طَبيبٌ', '🧑‍⚕️'], ['شُرْطِيٌّ', '👮'], ['طَبّاخٌ', '🧑‍🍳'], ['رُبّانٌ', '🧑‍✈️'], ['إِطْفائِيٌّ', '🧑‍🚒'], ['خَبّازٌ', '🥖'], ['صَيّادٌ', '🎣'], ['رَسّامٌ', '🧑‍🎨']],
+  'الرِّياضَةُ وَالصِّحَّة': [['كُرَةٌ', '⚽'], ['سِباحَةٌ', '🏊'], ['دَرّاجَةٌ', '🚲'], ['ماءٌ', '💧'], ['حَليبٌ', '🥛'], ['تُفّاحَةٌ', '🍎'], ['جَزَرَةٌ', '🥕'], ['سَريرٌ', '🛏️']],
+  'الْأَسْفارُ وَالرِّحْلات': [['طائِرَةٌ', '✈️'], ['سَفينَةٌ', '🚢'], ['حَقيبَةٌ', '🧳'], ['خَريطَةٌ', '🗺️'], ['جَبَلٌ', '⛰️'], ['بَحْرٌ', '🌊'], ['خَيْمَةٌ', '⛺'], ['شاطِئٌ', '🏖️']],
+  'الطَّبيعَةُ وَالْإِنْسان': [['شَمْسٌ', '☀️'], ['قَمَرٌ', '🌙'], ['نَجْمَةٌ', '⭐'], ['مَطَرٌ', '🌧️'], ['وَرْدَةٌ', '🌹'], ['غابَةٌ', '🌲'], ['فَراشَةٌ', '🦋'], ['سَحابَةٌ', '☁️']]
+};
+const THEME_WORDS = Object.entries(THEMES).flatMap(([t, l]) => l.map(([w, e]) => ({ w, e, t })));
+/* كلمات الإملاء في حصص لبنة كلمة (أوزان: فاعِل، مَفْعول، مَفْعِل، تَفَعَّلَ، مُتَفَعِّل، اِسْتَفْعَلَ) */
+const DICTEE = ['ناجِحٌ', 'مَثَلٌ', 'حارِسٌ', 'جَبَلٌ', 'مَنْزِلٌ', 'مَفْتوحٌ', 'مَجْلِسٌ', 'مَطْبوخٌ', 'مَسْجِدٌ', 'صامِدٌ', 'مَغْسولٌ', 'تَعَلَّمَ', 'تَدَرَّبَ', 'تَذَكَّرَ', 'مُتَأَخِّرٌ', 'مُتَفَهِّمٌ', 'مُتَنَقِّلٌ', 'مُتَعَوِّدٌ', 'مُسْتَبْشِرٌ', 'مُسْتَسْلِمٌ', 'اِسْتَرْجَعَ', 'اِسْتَنْشَقَ', 'فَراشاتٌ', 'طُيورٌ', 'أَحْلامٌ', 'حَديقَةٌ', 'عَجينَةٌ', 'مَبْشورٌ', 'مَوْجَةٌ', 'فَتاةٌ', 'بَناتٌ', 'لُؤْلُؤٌ', 'طَبيبٌ', 'مَساءٌ'];
+/* الكلمات البصرية (لبنة فقرة) */
+const VISUAL = ['هَذا', 'هَذِهِ', 'عِنْدي', 'أَنْتَ', 'بِماذا', 'إِلى', 'أَنا', 'في', 'مِنْ', 'مَعَ', 'عِنْدَما', 'الَّذي', 'الَّتي', 'الَّذينَ', 'حَتّى', 'أَمامَ', 'وَراءَ', 'هُناكَ', 'كَيْفَ', 'لِماذا'];
+
+/* جمل من الحصص: b = الكلمة المحذوفة، d = بدائل */
+const SENTENCES = [
+  { lv: 2, s: 'فِي الْمَدينَةِ مَدْرَسَةٌ وَمَسْجِدٌ وَمَلْعَبٌ وَسوقٌ.', b: 'مَسْجِدٌ', d: ['شَجَرَةٌ', 'بَحْرٌ'] },
+  { lv: 2, s: 'أُحِبُّ مَدينَتي، وَأُحافِظُ عَلى نَظافَتِها.', b: 'نَظافَتِها', d: ['سَيّاراتِها', 'أَمْطارِها'] },
+  { lv: 2, s: 'وَصَلَ التِّلْميذُ مُتَأَخِّرًا إِلى الْفَصْلِ.', b: 'الْفَصْلِ', d: ['الْبَحْرِ', 'السَّماءِ'] },
+  { lv: 2, s: 'رَأَيْتُ بائِعًا مُتَنَقِّلًا فِي الشّارِعِ.', b: 'بائِعًا', d: ['جَبَلًا', 'نَهْرًا'] },
+  { lv: 2, s: 'أَحْمَدُ مُتَعَوِّدٌ عَلى تَرْتيبِ أَدَواتِهِ.', b: 'أَدَواتِهِ', d: ['سَمائِهِ', 'أَمْطارِهِ'] },
+  { lv: 2, s: 'رَأَيْتُ أَزْهارًا جَميلَةً وَأَشْجارًا كَبيرَةً.', b: 'أَزْهارًا', d: ['أَقْلامًا', 'دَفاتِرَ'] },
+  { lv: 2, s: 'حَمَلَتْ سَلْمى مِظَلَّتَها، وَخَرَجَتْ إِلَى الْمَدْرَسَةِ.', b: 'مِظَلَّتَها', d: ['سَريرَها', 'نافِذَتَها'] },
+  { lv: 2, s: 'يَتَناوَلُ خالِدٌ فَطورَهُ مَعَ أُسْرَتِهِ.', b: 'فَطورَهُ', d: ['حِذاءَهُ', 'قَلَمَهُ'] },
+  { lv: 2, s: 'تَوَجَّهَ الطِّفْلُ إِلَى الشّاطِئِ الْقَريبِ.', b: 'الشّاطِئِ', d: ['الْكِتابِ', 'الْقَلَمِ'] },
+  { lv: 2, s: 'بَنَى الطِّفْلُ مَعَ أَصْدِقائِهِ قَصْرًا مِنَ الرَّمْلِ.', b: 'الرَّمْلِ', d: ['الْحَليبِ', 'الْعَصيرِ'] },
+  { lv: 2, s: 'غَسَلَتِ الْفَتاةُ وَجْهَها بِالْماءِ وَالصّابونِ.', b: 'الصّابونِ', d: ['الْحِبْرِ', 'الطّينِ'] },
+  { lv: 2, s: 'ذَهَبَتْ أُسْرَةُ خالِدٍ لِلنُّزْهَةِ يَوْمَ الْعُطْلَةِ.', b: 'الْعُطْلَةِ', d: ['الِامْتِحانِ', 'الْمَطَرِ'] },
+  { lv: 2, s: 'رَأَى الْعُصْفورُ قِطْعَةَ خُبْزٍ صَغيرَةً.', b: 'خُبْزٍ', d: ['حَديدٍ', 'زُجاجٍ'] },
+  { lv: 3, s: 'تُحافِظُ الرِّياضَةُ عَلى لِياقَةِ الْجِسْمِ.', b: 'الْجِسْمِ', d: ['الشّارِعِ', 'الْكِتابِ'] },
+  { lv: 3, s: 'الْغِذاءُ الْمُتَوازِنُ ضَرورِيٌّ لِلصِّحَّةِ.', b: 'لِلصِّحَّةِ', d: ['لِلسَّفَرِ', 'لِلَّعِبِ'] },
+  { lv: 3, s: 'ذَهَبَ كَريمٌ إِلى مَلْعَبِ الْحَيِّ.', b: 'مَلْعَبِ', d: ['مَطْبَخِ', 'سَريرِ'] },
+  { lv: 3, s: 'يُحِبُّ كَريمٌ الْإِصْغاءَ إِلَى الْقِصَصِ.', b: 'الْقِصَصِ', d: ['الضَّجيجِ', 'الْأَمْطارِ'] },
+  { lv: 4, s: 'التَّغْذِيَةُ الصِّحِّيَّةُ مُهِمَّةٌ لِنُمُوِّ أَجْسامِنا.', b: 'أَجْسامِنا', d: ['سَيّاراتِنا', 'دَفاتِرِنا'] },
+  { lv: 3, s: 'أَغْسِلُ يَدَيَّ قَبْلَ الْأَكْلِ وَبَعْدَهُ.', b: 'يَدَيَّ', d: ['كُتُبي', 'أَقْلامي'] },
+  { lv: 4, s: 'تُساعِدُ الرِّياضَةُ عَلَى النَّوْمِ الْجَيِّدِ.', b: 'النَّوْمِ', d: ['الْمَرَضِ', 'الْكَسَلِ'] },
+  { lv: 4, s: 'الْعُمّالُ يَعْمَلونَ فِي الْحَديقَةِ بِجِدٍّ.', b: 'بِجِدٍّ', d: ['بِكَسَلٍ', 'بِبُطْءٍ'] },
+  { lv: 4, s: 'يَحْرِصُ الرُّبّانُ عَلى سَلامَةِ الرُّكّابِ طَوالَ الرِّحْلَةِ.', b: 'الرُّكّابِ', d: ['الْأَشْجارِ', 'الْأَقْلامِ'] },
+  { lv: 4, s: 'رُبّانُ الطّائِرَةِ يَجْلِسُ في قُمْرَةِ الْقِيادَةِ.', b: 'الطّائِرَةِ', d: ['الْحَديقَةِ', 'الْمَكْتَبَةِ'] },
+  { lv: 4, s: 'يَحْتَرِمُ النّاسُ الشُّرْطِيَّ وَيُقَدِّرونَ عَمَلَهُ.', b: 'عَمَلَهُ', d: ['نَوْمَهُ', 'غِيابَهُ'] },
+  { lv: 5, s: 'يَلْعَبُ الْوَلَدُ الْكُرَةَ فِي الطَّبيعَةِ.', b: 'الْكُرَةَ', d: ['الْبِئْرَ', 'الْجِدارَ'] },
+  { lv: 5, s: 'تَحْلُبُ الْأُمُّ مِنَ الْبَقَرَةِ حَليبًا طَرِيًّا.', b: 'حَليبًا', d: ['عَسَلًا', 'زَيْتًا'] },
+  { lv: 5, s: 'يَحْتَرِمُ سائِقُ السَّيّارَةِ مَمَرَّ الرّاجِلينَ.', b: 'مَمَرَّ', d: ['طَعامَ', 'كِتابَ'] },
+  { lv: 5, s: 'يَسْتَمْتِعُ الْأَطْفالُ بِاللَّعِبِ فِي الْغابَةِ.', b: 'الْغابَةِ', d: ['الثَّلّاجَةِ', 'الْمِحْفَظَةِ'] },
+  { lv: 5, s: 'تُشَجِّعُ الْجَماهيرُ فَريقَها الْمُفَضَّلَ.', b: 'فَريقَها', d: ['طَعامَها', 'بَيْتَها'] },
+  { lv: 5, s: 'فازَ الْفَريقُ الْوَطَنِيُّ بِكَأْسِ الْبُطولَةِ.', b: 'بِكَأْسِ', d: ['بِقَلَمِ', 'بِبابِ'] },
+  { lv: 5, s: 'اِسْتَخْرَجَ الْفَلّاحُ الْماءَ مِنَ الْبِئْرِ.', b: 'الْبِئْرِ', d: ['الْكِتابِ', 'الْقِسْمِ'] },
+  { lv: 5, s: 'تُحِبُّ لَيْلى قِراءَةَ الْقِصَصِ قَبْلَ النَّوْمِ.', b: 'قِراءَةَ', d: ['أَكْلَ', 'كَسْرَ'] },
+  { lv: 6, s: 'تُكْسِبُها الْقِراءَةُ مُعْجَمًا جَديدًا وَمَعارِفَ مُفيدَةً.', b: 'مُعْجَمًا', d: ['مَرَضًا', 'تَعَبًا'] },
+  { lv: 6, s: 'تَحْلُمُ أَنْ تُصْبِحَ كاتِبَةً لِتُؤَلِّفَ قِصَصًا لِلْأَطْفالِ.', b: 'كاتِبَةً', d: ['سائِقَةً', 'خَبّازَةً'] }
+];
+
+/* فقرات (لبنة فقرة) — نصوص الحصص مع أسئلة الفهم */
+const T_ = (lv, title, text, qs) => ({ lv, title, text, qs });
+const Q = (q, ok, ...bad) => ({ q, ok, bad });
+const FAQRA = [
+  T_(2, 'فِي الْمَسْبَحِ', 'ذَهَبَ أَحْمَدُ إِلَى الْمَسْبَحِ لِيَتَعَلَّمَ السِّباحَةَ، فَوَجَدَ الْماءَ فيهِ نَظيفًا وَبارِدًا. وَلَمْ يَنْسَ أَنْ يَأْخُذَ الْمِنْشَفَةَ مَعَهُ.', [
+    Q('إِلى أَيْنَ ذَهَبَ أَحْمَدُ؟', 'إِلَى الْمَسْبَحِ', 'إِلَى الْبَحْرِ', 'إِلَى السّوقِ'),
+    Q('لِماذا ذَهَبَ أَحْمَدُ إِلَى الْمَسْبَحِ؟', 'لِيَتَعَلَّمَ السِّباحَةَ', 'لِيَلْعَبَ الْكُرَةَ', 'لِيَشْتَرِيَ مِنْشَفَةً'),
+    Q('كَيْفَ وَجَدَ أَحْمَدُ الْماءَ؟', 'نَظيفًا وَبارِدًا', 'ساخِنًا', 'مُتَّسِخًا'),
+    Q('ماذا أَخَذَ أَحْمَدُ مَعَهُ؟', 'الْمِنْشَفَةَ', 'الْكُرَةَ', 'الْكِتابَ')]),
+  T_(2, 'عَلى شاطِئِ الْبَحْرِ', 'أَمْشي دائِمًا عَلى شاطِئِ الْبَحْرِ. أَلْعَبُ فَوْقَ الرِّمالِ الذَّهَبِيَّةِ، وَأَسْتَمْتِعُ بِالنَّظَرِ إِلَى الْبَواخِرِ الَّتي تَسيرُ فيهِ.', [
+    Q('أَيْنَ أَمْشي دائِمًا؟', 'عَلى شاطِئِ الْبَحْرِ', 'فِي الْغابَةِ', 'فِي السّوقِ'),
+    Q('فَوْقَ ماذا أَلْعَبُ؟', 'فَوْقَ الرِّمالِ', 'فَوْقَ الْعُشْبِ', 'فَوْقَ الثَّلْجِ'),
+    Q('إِلى ماذا أَنْظُرُ بِمُتْعَةٍ؟', 'إِلَى الْبَواخِرِ', 'إِلَى الطّائِراتِ', 'إِلَى الْقِطاراتِ')]),
+  T_(2, 'عُطْلَةٌ فِي الْبَحْرِ', 'ذَهَبْتُ مَعَ أُسْرَتي إِلَى الْبَحْرِ فِي الْعُطْلَةِ. كانَ الْجَوُّ جَميلًا، وَالْماءُ صافِيًا. لَعِبْتُ بِالرِّمالِ، وَجَمَعْتُ أَصْدافًا صَغيرَةً. عُدْتُ إِلَى الْبَيْتِ مَسْرورًا بَعْدَ يَوْمٍ جَميلٍ.', [
+    Q('مَعَ مَنْ ذَهَبْتُ إِلَى الْبَحْرِ؟', 'مَعَ أُسْرَتي', 'مَعَ أَصْدِقائي', 'وَحْدي'),
+    Q('كَيْفَ كانَ الْماءُ؟', 'صافِيًا', 'عَكِرًا', 'ساخِنًا'),
+    Q('ماذا جَمَعْتُ؟', 'أَصْدافًا صَغيرَةً', 'أَزْهارًا', 'حِجارَةً كَبيرَةً'),
+    Q('كَيْفَ عُدْتُ إِلَى الْبَيْتِ؟', 'مَسْرورًا', 'حَزينًا', 'غاضِبًا')]),
+  T_(2, 'أُحِبُّ الْقِراءَةَ', 'أُحِبُّ الْقِراءَةَ كُلَّ يَوْمٍ. أَجْلِسُ في مَكانٍ هادِئٍ، وَأَفْتَحُ كِتابي. ثُمَّ أَقْرَأُ قِصَّةً قَصيرَةً عَنْ حَيَوانٍ صَغيرٍ. وَأَفْرَحُ كَثيرًا لِأَنَّ الْقِراءَةَ تُعَلِّمُني أَشْياءَ جَديدَةً.', [
+    Q('مَتى أُحِبُّ الْقِراءَةَ؟', 'كُلَّ يَوْمٍ', 'يَوْمَ الْعيدِ فَقَطْ', 'فِي الْعُطْلَةِ فَقَطْ'),
+    Q('أَيْنَ أَجْلِسُ لِلْقِراءَةِ؟', 'في مَكانٍ هادِئٍ', 'فِي السّوقِ', 'فِي الْمَلْعَبِ'),
+    Q('عَمَّ تَتَحَدَّثُ الْقِصَّةُ؟', 'عَنْ حَيَوانٍ صَغيرٍ', 'عَنْ مَدينَةٍ كَبيرَةٍ', 'عَنْ طائِرَةٍ'),
+    Q('لِماذا أَفْرَحُ كَثيرًا؟', 'لِأَنَّ الْقِراءَةَ تُعَلِّمُني أَشْياءَ جَديدَةً', 'لِأَنَّني أَنامُ مُبَكِّرًا', 'لِأَنَّني أَلْعَبُ الْكُرَةَ')]),
+  T_(3, 'الْأَلْعابُ', 'تَمْنَحُ الْأَلْعابُ الْمُتْعَةَ لِلْأَطْفالِ، وَتَجْعَلُهُمْ فَرِحينَ وَنَشيطينَ. كَما تُنَمّي الْأَلْعابُ الذَّكاءَ، وَتُساعِدُهُمْ عَلَى التَّعَلُّمِ. وَتُعَدُّ الْأُرْجوحَةُ مِنْ أَحْسَنِ الْأَلْعابِ.', [
+    Q('ماذا تَمْنَحُ الْأَلْعابُ لِلْأَطْفالِ؟', 'الْمُتْعَةَ', 'التَّعَبَ', 'الْخَوْفَ'),
+    Q('ماذا تُنَمّي الْأَلْعابُ؟', 'الذَّكاءَ', 'الْكَسَلَ', 'الْغَضَبَ'),
+    Q('ما الَّتي تُعَدُّ مِنْ أَحْسَنِ الْأَلْعابِ؟', 'الْأُرْجوحَةُ', 'الدُّمْيَةُ', 'الْكُرَةُ')]),
+  T_(3, 'يَوْمٌ فِي الْجَبَلِ', 'ذَهَبْتُ مَعَ أُسْرَتي إِلَى الْجَبَلِ لِنَقْضِيَ يَوْمًا جَميلًا فِي الطَّبيعَةِ. كانَ الْهَواءُ نَقِيًّا. تَمَشَّيْنا فِي الْمَمَرّاتِ الصَّغيرَةِ، ثُمَّ جَلَسْنا لِلرّاحَةِ، وَتَناوَلْنا وَجْبَةً خَفيفَةً بَيْنَ الْأَشْجارِ.', [
+    Q('إِلى أَيْنَ ذَهَبَتِ الْأُسْرَةُ؟', 'إِلَى الْجَبَلِ', 'إِلَى الْبَحْرِ', 'إِلَى الْمَدينَةِ'),
+    Q('كَيْفَ كانَ الْهَواءُ؟', 'نَقِيًّا', 'حارًّا', 'مُلَوَّثًا'),
+    Q('أَيْنَ تَناوَلَتِ الْأُسْرَةُ وَجْبَةً خَفيفَةً؟', 'بَيْنَ الْأَشْجارِ', 'فِي الْمَطْعَمِ', 'فِي السَّيّارَةِ')]),
+  T_(4, 'الْغِذاءُ الصِّحِّيُّ', 'نَأْكُلُ الْفَواكِهَ كُلَّ صَباحٍ، وَنَخْتارُ طَعامَنا بِانْشِراحٍ. نَشْرَبُ الْماءَ، فَهُوَ سِرُّ النَّشاطِ وَالْفَلاحِ. نُقَلِّلُ مِنَ الْحَلْوى، وَنَبْتَعِدُ عَنِ الْإِفْراطِ فِي الْأَكْلِ. فَالْغِذاءُ الصِّحِّيُّ يَمْنَحُ الْجِسْمَ الْقُوَّةَ، وَيَزيدُنا صِحَّةً وَنَجاحًا.', [
+    Q('مَتى نَأْكُلُ الْفَواكِهَ؟', 'كُلَّ صَباحٍ', 'كُلَّ لَيْلَةٍ', 'يَوْمَ الْجُمُعَةِ فَقَطْ'),
+    Q('ما سِرُّ النَّشاطِ وَالْفَلاحِ حَسَبَ النَّصِّ؟', 'الْماءُ', 'الْحَلْوى', 'النَّوْمُ'),
+    Q('مِمَّ نُقَلِّلُ؟', 'مِنَ الْحَلْوى', 'مِنَ الْماءِ', 'مِنَ الْفَواكِهِ'),
+    Q('ماذا يَمْنَحُ الْغِذاءُ الصِّحِّيُّ لِلْجِسْمِ؟', 'الْقُوَّةَ', 'التَّعَبَ', 'الْمَرَضَ')]),
+  T_(4, 'أَمينٌ وَالرِّياضَةُ', 'يُحِبُّ أَمينٌ مُمارَسَةَ الرِّياضَةِ كُلَّ صَباحٍ، فَيَرْكُضُ وَيَتَحَرَّكُ بِنَشاطٍ. تُقَوّي الرِّياضَةُ جِسْمَهُ، وَتَجْعَلُهُ أَكْثَرَ قُوَّةً وَنَشاطًا. يَحْرِصُ أَمينٌ عَلى شُرْبِ الْماءِ وَتَناوُلِ غِذاءٍ صِحِّيٍّ بَعْدَ التَّمْرينِ. يَعْرِفُ أَنَّ مُمارَسَةَ الرِّياضَةِ عادَةٌ مُفيدَةٌ تُساعِدُهُ عَلَى الْعَيْشِ بِصِحَّةٍ وَسَعادَةٍ.', [
+    Q('مَتى يُمارِسُ أَمينٌ الرِّياضَةَ؟', 'كُلَّ صَباحٍ', 'كُلَّ مَساءٍ', 'مَرَّةً فِي الشَّهْرِ'),
+    Q('ماذا تَفْعَلُ الرِّياضَةُ بِجِسْمِ أَمينٍ؟', 'تُقَوّيهِ', 'تُتْعِبُهُ', 'تُمْرِضُهُ'),
+    Q('عَلى ماذا يَحْرِصُ أَمينٌ بَعْدَ التَّمْرينِ؟', 'عَلى شُرْبِ الْماءِ وَتَناوُلِ غِذاءٍ صِحِّيٍّ', 'عَلَى النَّوْمِ فَوْرًا', 'عَلى أَكْلِ الْحَلْوى')]),
+  T_(4, 'هِوايَةُ عَلِيٍّ', 'في صَباحِ يَوْمِ السَّبْتِ، جَلَسَ عَلِيٌّ في غُرْفَتِهِ لِمُمارَسَةِ هِوايَتِهِ الْمُفَضَّلَةِ، وَهِيَ الْقِراءَةُ. أَخَذَ قِصَّةً جَميلَةً، وَبَدَأَ يَقْرَؤُها بِهُدوءٍ وَاهْتِمامٍ. بَعْدَ ذَلِكَ، أَخْبَرَ أُسْرَتَهُ عَمّا قَرَأَهُ، فَأَعْجَبَهُمْ حُبُّهُ لِلْقِراءَةِ. وَفِي الْمَساءِ، أَعادَ عَلِيٌّ كِتابَهُ إِلى مَكانِهِ، وَكانَ سَعيدًا لِأَنَّهُ اسْتَفادَ وَاسْتَمْتَعَ بِهِوايَتِهِ.', [
+    Q('مَتى جَلَسَ عَلِيٌّ في غُرْفَتِهِ؟', 'في صَباحِ يَوْمِ السَّبْتِ', 'في مَساءِ يَوْمِ الْأَحَدِ', 'في لَيْلَةِ الْعيدِ'),
+    Q('ما هِوايَةُ عَلِيٍّ الْمُفَضَّلَةُ؟', 'الْقِراءَةُ', 'الرَّسْمُ', 'السِّباحَةُ'),
+    Q('لِمَنْ حَكى عَلِيٌّ ما قَرَأَهُ؟', 'لِأُسْرَتِهِ', 'لِمُعَلِّمِهِ', 'لِجيرانِهِ'),
+    Q('لِماذا كانَ عَلِيٌّ سَعيدًا فِي الْمَساءِ؟', 'لِأَنَّهُ اسْتَفادَ وَاسْتَمْتَعَ بِهِوايَتِهِ', 'لِأَنَّهُ نامَ طَويلًا', 'لِأَنَّهُ خَرَجَ إِلَى الْمَلْعَبِ')]),
+  T_(4, 'زِيارَةُ الرِّباطِ', 'فِي الْعُطْلَةِ الْماضِيَةِ، ذَهَبَ أَحْمَدُ مَعَ أُسْرَتِهِ في زِيارَةٍ إِلى مَدينَةِ الرِّباطِ. بَدَؤوا جَوْلَتَهُمْ بِزِيارَةِ صَوْمَعَةِ حَسّانَ، فَأَعْجَبَهُمْ بِناؤُها الْجَميلُ. ثُمَّ تَوَجَّهوا إِلى قَصَبَةِ الْأَوْدايَةِ، فَتَجَوَّلوا بَيْنَ أَزِقَّتِها. بَعْدَ ذَلِكَ، زاروا ضَريحَ مُحَمَّدٍ الْخامِسِ. وَفي نِهايَةِ الْجَوْلَةِ، أَدْرَكَ أَحْمَدُ أَنَّ مَدينَةَ الرِّباطِ تَزْخَرُ بِمَآثِرَ تَحْكي تاريخَ الْمَغْرِبِ.', [
+    Q('مَتى زارَ أَحْمَدُ مَدينَةَ الرِّباطِ؟', 'فِي الْعُطْلَةِ الْماضِيَةِ', 'يَوْمَ الْعيدِ', 'في بِدايَةِ السَّنَةِ الدِّراسِيَّةِ'),
+    Q('ما أَوَّلُ مَعْلَمٍ زارَتْهُ الْأُسْرَةُ؟', 'صَوْمَعَةُ حَسّانَ', 'قَصَبَةُ الْأَوْدايَةِ', 'ضَريحُ مُحَمَّدٍ الْخامِسِ'),
+    Q('ماذا زاروا بَعْدَ قَصَبَةِ الْأَوْدايَةِ؟', 'ضَريحَ مُحَمَّدٍ الْخامِسِ', 'صَوْمَعَةَ حَسّانَ', 'شاطِئَ الْبَحْرِ'),
+    Q('ماذا أَدْرَكَ أَحْمَدُ في نِهايَةِ الْجَوْلَةِ؟', 'أَنَّ الرِّباطَ تَزْخَرُ بِمَآثِرَ تَحْكي تاريخَ الْمَغْرِبِ', 'أَنَّ الرِّباطَ مَدينَةٌ صَغيرَةٌ', 'أَنَّ الْجَوْلَةَ كانَتْ مُمِلَّةً')]),
+  T_(4, 'هِواياتُ لَيْلى', 'تُحِبُّ لَيْلى مُمارَسَةَ هِواياتِها في وَقْتِ فَراغِها، فَتَقْرَأُ وَتَرْسُمُ وَتَلْعَبُ بِفَرَحٍ وَنَشاطٍ. تُساعِدُها هِواياتُها عَلى تَنْمِيَةِ مَهاراتِها، وَتَجْعَلُ وَقْتَها أَكْثَرَ مُتْعَةً وَفائِدَةً. تَخْتارُ لَيْلى الْهِوايَةَ الَّتي تُحِبُّها، وَتَحْرِصُ عَلى مُمارَسَتِها بِانْتِظامٍ.', [
+    Q('مَتى تُمارِسُ لَيْلى هِواياتِها؟', 'في وَقْتِ فَراغِها', 'أَثْناءَ الدَّرْسِ', 'فِي اللَّيْلِ فَقَطْ'),
+    Q('ما الْهِواياتُ الَّتي تُمارِسُها لَيْلى؟', 'الْقِراءَةُ وَالرَّسْمُ وَاللَّعِبُ', 'الطَّبْخُ وَالْخِياطَةُ', 'السِّباحَةُ وَالرَّكْضُ'),
+    Q('كَيْفَ تُمارِسُ لَيْلى هِوايَتَها؟', 'بِانْتِظامٍ', 'مَرَّةً فِي السَّنَةِ', 'بِلا رَغْبَةٍ')]),
+  T_(5, 'قَرْيَتي', 'في قَرْيَتي مَسْجِدٌ قَديمٌ، وَمُسْتَوْصَفٌ صَغيرٌ، وَمَدْرَسَةٌ ابْتِدائِيَّةٌ. قَرْيَتي صَغيرَةٌ؛ لَكِنَّها جَميلَةٌ وَهادِئَةٌ.', [
+    Q('كَيْفَ هُوَ مَسْجِدُ الْقَرْيَةِ؟', 'قَديمٌ', 'جَديدٌ', 'كَبيرٌ جِدًّا'),
+    Q('ماذا يوجَدُ فِي الْقَرْيَةِ؟', 'مَسْجِدٌ وَمُسْتَوْصَفٌ وَمَدْرَسَةٌ', 'مَطارٌ وَميناءٌ', 'مَصْنَعٌ وَمَلْعَبٌ كَبيرٌ'),
+    Q('كَيْفَ هِيَ الْقَرْيَةُ؟', 'صَغيرَةٌ وَجَميلَةٌ وَهادِئَةٌ', 'كَبيرَةٌ وَمُزْدَحِمَةٌ', 'بَعيدَةٌ وَمُخيفَةٌ')]),
+  T_(5, 'النَّخْلَةُ', 'تَسْكُنُ النَّخْلَةُ أَرْضَ الصَّحْراءِ. وَهِيَ شَجَرَةٌ تَتَمَيَّزُ بِالصَّبْرِ؛ لِأَنَّها تُقاوِمُ الْحَرَّ وَالْجَفافَ. تُهْدينَا النَّخْلَةُ التَّمْرَ حُلْوًا لَذيذًا.', [
+    Q('أَيْنَ تَسْكُنُ النَّخْلَةُ؟', 'أَرْضَ الصَّحْراءِ', 'قِمَمَ الْجِبالِ', 'ضِفافَ الْأَنْهارِ'),
+    Q('لِماذا تَتَمَيَّزُ النَّخْلَةُ بِالصَّبْرِ؟', 'لِأَنَّها تُقاوِمُ الْحَرَّ وَالْجَفافَ', 'لِأَنَّها طَويلَةٌ', 'لِأَنَّها خَضْراءُ'),
+    Q('ماذا تُهْدينَا النَّخْلَةُ؟', 'التَّمْرَ', 'الزَّيْتونَ', 'التُّفّاحَ')]),
+  T_(5, 'الْحاسوبُ', 'يُسَهِّلُ الْحاسوبُ حَياةَ الْإِنْسانِ؛ لِأَنَّهُ يَتَمَيَّزُ بِالسُّرْعَةِ وَالدِّقَّةِ في تَنْفيذِ الْمَهامِّ. الْحاسوبُ جِهازٌ ذَكِيٌّ.', [
+    Q('ماذا يُسَهِّلُ الْحاسوبُ؟', 'حَياةَ الْإِنْسانِ', 'النَّوْمَ', 'الطَّبْخَ'),
+    Q('بِمَ يَتَمَيَّزُ الْحاسوبُ؟', 'بِالسُّرْعَةِ وَالدِّقَّةِ', 'بِالْبُطْءِ', 'بِالثِّقَلِ'),
+    Q('كَيْفَ وَصَفَ النَّصُّ الْحاسوبَ؟', 'جِهازٌ ذَكِيٌّ', 'جِهازٌ قَديمٌ', 'جِهازٌ خَطيرٌ')]),
+  T_(5, 'فِي الصَّيْدَلِيَّةِ', 'ذَهَبَ الْمَريضُ إِلَى الصَّيْدَلِيَّةِ، وَأَعْطَى الصَّيْدَلانِيَّ وَصْفَةَ الطَّبيبِ؛ فَصَرَفَ لَهُ الدَّواءَ. ثُمَّ شَكَرَهُ، وَعادَ إِلَى الْبَيْتِ.', [
+    Q('إِلى أَيْنَ ذَهَبَ الْمَريضُ؟', 'إِلَى الصَّيْدَلِيَّةِ', 'إِلَى الْمَدْرَسَةِ', 'إِلَى السّوقِ'),
+    Q('ماذا أَعْطَى الْمَريضُ لِلصَّيْدَلانِيِّ؟', 'وَصْفَةَ الطَّبيبِ', 'رِسالَةً', 'كِتابًا'),
+    Q('ماذا فَعَلَ الْمَريضُ بَعْدَ أَخْذِ الدَّواءِ؟', 'شَكَرَ الصَّيْدَلانِيَّ وَعادَ إِلَى الْبَيْتِ', 'ذَهَبَ إِلَى الْمَلْعَبِ', 'نامَ فِي الصَّيْدَلِيَّةِ')]),
+  T_(5, 'الْبَقَرَةُ', 'الْبَقَرَةُ حَيَوانٌ أَليفٌ. تَتَغَذّى عَلَى الْعُشْبِ وَالْحُبوبِ. تُعْطينَا الْبَقَرَةُ حَليبًا طَرِيًّا، نَسْتَخْرِجُ مِنْهُ زُبْدَةً طازَجَةً.', [
+    Q('عَلى ماذا تَتَغَذَّى الْبَقَرَةُ؟', 'عَلَى الْعُشْبِ وَالْحُبوبِ', 'عَلَى اللَّحْمِ', 'عَلَى السَّمَكِ'),
+    Q('ماذا تُعْطينَا الْبَقَرَةُ؟', 'حَليبًا طَرِيًّا', 'عَسَلًا', 'بَيْضًا'),
+    Q('ماذا نَسْتَخْرِجُ مِنَ الْحَليبِ؟', 'زُبْدَةً طازَجَةً', 'خُبْزًا', 'زَيْتًا')]),
+  T_(5, 'الطَّبيعَةُ', 'يَعيشُ الْإِنْسانُ في كَوْكَبِ الْأَرْضِ، يَسْتَمْتِعُ بِجَمالِ الطَّبيعَةِ وَالْجِبالِ وَالْأَزْهارِ وَالْحَيَواناتِ. يَجِبُ عَلَيْنا أَنْ نُحافِظَ عَلَيْها؛ فَلا نُلَوِّثُ الْمِياهَ، وَلا نَقْطَعُ الْأَشْجارَ، وَنَضَعُ النُّفاياتِ في مَكانِها. الطَّبيعَةُ تَمْنَحُنَا الْحَياةَ.', [
+    Q('أَيْنَ يَعيشُ الْإِنْسانُ؟', 'في كَوْكَبِ الْأَرْضِ', 'فِي الْقَمَرِ', 'في كَوْكَبِ الْمِرّيخِ'),
+    Q('كَيْفَ نُحافِظُ عَلَى الطَّبيعَةِ؟', 'لا نُلَوِّثُ الْمِياهَ وَلا نَقْطَعُ الْأَشْجارَ', 'نَرْمي النُّفاياتِ فِي النَّهْرِ', 'نَقْطَعُ الْأَشْجارَ'),
+    Q('ماذا تَمْنَحُنَا الطَّبيعَةُ؟', 'الْحَياةَ', 'الْمَرَضَ', 'التَّعَبَ')]),
+  T_(6, 'فِي الْمَدْرَسَةِ', 'يَحْضُرُ التَّلاميذُ كُلَّ يَوْمٍ إِلَى الْمَدْرَسَةِ، وَتَسْتَقْبِلُهُمُ الْأُسْتاذَةُ في بابِ الْمَدْرَسَةِ. نَتَعَلَّمُ في مَدْرَسَتِنَا الْقِراءَةَ وَالْكِتابَةَ وَالْحِسابَ.', [
+    Q('مَنْ يَسْتَقْبِلُ التَّلاميذَ؟', 'الْأُسْتاذَةُ', 'الْحارِسُ', 'الطَّبيبُ'),
+    Q('أَيْنَ تَسْتَقْبِلُهُمْ؟', 'في بابِ الْمَدْرَسَةِ', 'فِي الْقِسْمِ', 'فِي الْمَلْعَبِ'),
+    Q('ماذا نَتَعَلَّمُ فِي الْمَدْرَسَةِ حَسَبَ النَّصِّ؟', 'الْقِراءَةَ وَالْكِتابَةَ وَالْحِسابَ', 'الطَّبْخَ فَقَطْ', 'السِّباحَةَ فَقَطْ')])
+];
+
+/* أقاصيص (لبنة أقصوصة) */
+const UQSUSA = [
+  T_(4, 'الصَّيّادُ وَالطّائِرُ', 'تَوَجَّهَ الصَّيّادُ نَحْوَ أَصْدِقائِهِ، وَأَخْبَرَهُمْ أَنَّهُ رَأى طائِرًا جَميلًا فَوْقَ شَجَرَةٍ عالِيَةٍ. فَنَظَرَ إِلَيْهِ طَويلًا، ثُمَّ أَنْزَلَ بُنْدُقِيَّتَهُ وَقَرَّرَ أَلّا يُؤْذِيَهُ. قالَ لِأَصْدِقائِهِ: «إِنَّ الْحَيَواناتِ وَالطُّيورَ كائِناتٌ جَميلَةٌ، وَعَلَيْنا أَنْ نَحْتَرِمَها وَنَحْمِيَها». فَفَرِحَ أَصْدِقاؤُهُ بِقَرارِهِ، وَعادوا إِلى بُيوتِهِمْ وَهُمْ يُفَكِّرونَ في أَهَمِّيَّةِ الْمُحافَظَةِ عَلَى الْحَيَواناتِ وَالطَّبيعَةِ.', [
+    Q('أَيْنَ رَأَى الصَّيّادُ الطّائِرَ؟', 'فَوْقَ شَجَرَةٍ عالِيَةٍ', 'عَلى سَطْحِ الْبَيْتِ', 'قُرْبَ النَّهْرِ'),
+    Q('ماذا قَرَّرَ الصَّيّادُ؟', 'أَلّا يُؤْذِيَ الطّائِرَ', 'أَنْ يَصْطادَ الطّائِرَ', 'أَنْ يَبيعَ بُنْدُقِيَّتَهُ'),
+    Q('لِماذا فَرِحَ أَصْدِقاؤُهُ؟', 'لِأَنَّهُ قَرَّرَ حِمايَةَ الطّائِرِ', 'لِأَنَّهُ اصْطادَ طائِرًا', 'لِأَنَّهُ عادَ مُبَكِّرًا'),
+    Q('ما الْعِبْرَةُ مِنَ الْقِصَّةِ؟', 'عَلَيْنا أَنْ نَحْتَرِمَ الْحَيَواناتِ وَنَحْمِيَها', 'الصَّيْدُ يُفْرِحُ الْأَصْدِقاءَ', 'الطُّيورُ تُزْعِجُ النّاسَ')]),
+  T_(4, 'حَليبُ أَخي', 'ذاتَ يَوْمٍ مَرِضَتْ أُمّي، فَوَجَدْتُ نَفْسي مُضْطَرًّا لِإِعْدادِ الْحَليبِ لِأَخِي الصَّغيرِ. ذَهَبْتُ إِلَى الْمَطْبَخِ، فَأَخَذْتُ قِنّينَةَ الْحَليبِ وَوَضَعْتُ فيهَا الْماءَ الدّافِئَ وَمِقْدارًا مِنْ مَسْحوقِ الْحَليبِ. ثُمَّ أَغْلَقْتُها جَيِّدًا وَرَجَجْتُها، وَقَدَّمْتُها لِأَخِي الصَّغيرِ بِعِنايَةٍ. فَرِحَ أَخي وَشَرِبَ حَليبَهُ، وَشَعَرْتُ بِالسَّعادَةِ لِأَنّي ساعَدْتُ أُمّي وَاهْتَمَمْتُ بِأَخي.', [
+    Q('لِماذا أَعَدَّ الطِّفْلُ الْحَليبَ لِأَخيهِ؟', 'لِأَنَّ أُمَّهُ مَرِضَتْ', 'لِأَنَّهُ جائِعٌ', 'لِأَنَّ الْحَليبَ لَذيذٌ'),
+    Q('ماذا وَضَعَ فِي الْقِنّينَةِ؟', 'الْماءَ الدّافِئَ وَمَسْحوقَ الْحَليبِ', 'الْعَصيرَ وَالسُّكَّرَ', 'الْماءَ الْبارِدَ فَقَطْ'),
+    Q('ماذا فَعَلَ بَعْدَ أَنْ أَغْلَقَ الْقِنّينَةَ؟', 'رَجَّها', 'كَسَرَها', 'وَضَعَها فِي الثَّلّاجَةِ'),
+    Q('بِمَ شَعَرَ الطِّفْلُ فِي النِّهايَةِ؟', 'بِالسَّعادَةِ', 'بِالْخَوْفِ', 'بِالْمَلَلِ')]),
+  T_(5, 'يَوْمُ الْعيدِ', 'اِسْتَيْقَظْتُ يَوْمَ عيدِ الْأَضْحى باكِرًا. لَبِسْتُ ثِيابِيَ الْجَميلَةَ الَّتي أَعَدَّتْها لي أُمّي. ثُمَّ ذَهَبْتُ مَعَ والِدي إِلَى الْمُصَلّى لِنُؤَدِّيَ صَلاةَ الْعيدِ. بَعْدَ ذَلِكَ زُرْنا أَقارِبَنا وَتَبادَلْنَا التَّهانِيَ وَالْهَدايا. وَفِي الْمَساءِ اجْتَمَعْنا وَشَوَيْنَا اللَّحْمَ في جَوٍّ مِنَ الْفَرَحِ وَالْمَحَبَّةِ.', [
+    Q('مَتَى اسْتَيْقَظَ الطِّفْلُ يَوْمَ الْعيدِ؟', 'باكِرًا', 'ظُهْرًا', 'مَساءً'),
+    Q('أَيْنَ أَدّى صَلاةَ الْعيدِ؟', 'فِي الْمُصَلّى', 'فِي الْبَيْتِ', 'فِي الْمَدْرَسَةِ'),
+    Q('ماذا تَبادَلوا مَعَ الْأَقارِبِ؟', 'التَّهانِيَ وَالْهَدايا', 'الْكُتُبَ', 'الْأَلْعابَ فَقَطْ'),
+    Q('ماذا فَعَلوا فِي الْمَساءِ؟', 'اجْتَمَعوا وَشَوَوُا اللَّحْمَ', 'ناموا مُبَكِّرينَ', 'سافَروا إِلَى الْبَحْرِ')]),
+  T_(5, 'تامِرٌ فِي الْمَدْرَسَةِ', 'اِسْتَيْقَظَ تامِرٌ باكِرًا اسْتِعْدادًا لِلذَّهابِ إِلى مَدْرَسَتِهِ. تَناوَلَ فَطورَهُ بِسُرْعَةٍ، ثُمَّ حَمَلَ مِحْفَظَتَهُ وَخَرَجَ. اِسْتَقْبَلَتْهُ الْأُسْتاذَةُ بِابْتِسامَةٍ دافِئَةٍ عِنْدَ الْبابِ. وَفِي الْقِسْمِ، أَصْغى بِانْتِباهٍ وَشارَكَ زُمَلاءَهُ فِي الْحِوارِ. عادَ إِلَى الْبَيْتِ سَعيدًا؛ لِأَنَّهُ تَعَلَّمَ أَشْياءَ جَديدَةً.', [
+    Q('لِماذا اسْتَيْقَظَ تامِرٌ باكِرًا؟', 'اِسْتِعْدادًا لِلذَّهابِ إِلَى الْمَدْرَسَةِ', 'لِيَلْعَبَ الْكُرَةَ', 'لِيُسافِرَ مَعَ أُسْرَتِهِ'),
+    Q('كَيْفَ اسْتَقْبَلَتْهُ الْأُسْتاذَةُ؟', 'بِابْتِسامَةٍ دافِئَةٍ', 'بِغَضَبٍ', 'بِصَمْتٍ'),
+    Q('ماذا فَعَلَ تامِرٌ فِي الْقِسْمِ؟', 'أَصْغى وَشارَكَ فِي الْحِوارِ', 'نامَ عَلَى الطّاوِلَةِ', 'لَعِبَ بِأَدَواتِهِ'),
+    Q('لِماذا عادَ تامِرٌ سَعيدًا؟', 'لِأَنَّهُ تَعَلَّمَ أَشْياءَ جَديدَةً', 'لِأَنَّ الْيَوْمَ عُطْلَةٌ', 'لِأَنَّهُ رَبِحَ مُباراةً')]),
+  T_(5, 'سَعيدٌ وَالْغَزالُ', 'قَرَّرَ سَعيدٌ أَنْ يَذْهَبَ في نُزْهَةٍ إِلَى الْغابَةِ يَوْمَ الْأَحَدِ. كانَ يُريدُ جَمْعَ الْأَزْهارِ النّادِرَةِ وَالْبَحْثَ عَنْ أَعْشاشِ الطُّيورِ. وَهُوَ يَسْتَكْشِفُ بَيْنَ الْأَشْجارِ الْكَثيفَةِ، سَمِعَ فَجْأَةً صَوْتَ أَنينٍ خافِتٍ يَأْتي مِنْ وَراءِ جِذْعٍ كَبيرٍ. تَقَدَّمَ بِحَذَرٍ، فَإِذا بِغَزالٍ صَغيرٍ قَدْ عَلِقَتْ قَدَمُهُ بَيْنَ الْأَغْصانِ. فَكَّ الْأَغْصانَ بِلُطْفٍ حَتّى تَحَرَّرَ الْغَزالُ، وَجَرى بِسُرْعَةٍ بَيْنَ الشَّجَرِ كَأَنَّهُ يَشْكُرُهُ. وَعِنْدَما عادَ إِلَى الْبَيْتِ، حَكى لِوالِدَيْهِ قِصَّتَهُ.', [
+    Q('مَتى ذَهَبَ سَعيدٌ إِلَى الْغابَةِ؟', 'يَوْمَ الْأَحَدِ', 'يَوْمَ السَّبْتِ', 'يَوْمَ الْجُمُعَةِ'),
+    Q('ماذا سَمِعَ سَعيدٌ بَيْنَ الْأَشْجارِ؟', 'صَوْتَ أَنينٍ خافِتٍ', 'صَوْتَ الرَّعْدِ', 'زَقْزَقَةَ الْعَصافيرِ'),
+    Q('ماذا حَدَثَ لِلْغَزالِ؟', 'عَلِقَتْ قَدَمُهُ بَيْنَ الْأَغْصانِ', 'سَقَطَ فِي النَّهْرِ', 'ضَلَّ طَريقَ أُمِّهِ'),
+    Q('ما الصِّفَةُ الَّتي تَظْهَرُ في سُلوكِ سَعيدٍ؟', 'الرَّحْمَةُ وَمُساعَدَةُ الْآخَرينَ', 'الْخَوْفُ وَالْهُروبُ', 'الْكَسَلُ')]),
+  T_(5, 'لُبْنى فِي الْغابَةِ', 'خَرَجَتْ لُبْنى في رِحْلَةٍ مَدْرَسِيَّةٍ إِلَى الْغابَةِ، وَحَذَّرَ الْمُرافِقونَ الْجَميعَ مِنَ الضَّياعِ. اِنْشَغَلَتْ لُبْنى بِتَتَبُّعِ فَراشَةٍ زَرْقاءَ نادِرَةٍ، فَابْتَعَدَتْ عَنِ الْمَجْموعَةِ وَتاهَتْ. تَذَكَّرَتْ نَصيحَةَ أَبيها، فَاتَّبَعَتْ سِلْسِلَةَ النَّمْلِ بِصَبْرٍ وَتَأَنٍّ حَتّى سَمِعَتْ هَديرَ الْماءِ.', [
+    Q('إِلى أَيْنَ خَرَجَتْ لُبْنى؟', 'إِلَى الْغابَةِ', 'إِلَى الْبَحْرِ', 'إِلَى السّوقِ'),
+    Q('لِماذا تاهَتْ لُبْنى؟', 'لِأَنَّها انْشَغَلَتْ بِتَتَبُّعِ فَراشَةٍ', 'لِأَنَّها نامَتْ تَحْتَ شَجَرَةٍ', 'لِأَنَّ الْمَطَرَ نَزَلَ'),
+    Q('ماذا اتَّبَعَتْ لُبْنى لِتَجِدَ طَريقَها؟', 'سِلْسِلَةَ النَّمْلِ', 'صَوْتَ الطُّيورِ', 'ضَوْءَ الشَّمْسِ'),
+    Q('ماذا يَدُلُّ عَلَيْهِ تَصَرُّفُ لُبْنى بَعْدَ أَنْ تاهَتْ؟', 'الصَّبْرُ وَحُسْنُ التَّفْكيرِ', 'الْخَوْفُ وَالْبُكاءُ', 'الْعِنادُ')]),
+  T_(6, 'قَرارُ الْأَبِ', 'وَصَلَتْ عُطْلَةُ نِهايَةِ السَّنَةِ، وَنَجَحَ سامي بِتَفَوُّقٍ، فَاجْتَمَعَ أَفْرادُ الْأُسْرَةِ يَنْتَظِرونَ قَرارَ الْأَبِ. كانَ الْأَبُ مُتْعَبًا مِنْ مَشَقَّةِ الْعَمَلِ، وَالْجَميعُ يَتَرَقَّبُ: هَلْ يَسْمَحُ لَهُمْ بِالسَّفَرِ إِلَى الْمَغْرِبِ؟ أَعْلَنَ الْأَبُ حُصولَهُ عَلى إِجازَةٍ سَنَوِيَّةٍ لِمُدَّةِ شَهْرٍ كامِلٍ لِقَضاءِ الْعُطْلَةِ بِأَرْضِ الْأَجْدادِ.', [
+    Q('كَيْفَ نَجَحَ سامي؟', 'بِتَفَوُّقٍ', 'بِصُعوبَةٍ', 'لَمْ يَنْجَحْ'),
+    Q('لِماذا كانَ الْأَبُ مُتْعَبًا؟', 'مِنْ مَشَقَّةِ الْعَمَلِ', 'مِنَ السَّفَرِ', 'مِنَ الْمَرَضِ'),
+    Q('ماذا أَعْلَنَ الْأَبُ؟', 'حُصولَهُ عَلى إِجازَةٍ لِمُدَّةِ شَهْرٍ', 'أَنَّهُ سَيَبْقى فِي الْعَمَلِ', 'أَنَّهُ سَيَشْتَري سَيّارَةً'),
+    Q('ما الْعِبْرَةُ مِنَ النَّصِّ؟', 'حُبُّ الْوَطَنِ يَجْمَعُ الْقُلوبَ', 'الْعَمَلُ لا فائِدَةَ مِنْهُ', 'السَّفَرُ مُتْعِبٌ دائِمًا')])
+];
+
+/* نصوص (لبنة نص / تحدٍّ) — مستويات الفهم الأربعة */
+const NASS = [
+  T_(3, 'خالِدٌ فِي الْقِسْمِ', 'دَخَلَ خالِدٌ الْفَصْلَ بِهُدوءٍ، وَجَلَسَ في مَقْعَدِهِ. قَدَّمَ نَفْسَهُ لِزُمَلائِهِ مُفْعَمًا بِالنَّشاطِ، ثُمَّ أَخْرَجَ أَدَواتِهِ وَدَفْتَرَهُ وَاسْتَمَعَ لِلْمُعَلِّمِ بِاهْتِمامٍ، لِيَبْدَأَ رِحْلَةَ التَّفَوُّقِ في عامِهِ الْجَديدِ.', [
+    Q('كَيْفَ دَخَلَ خالِدٌ الْفَصْلَ؟', 'بِهُدوءٍ', 'مُسْرِعًا', 'باكِيًا'),
+    Q('ماذا أَخْرَجَ خالِدٌ بَعْدَ أَنْ قَدَّمَ نَفْسَهُ؟', 'أَدَواتِهِ وَدَفْتَرَهُ', 'لُعْبَتَهُ', 'طَعامَهُ'),
+    Q('ماذا تَعْني عِبارَةُ «مُفْعَمًا بِالنَّشاطِ»؟', 'مَمْلوءًا بِالْحَيَوِيَّةِ', 'مُتْعَبًا', 'خائِفًا'),
+    Q('بِمَ تَصِفُ خالِدًا؟', 'تِلْميذٌ مُنَظَّمٌ وَمُهْتَمٌّ', 'تِلْميذٌ كَسولٌ', 'تِلْميذٌ مُشاغِبٌ')]),
+  T_(5, 'قُوَّةُ الْأَصْواتِ', 'الْحِمارُ ضَعُفَتْ قُوَّتُهُ، وَالْكَلْبُ شاخَ، وَالْقِطُّ لَمْ تَعُدْ عَيْناهُ تُبْصِرانِ، وَالدّيكُ أَرادوا ذَبْحَهُ. كُلُّ واحِدٍ مِنْهُمْ ضَعُفَ وَحْدَهُ، فَلَمَّا اتَّفَقوا قالَ الْحِمارُ: «لَنْ نَغْلِبَهُمْ بِالْقُوَّةِ، وَلَكِنْ رُبَّما غَلَبْناهُمْ بِأَصْواتِنا». اِجْتَمَعَتِ الْأَصْواتُ في وَقْتٍ واحِدٍ فَصارَتْ قُوَّةً واحِدَةً مُفْزِعَةً طَرَدَتِ اللُّصوصَ.', [
+    Q('لِماذا تَرَكَ الدّيكُ بَيْتَهُ؟', 'لِأَنَّهُمْ أَرادوا ذَبْحَهُ', 'لِأَنَّهُ شاخَ', 'لِأَنَّهُ جائِعٌ'),
+    Q('بِمَ غَلَبَتِ الْحَيَواناتُ اللُّصوصَ؟', 'بِأَصْواتِها مُجْتَمِعَةً', 'بِالْقُوَّةِ', 'بِالْهُروبِ'),
+    Q('لِماذا صارَتِ الْأَصْواتُ مُفْزِعَةً؟', 'لِأَنَّها اجْتَمَعَتْ في وَقْتٍ واحِدٍ', 'لِأَنَّ الْحِمارَ صاحَ وَحْدَهُ', 'لِأَنَّ اللَّيْلَ كانَ مُظْلِمًا'),
+    Q('ما الْعِبْرَةُ مِنَ النَّصِّ؟', 'فِي الِاتِّحادِ قُوَّةٌ', 'الْقُوَّةُ فِي الْعَضَلاتِ فَقَطْ', 'الضَّعيفُ لا قيمَةَ لَهُ')]),
+  T_(5, 'الْكَلْبُ وَراءَ الْبابِ', 'وَقَفَ الْكَلْبُ وَراءَ الْبابِ، وَساقاهُ تَرْتَجِفانِ مِنَ التَّعَبِ، وَفَرْوُهُ ما يَزالُ مُبْتَلًّا بِماءِ النَّهْرِ. نَظَرَ مِنَ الشَّقِّ فَرَأَى الْقِطَّ قُرْبَ الْمَوْقِدِ، وَالْخاتَمَ يَلْمَعُ في عُنُقِ صاحِبِهِ. أَحَسَّ بِغُصَّةٍ في حَلْقِهِ؛ فَهُوَ الَّذي حَمَلَ صاحِبَهُ عَلى ظَهْرِهِ عَبْرَ الْماءِ.', [
+    Q('لِماذا كانَتْ ساقا الْكَلْبِ تَرْتَجِفانِ؟', 'مِنَ التَّعَبِ', 'مِنَ الْفَرَحِ', 'مِنَ الْجوعِ'),
+    Q('أَيْنَ رَأَى الْكَلْبُ الْقِطَّ؟', 'قُرْبَ الْمَوْقِدِ', 'فِي النَّهْرِ', 'فَوْقَ السَّطْحِ'),
+    Q('لِماذا كانَ فَرْوُ الْكَلْبِ مُبْتَلًّا؟', 'لِأَنَّهُ عَبَرَ الْماءَ حامِلًا صاحِبَهُ', 'لِأَنَّ الْمَطَرَ نَزَلَ', 'لِأَنَّهُ اسْتَحَمَّ'),
+    Q('بِمَ شَعَرَ الْكَلْبُ؟ وَلِماذا؟', 'بِالظُّلْمِ لِأَنَّهُ تَعِبَ وَلَمْ يُكافَأْ', 'بِالْفَرَحِ لِأَنَّهُ وَجَدَ الْخاتَمَ', 'بِالْخَوْفِ مِنَ النّارِ')]),
+  T_(5, 'تَطيرُ الْبومَةُ بِلا صَوْتٍ', 'تَمْلِكُ الْبومَةُ ثَلاثَ قُدُراتٍ مُتَعاوِنَةٍ: عَيْنانِ إِلَى الْأَمامِ تُقَدِّرانِ الْمَسافَةَ، وَقُرْصٌ وَجْهِيٌّ يَجْمَعُ الصَّوْتَ نَحْوَ الْأُذُنَيْنِ، وَريشٌ يُقَسِّمُ الْهَواءَ فَيُخْفي قُدومَها. وَلَيْسَتْ هَذِهِ الْقُدُراتُ زينَةً؛ فَهِيَ تَصْطادُ الْقَوارِضَ الَّتي تُتْلِفُ الْمَحاصيلَ وَتَتَكاثَرُ بِسُرْعَةٍ، وَلِذَلِكَ يَخْتَلُّ التَّوازُنُ إِذَا اخْتَفَتْ مِنْ مِنْطَقَةٍ زِراعِيَّةٍ.', [
+    Q('كَمْ قُدْرَةً تَمْلِكُ الْبومَةُ؟', 'ثَلاثَ قُدُراتٍ', 'قُدْرَتَيْنِ', 'أَرْبَعَ قُدُراتٍ'),
+    Q('ما وَظيفَةُ الْقُرْصِ الْوَجْهِيِّ؟', 'يَجْمَعُ الصَّوْتَ نَحْوَ الْأُذُنَيْنِ', 'يُقَدِّرُ الْمَسافَةَ', 'يُخْفي قُدومَها'),
+    Q('لِماذا لا تَسْمَعُ الْفَريسَةُ الْبومَةَ؟', 'لِأَنَّ ريشَها يُقَسِّمُ الْهَواءَ فَيُخْفي قُدومَها', 'لِأَنَّها تَطيرُ نَهارًا', 'لِأَنَّ عَيْنَيْها كَبيرَتانِ'),
+    Q('ماذا يَحْدُثُ إِذَا اخْتَفَتِ الْبومَةُ مِنْ مِنْطَقَةٍ زِراعِيَّةٍ؟', 'يَخْتَلُّ التَّوازُنُ لِأَنَّ الْقَوارِضَ تَتَكاثَرُ', 'تَكْثُرُ الْمَحاصيلُ', 'لا يَتَغَيَّرُ شَيْءٌ')]),
+  T_(5, 'لِماذا يَطْفُو الْجَليدُ؟', 'عِنْدَما تَنْخَفِضُ الْحَرارَةُ تَقِلُّ حَرَكَةُ الْجُزَيْئاتِ، لِذَلِكَ تَنْتَظِمُ في شَبَكَةٍ هَنْدَسِيَّةٍ مَفْتوحَةٍ. وَبِسَبَبِ هَذَا الِانْتِظامِ تَبْقى فَراغاتٌ بَيْنَ الْجُزَيْئاتِ، فَيَشْغَلُ الْمِقْدارُ نَفْسُهُ حَجْمًا أَكْبَرَ. وَلِأَنَّ الْحَجْمَ ازْدادَ وَالْكُتْلَةَ لَمْ تَتَغَيَّرْ، نَقَصَتِ الْكَثافَةُ فَطَفَا الْجَليدُ.', [
+    Q('ماذا يَحْدُثُ لِحَرَكَةِ الْجُزَيْئاتِ عِنْدَما تَنْخَفِضُ الْحَرارَةُ؟', 'تَقِلُّ', 'تَزْدادُ', 'لا تَتَغَيَّرُ'),
+    Q('لِماذا يَشْغَلُ الْجَليدُ حَجْمًا أَكْبَرَ؟', 'لِأَنَّ فَراغاتٍ تَبْقى بَيْنَ الْجُزَيْئاتِ', 'لِأَنَّ كُتْلَتَهُ تَزيدُ', 'لِأَنَّهُ يَذوبُ'),
+    Q('لِماذا يَطْفُو الْجَليدُ؟', 'لِأَنَّ كَثافَتَهُ نَقَصَتْ', 'لِأَنَّ كُتْلَتَهُ زادَتْ', 'لِأَنَّهُ ساخِنٌ')]),
+  T_(5, 'الْمِذْياعُ الْقَديمُ', 'كانَ في بَيْتِنا مِذْياعٌ قَديمٌ ظَنَّ أَبي أَنَّهُ صارَ خُرْدَةً، فَلَمَّا انْقَطَعَ التَّيّارُ لَيْلَةً كانَ هُوَ الصَّوْتَ الْوَحيدَ الَّذي آنَسَنا.', [
+    Q('ماذا ظَنَّ الْأَبُ بِالْمِذْياعِ؟', 'أَنَّهُ صارَ خُرْدَةً', 'أَنَّهُ جَديدٌ', 'أَنَّهُ غالي الثَّمَنِ'),
+    Q('مَتى ظَهَرَتْ قيمَةُ الْمِذْياعِ؟', 'لَمَّا انْقَطَعَ التَّيّارُ', 'يَوْمَ الْعيدِ', 'عِنْدَما اشْتَراهُ الْأَبُ'),
+    Q('ما الْعِبْرَةُ مِنَ النَّصِّ؟', 'قيمَةُ الشَّيْءِ تَظْهَرُ في مَوْضِعِها الْمُناسِبِ', 'الْأَشْياءُ الْقَديمَةُ لا نَفْعَ لَها', 'الْمِذْياعُ أَفْضَلُ مِنَ الْحاسوبِ')]),
+  T_(6, 'عَمَلُ الْمَجْموعَةِ', 'طُلِبَ مِنْ مَجْموعَةٍ مِنَ الْمُتَعَلِّمينَ إِنْجازُ مُهِمَّةٍ في خَمْسِ دَقائِقَ. اِتَّفَقَ أَفْرادُها أَوَّلًا عَلى تَوْزيعِ الْأَدْوارِ بَيْنَهُمْ؛ فَقَرَأَ أَحَدُهُمُ الْمَطْلوبَ، وَشارَكَ الْجَميعُ بِأَفْكارِهِمْ، وَدَوَّنَ آخَرُ مَا اتَّفَقوا عَلَيْهِ، ثُمَّ راجَعوا إِجابَتَهُمْ مَعًا، وَتَوَلّى مُمَثِّلُهُمُ الْعَرْضَ. وَهَكَذا أَنْجَزَتِ الْمَجْموعَةُ مُهِمَّتَها فِي الْوَقْتِ الْمُحَدَّدِ.', [
+    Q('كَمْ كانَ الْوَقْتُ الْمُخَصَّصُ لِلْمُهِمَّةِ؟', 'خَمْسُ دَقائِقَ', 'عَشْرُ دَقائِقَ', 'ساعَةٌ كامِلَةٌ'),
+    Q('ماذا فَعَلَ أَفْرادُ الْمَجْموعَةِ أَوَّلًا؟', 'اتَّفَقوا عَلى تَوْزيعِ الْأَدْوارِ', 'بَدَؤُوا الْكِتابَةَ فَوْرًا', 'خَرَجوا إِلَى السّاحَةِ'),
+    Q('مَنْ تَوَلَّى الْعَرْضَ؟', 'مُمَثِّلُهُمْ', 'الْأُسْتاذُ', 'كُلُّهُمْ مَعًا'),
+    Q('لِماذا نَجَحَتِ الْمَجْموعَةُ في مُهِمَّتِها؟', 'لِأَنَّ أَفْرادَها تَعاوَنوا وَوَزَّعُوا الْأَدْوارَ', 'لِأَنَّ الْمُهِمَّةَ سَهْلَةٌ جِدًّا', 'لِأَنَّ واحِدًا عَمِلَ وَحْدَهُ')])
+];
+
+/* ترتيب الأحداث (شريط الأحداث) */
+const EVENTS = [
+  { lv: 5, t: 'رِحْلَةُ هانْزَ', e: ['أَخَذَ هانْزُ قِطْعَةَ الْفِضَّةِ.', 'بادَلَها بِحِصانٍ.', 'صارَ لَهُ بَقَرَةٌ ثُمَّ كَبْشٌ ثُمَّ إِوَزَّةٌ.', 'قايَضَ الْإِوَزَّةَ بِحَجَرَيْنِ.', 'سَقَطَ الْحَجَرانِ فِي الْبِئْرِ.'] },
+  { lv: 5, t: 'لُبْنى فِي الْغابَةِ', e: ['خَرَجَتْ لُبْنى في رِحْلَةٍ إِلَى الْغابَةِ.', 'تَتَبَّعَتْ فَراشَةً زَرْقاءَ نادِرَةً.', 'اِبْتَعَدَتْ عَنِ الْمَجْموعَةِ وَتاهَتْ.', 'اِتَّبَعَتْ سِلْسِلَةَ النَّمْلِ.', 'سَمِعَتْ هَديرَ الْماءِ.'] },
+  { lv: 5, t: 'سَعيدٌ وَالْغَزالُ', e: ['قَرَّرَ سَعيدٌ الذَّهابَ إِلَى الْغابَةِ.', 'سَمِعَ صَوْتَ أَنينٍ خافِتٍ.', 'وَجَدَ غَزالًا عَلِقَتْ قَدَمُهُ.', 'فَكَّ الْأَغْصانَ فَتَحَرَّرَ الْغَزالُ.', 'حَكى لِوالِدَيْهِ قِصَّتَهُ.'] },
+  { lv: 4, t: 'حَليبُ أَخي', e: ['مَرِضَتِ الْأُمُّ.', 'ذَهَبْتُ إِلَى الْمَطْبَخِ.', 'وَضَعْتُ الْماءَ الدّافِئَ وَمَسْحوقَ الْحَليبِ.', 'أَغْلَقْتُ الْقِنّينَةَ وَرَجَجْتُها.', 'شَرِبَ أَخي حَليبَهُ.'] },
+  { lv: 4, t: 'زِيارَةُ الرِّباطِ', e: ['زارَتِ الْأُسْرَةُ صَوْمَعَةَ حَسّانَ.', 'تَجَوَّلَتْ في قَصَبَةِ الْأَوْدايَةِ.', 'زارَتْ ضَريحَ مُحَمَّدٍ الْخامِسِ.', 'أَدْرَكَ أَحْمَدُ قيمَةَ مَآثِرِ الرِّباطِ.'] },
+  { lv: 5, t: 'تامِرٌ فِي الْمَدْرَسَةِ', e: ['اِسْتَيْقَظَ تامِرٌ باكِرًا.', 'تَناوَلَ فَطورَهُ بِسُرْعَةٍ.', 'حَمَلَ مِحْفَظَتَهُ وَخَرَجَ.', 'اِسْتَقْبَلَتْهُ الْأُسْتاذَةُ عِنْدَ الْبابِ.', 'عادَ إِلَى الْبَيْتِ سَعيدًا.'] },
+  { lv: 5, t: 'يَوْمُ الْعيدِ', e: ['اِسْتَيْقَظْتُ باكِرًا.', 'لَبِسْتُ ثِيابِيَ الْجَميلَةَ.', 'ذَهَبْتُ إِلَى الْمُصَلّى.', 'زُرْنا أَقارِبَنا.', 'شَوَيْنَا اللَّحْمَ فِي الْمَساءِ.'] },
+  { lv: 6, t: 'عَمَلُ الْمَجْموعَةِ', e: ['قَرَأَ أَحَدُهُمُ الْمَطْلوبَ.', 'شارَكَ الْجَميعُ بِأَفْكارِهِمْ.', 'دَوَّنَ آخَرُ مَا اتَّفَقوا عَلَيْهِ.', 'راجَعوا إِجابَتَهُمْ مَعًا.', 'تَوَلّى مُمَثِّلُهُمُ الْعَرْضَ.'] },
+  { lv: 4, t: 'هِوايَةُ عَلِيٍّ', e: ['جَلَسَ عَلِيٌّ في غُرْفَتِهِ.', 'بَدَأَ يَقْرَأُ الْقِصَّةَ.', 'أَخْبَرَ أُسْرَتَهُ عَمّا قَرَأَهُ.', 'أَعادَ كِتابَهُ إِلى مَكانِهِ.'] },
+  { lv: 3, t: 'خالِدٌ فِي الْقِسْمِ', e: ['دَخَلَ خالِدٌ الْفَصْلَ بِهُدوءٍ.', 'جَلَسَ في مَقْعَدِهِ.', 'قَدَّمَ نَفْسَهُ لِزُمَلائِهِ.', 'أَخْرَجَ أَدَواتِهِ وَدَفْتَرَهُ.'] }
+];
+
+/* الظواهر اللغوية (لبنة نص) */
+const G = (lv, q, ok, bad, exp) => ({ lv, q, ok, bad, exp });
+const GRAM = [
+  G(5, 'ما الْفاعِلُ في جُمْلَةِ: «يَلْعَبُ الْوَلَدُ الْكُرَةَ فِي الطَّبيعَةِ»؟', 'الْوَلَدُ', ['الْكُرَةَ', 'الطَّبيعَةِ'], 'الْفاعِلُ اسْمٌ مَرْفوعٌ يَدُلُّ عَلى مَنْ قامَ بِالْفِعْلِ: مَنِ الَّذي يَلْعَبُ؟ الْوَلَدُ.'),
+  G(5, 'ما الْفاعِلُ في جُمْلَةِ: «فازَ الْفَريقُ الْوَطَنِيُّ بِكَأْسِ الْبُطولَةِ»؟', 'الْفَريقُ', ['كَأْسِ', 'الْبُطولَةِ'], 'مَنِ الَّذي فازَ؟ الْفَريقُ، فَهُوَ الْفاعِلُ.'),
+  G(5, 'ما الْمَفْعولُ بِهِ في جُمْلَةِ: «اِسْتَخْرَجَ الْفَلّاحُ الْماءَ مِنَ الْبِئْرِ»؟', 'الْماءَ', ['الْفَلّاحُ', 'الْبِئْرِ'], 'الْمَفْعولُ بِهِ اسْمٌ مَنْصوبٌ وَقَعَ عَلَيْهِ الْفِعْلُ: ماذا اسْتَخْرَجَ الْفَلّاحُ؟ الْماءَ.'),
+  G(5, 'ما الْمَفْعولُ بِهِ في جُمْلَةِ: «تُشَجِّعُ الْجَماهيرُ فَريقَها»؟', 'فَريقَها', ['الْجَماهيرُ', 'تُشَجِّعُ'], 'ماذا تُشَجِّعُ الْجَماهيرُ؟ فَريقَها، فَهُوَ الْمَفْعولُ بِهِ.'),
+  G(5, 'الْفاعِلُ في «نَجَحْتُ فِي الِامْتِحانِ» ضَميرٌ مُتَّصِلٌ، ما هُوَ؟', 'التّاءُ في «نَجَحْتُ»', ['الِامْتِحانِ', '«في»'], 'قَدْ يَكونُ الْفاعِلُ ضَميرًا مُتَّصِلًا بِالْفِعْلِ: التّاءُ تَدُلُّ عَلَى الْمُتَكَلِّمِ.'),
+  G(5, 'الْمَفْعولُ بِهِ في «زارَنَا الْجَدُّ» ضَميرٌ مُتَّصِلٌ، ما هُوَ؟', '«نا» في «زارَنا»', ['الْجَدُّ', 'زارَ'], 'الْجَدُّ هُوَ الْفاعِلُ، وَالضَّميرُ «نا» وَقَعَ عَلَيْهِ فِعْلُ الزِّيارَةِ.'),
+  G(3, 'حَوِّلْ إِلَى الْمُضارِعِ: «كَتَبَ التِّلْميذُ الدَّرْسَ»', 'يَكْتُبُ التِّلْميذُ الدَّرْسَ', ['اُكْتُبِ الدَّرْسَ', 'كُتِبَ الدَّرْسُ'], 'الْمُضارِعُ يَدُلُّ عَلى حَدَثٍ يَقَعُ الْآنَ، وَيَبْدَأُ بِحَرْفٍ مِنْ «أَنَيْتُ»: يَكْتُبُ.'),
+  G(3, 'حَوِّلْ إِلَى الْماضي: «يَذْهَبُ أَحْمَدُ إِلَى الْمَدْرَسَةِ»', 'ذَهَبَ أَحْمَدُ إِلَى الْمَدْرَسَةِ', ['اِذْهَبْ إِلَى الْمَدْرَسَةِ', 'سَيَذْهَبُ أَحْمَدُ إِلَى الْمَدْرَسَةِ'], 'الْماضي يَدُلُّ عَلى حَدَثٍ وَقَعَ وَانْتَهى: ذَهَبَ.'),
+  G(3, 'ما زَمَنُ الْفِعْلِ «تَسْكُنُ» في: «تَسْكُنُ النَّخْلَةُ أَرْضَ الصَّحْراءِ»؟', 'مُضارِعٌ', ['ماضٍ', 'أَمْرٌ'], 'بَدَأَ الْفِعْلُ بِالتّاءِ وَيَدُلُّ عَلَى الْحاضِرِ، فَهُوَ مُضارِعٌ.'),
+  G(3, 'ما اسْمُ الْإِشارَةِ في: «هَذِهِ الْهِوايَةُ تُحافِظُ عَلى لِياقَتي»؟', 'هَذِهِ', ['الْهِوايَةُ', 'لِياقَتي'], 'هَذِهِ: اسْمُ إِشارَةٍ لِلْمُفْرَدِ الْمُؤَنَّثِ الْقَريبِ.'),
+  G(3, 'أَكْمِلْ بِاسْمِ الْإِشارَةِ الْمُناسِبِ: «... الْكِتابُ مُفيدٌ»', 'هَذا', ['هَذِهِ', 'هَؤُلاءِ'], 'الْكِتابُ مُفْرَدٌ مُذَكَّرٌ، فَنُشيرُ إِلَيْهِ بِـ«هَذا».'),
+  G(3, 'أَكْمِلْ بِاسْمِ الْإِشارَةِ الْمُناسِبِ: «... الزَّهْرَةُ جَميلَةٌ»', 'هَذِهِ', ['هَذا', 'هَؤُلاءِ'], 'الزَّهْرَةُ مُفْرَدٌ مُؤَنَّثٌ، فَنُشيرُ إِلَيْها بِـ«هَذِهِ».'),
+  G(5, 'ما اسْمُ الْفاعِلِ مِنَ الْفِعْلِ «سَمِعَ»؟', 'سامِعٌ', ['مَسْموعٌ', 'سَمْعٌ'], 'اسْمُ الْفاعِلِ مِنَ الْفِعْلِ الثُّلاثِيِّ عَلى وَزْنِ «فاعِل»: سامِعٌ.'),
+  G(5, 'ما اسْمُ الْفاعِلِ مِنَ الْفِعْلِ «كَتَبَ»؟', 'كاتِبٌ', ['مَكْتوبٌ', 'كِتابٌ'], 'عَلى وَزْنِ «فاعِل»: كاتِبٌ.'),
+  G(5, 'ما اسْمُ الْفاعِلِ مِنَ الْفِعْلِ «جَرَحَ»؟', 'جارِحٌ', ['مَجْروحٌ', 'جُرْحٌ'], 'عَلى وَزْنِ «فاعِل»: جارِحٌ (وَمِنْهُ: الطُّيورُ الْجارِحَةُ).'),
+  G(5, 'الْفِعْلُ «قالَ»:', 'فِعْلٌ مُعْتَلٌّ', ['فِعْلٌ صَحيحٌ'], 'في «قالَ» حَرْفُ عِلَّةٍ (الْأَلِف)، فَهُوَ مُعْتَلٌّ. حُروفُ الْعِلَّةِ: ا – و – ي.'),
+  G(5, 'الْفِعْلُ «كَتَبَ»:', 'فِعْلٌ صَحيحٌ', ['فِعْلٌ مُعْتَلٌّ'], 'لَيْسَ في «كَتَبَ» حَرْفُ عِلَّةٍ، فَهُوَ صَحيحٌ.'),
+  G(5, 'الْفِعْلُ «مَشى»:', 'فِعْلٌ مُعْتَلٌّ', ['فِعْلٌ صَحيحٌ'], 'آخِرُهُ حَرْفُ عِلَّةٍ (الْأَلِفُ الْمَقْصورَةُ)، فَهُوَ مُعْتَلٌّ.'),
+  G(5, 'الْفِعْلُ «اِسْتَخْرَجَ»:', 'فِعْلٌ مَزيدٌ', ['فِعْلٌ مُجَرَّدٌ'], 'أَصْلُهُ «خَرَجَ»، وَزيدَتْ عَلَيْهِ حُروفٌ (ا – س – ت)، فَهُوَ مَزيدٌ.'),
+  G(5, 'الْفِعْلُ «خَرَجَ»:', 'فِعْلٌ مُجَرَّدٌ', ['فِعْلٌ مَزيدٌ'], 'كُلُّ حُروفِهِ أَصْلِيَّةٌ (خ – ر – ج)، فَهُوَ مُجَرَّدٌ.'),
+  G(5, 'الْفِعْلُ «تَعَلَّمَ»:', 'فِعْلٌ مَزيدٌ', ['فِعْلٌ مُجَرَّدٌ'], 'أَصْلُهُ «عَلِمَ»، وَزيدَتِ التّاءُ وَالتَّضْعيفُ، فَهُوَ مَزيدٌ.'),
+  G(5, 'أَدْخِلْ «كانَ» عَلى: «الْجَوُّ جَميلٌ»', 'كانَ الْجَوُّ جَميلًا', ['كانَ الْجَوَّ جَميلٌ', 'كانَ الْجَوُّ جَميلٌ'], '«كانَ» تَرْفَعُ الْمُبْتَدَأَ (اسْمُها) وَتَنْصِبُ الْخَبَرَ (خَبَرُها): جَميلًا.'),
+  G(5, 'أَدْخِلْ «أَصْبَحَ» عَلى: «الطِّفْلُ نَشيطٌ»', 'أَصْبَحَ الطِّفْلُ نَشيطًا', ['أَصْبَحَ الطِّفْلَ نَشيطٌ', 'أَصْبَحَ الطِّفْلُ نَشيطٌ'], '«أَصْبَحَ» مِنْ أَخَواتِ «كانَ»: تَرْفَعُ الِاسْمَ وَتَنْصِبُ الْخَبَرَ.'),
+  G(5, 'أَكْمِلْ بِأَداةِ الِاسْتِدْراكِ: «قَرْيَتي صَغيرَةٌ؛ ... جَميلَةٌ»', 'لَكِنَّها', ['لِأَنَّها', 'حَتّى'], 'الِاسْتِدْراكُ يَرْفَعُ تَوَهُّمًا: صَغيرَةٌ، لَكِنَّها جَميلَةٌ.'),
+  G(4, 'أَكْمِلْ بِأَداةِ السَّبَبِيَّةِ: «تَتَمَيَّزُ النَّخْلَةُ بِالصَّبْرِ؛ ... تُقاوِمُ الْحَرَّ»', 'لِأَنَّها', ['لَكِنَّها', 'ثُمَّ'], '«لِأَنَّ» تُعَبِّرُ عَنِ السَّبَبِ.'),
+  G(5, 'أَيُّ عِبارَةٍ تَدُلُّ عَلَى الِاحْتِمالِ؟', 'رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنِ الصَّداقَةِ', ['تَحَدَّثَ النَّصُّ عَنِ الصَّداقَةِ', 'اِقْرَأِ النَّصَّ عَنِ الصَّداقَةِ'], 'عِباراتُ الِاحْتِمالِ: رُبَّما، قَدْ (مَعَ الْمُضارِعِ)، أَظُنُّ أَنَّ، أَتَوَقَّعُ أَنَّ...'),
+  G(3, 'في «أَخْرَجَ خالِدٌ أَدَواتِهِ» يَعودُ الضَّميرُ في «أَدَواتِهِ» عَلى:', 'خالِدٍ', ['الْأَدَواتِ', 'الْمُعَلِّمِ'], 'الْهاءُ ضَميرٌ مُتَّصِلٌ يَعودُ عَلى خالِدٍ: أَدَواتُ خالِدٍ.'),
+  G(4, 'أَكْمِلْ رَوابِطَ الْحَكْيِ: «فِي الْبِدايَةِ … ثُمَّ … بَعْدَ ذَلِكَ … ...»', 'وَأَخيرًا', ['لِأَنَّ', 'لَكِنْ'], 'نُرَتِّبُ أَحْداثَ الْحِكايَةِ بِـ: فِي الْبِدايَةِ، ثُمَّ، بَعْدَ ذَلِكَ، وَأَخيرًا.')
+];
+
+/* المعجم: المرادف والضد والمعنى */
+const LX = (lv, q, ok, bad) => ({ lv, q, ok, bad });
+const LEX = [
+  LX(2, 'مُرادِفُ «مَسْرورٌ»:', 'فَرْحانُ', ['حَزينٌ', 'غاضِبٌ']), LX(2, 'ضِدُّ «نَظيفٌ»:', 'مُتَّسِخٌ', ['جَميلٌ', 'بارِدٌ']),
+  LX(2, 'ضِدُّ «قَديمٌ»:', 'جَديدٌ', ['صَغيرٌ', 'بَعيدٌ']), LX(3, 'ضِدُّ «يُحِبُّ»:', 'يَكْرَهُ', ['يَأْكُلُ', 'يَرْسُمُ']),
+  LX(3, 'ضِدُّ «أَجابَتْ»:', 'سَأَلَتْ', ['كَتَبَتْ', 'نامَتْ']), LX(4, 'ضِدُّ «هَرَعَ»:', 'تَمَهَّلَ', ['أَسْرَعَ', 'جَرى']),
+  LX(3, 'مُرادِفُ «باكِرًا»:', 'مُبَكِّرًا', ['مُتَأَخِّرًا', 'لَيْلًا']), LX(4, 'مُرادِفُ «نَقِيٌّ»:', 'صافٍ', ['مُلَوَّثٌ', 'حارٌّ']),
+  LX(2, 'ضِدُّ «قَوِيٌّ»:', 'ضَعيفٌ', ['كَبيرٌ', 'سَريعٌ']), LX(4, 'ضِدُّ «اِبْتَعَدَ»:', 'اِقْتَرَبَ', ['ذَهَبَ', 'خَرَجَ']),
+  LX(5, 'مُرادِفُ «تاهَ»:', 'ضَلَّ الطَّريقَ', ['وَصَلَ', 'نامَ']), LX(5, 'مَعْنى «أَنينٌ»:', 'صَوْتُ تَأَلُّمٍ', ['صَوْتُ فَرَحٍ', 'غِناءٌ']),
+  LX(5, 'مُرادِفُ «مَبْهورٌ»:', 'مُنْدَهِشٌ', ['نائِمٌ', 'غاضِبٌ']), LX(5, 'ضِدُّ «يَطْفو»:', 'يَغوصُ', ['يَسْبَحُ', 'يَطيرُ']),
+  LX(5, 'مُرادِفُ «يُتْلِفُ»:', 'يُفْسِدُ', ['يُصْلِحُ', 'يَزْرَعُ']), LX(5, 'مَعْنى «بِحَذَرٍ»:', 'بِانْتِباهٍ وَحيطَةٍ', ['بِسُرْعَةٍ وَتَهَوُّرٍ', 'بِغَضَبٍ']),
+  LX(3, 'مَعْنى «مُفْعَمًا بِالنَّشاطِ»:', 'مَمْلوءًا بِالنَّشاطِ', ['خالِيًا مِنَ النَّشاطِ', 'مُتْعَبًا']), LX(4, 'ضِدُّ «الْفَشَلُ»:', 'النَّجاحُ', ['الْخَوْفُ', 'التَّعَبُ']),
+  LX(4, 'مُرادِفُ «يَجْتَهِدُ»:', 'يَبْذُلُ جُهْدَهُ', ['يَتَكاسَلُ', 'يَلْعَبُ']), LX(4, 'ضِدُّ «الْحَرُّ»:', 'الْبَرْدُ', ['الشَّمْسُ', 'الصَّيْفُ']),
+  LX(5, 'مَعْنى «الْمُثابَرَةُ»:', 'الِاسْتِمْرارُ فِي الْعَمَلِ دونَ يَأْسٍ', ['التَّوَقُّفُ عَنِ الْعَمَلِ', 'السُّرْعَةُ فِي الْأَكْلِ']), LX(6, 'مُرادِفُ «يَتَرَقَّبُ»:', 'يَنْتَظِرُ', ['يَنامُ', 'يَهْرُبُ']),
+  LX(6, 'مُرادِفُ «مَشَقَّةٌ»:', 'تَعَبٌ', ['راحَةٌ', 'فَرَحٌ']), LX(6, 'ضِدُّ «الضَّياعُ»:', 'الِاهْتِداءُ إِلَى الطَّريقِ', ['التّيهُ', 'النَّوْمُ'])
+];
+
+/* توقع مضمون النص انطلاقا من العنوان */
+const PREDICT = [
+  { lv: 4, t: 'الصَّيّادُ وَالطّائِرُ', ok: 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ صَيّادٍ وَطائِرٍ', bad: ['قَدْ يَتَحَدَّثُ النَّصُّ عَنْ مُباراةٍ في كُرَةِ الْقَدَمِ', 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ صُنْعِ الْخُبْزِ'] },
+  { lv: 5, t: 'يَوْمُ الْعيدِ', ok: 'أَتَوَقَّعُ أَنْ يَتَحَدَّثَ النَّصُّ عَنْ كَيْفِيَّةِ الِاحْتِفالِ بِيَوْمِ الْعيدِ', bad: ['أَتَوَقَّعُ أَنْ يَتَحَدَّثَ النَّصُّ عَنْ فَصْلِ الشِّتاءِ', 'أَتَوَقَّعُ أَنْ يَتَحَدَّثَ النَّصُّ عَنْ رِحْلَةٍ إِلَى الْقَمَرِ'] },
+  { lv: 4, t: 'الصَّديقُ الْوَفِيُّ', ok: 'رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنْ صَديقٍ يُخْلِصُ لِصَديقِهِ', bad: ['رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنِ الْبَراكينِ', 'رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنْ سِباقِ السَّيّاراتِ'] },
+  { lv: 4, t: 'السَّفَرُ إِلى مُدُنِ الصَّحْراءِ الْمَغْرِبِيَّةِ', ok: 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ رِحْلَةٍ إِلى مُدُنِ الصَّحْراءِ', bad: ['قَدْ يَتَحَدَّثُ النَّصُّ عَنْ صَيْدِ السَّمَكِ فِي الْبَحْرِ', 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ دَرْسٍ فِي الْحِسابِ'] },
+  { lv: 5, t: 'الزَّرافَةُ الصّامِتَةُ', ok: 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ زَرافَةٍ لا تُصْدِرُ صَوْتًا', bad: ['قَدْ يَتَحَدَّثُ النَّصُّ عَنْ أَسَدٍ يَزْأَرُ', 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ مُسابَقَةٍ فِي الْغِناءِ'] },
+  { lv: 5, t: 'تَطيرُ الْبومَةُ بِلا صَوْتٍ', ok: 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ طَيَرانِ الْبومَةِ الصّامِتِ', bad: ['قَدْ يَتَحَدَّثُ النَّصُّ عَنْ طائِرَةٍ كَبيرَةٍ', 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ عُصْفورٍ يُغَنّي'] },
+  { lv: 6, t: 'جاسِرٌ الْمُنْقِذُ', ok: 'رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنْ شَخْصٍ يُنْقِذُ غَيْرَهُ مِنْ خَطَرٍ', bad: ['رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنْ طَبْخِ الطَّعامِ', 'رُبَّما سَيَتَحَدَّثُ النَّصُّ عَنْ لُعْبَةٍ جَديدَةٍ'] },
+  { lv: 6, t: 'مَنْ يُصَدِّقُ؟!', ok: 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ حَدَثٍ غَريبٍ يَصْعُبُ تَصْديقُهُ', bad: ['قَدْ يَتَحَدَّثُ النَّصُّ عَنْ يَوْمٍ عادِيٍّ في الْبَيْتِ', 'قَدْ يَتَحَدَّثُ النَّصُّ عَنْ قائِمَةِ الْمُشْتَرَياتِ'] }
+];
+
+/* =====================================================================
+   2. GENERATORS
+   ===================================================================== */
+function letterPool(lv) { return LETTERS; }
+const N = 8;
+function textQuestions(pool, lv, key, n) {
+  const texts = pickFresh(key, byLevel(pool, lv).map(x => x.title), 3).map(t => pool.find(x => x.title === t));
+  const out = [];
+  texts.forEach(tx => shuffle(tx.qs).slice(0, 3).forEach(q => out.push({ tx, q })));
+  return out.slice(0, n).map(({ tx, q }) => {
+    const o = makeOptions(q.ok, q.bad, 3);
+    return { kind: 'mcq', passageTitle: `«${tx.title}»`, passage: tx.text, q: q.q, options: o.options, answer: o.answer, speak: tx.text, explain: `الْجَوابُ مِنَ النَّصِّ: <strong>${q.ok}</strong>` };
+  });
+}
+const sentencesOf = text => text.replace(/([.؟!»])\s+/g, '$1\n').split('\n').map(s => s.trim()).filter(Boolean);
+
+/* =====================================================================
+   3. BRICKS & ACTIVITIES
+   ===================================================================== */
+const BRICKS = {
+  harf: { title: 'لَبِنَةُ حَرْف', short: 'قراءة الحروف والمقاطع وكتابتها', icon: 'أ', color: '#0f766e', bg: '#ccfbf1',
+    goals: ['تصفية الصعوبات القرائية المرتبطة بالحروف والحركات (القصيرة والطويلة والتنوين).', 'تعرف الحرف المشترك في كلمات مرجعية (ديك – دب – درهم...).', 'كتابة حروف ومقاطع وكلمات تتضمن الحروف المدروسة.', 'تعرف معجم بسيط مرتبط بالمدرسة والأسرة.'],
+    summary: `<h4>📝 تذكير</h4><ul><li>الحركات القصيرة: الْفَتْحَة (دَ) – الضَّمَّة (دُ) – الْكَسْرَة (دِ) – السُّكون (دْ).</li><li>الحركات الطويلة (المدّ): بالألف (دا) – بالواو (دو) – بالياء (دي).</li><li>التنوين: تنوين الفتح (داً) – تنوين الضم (دٌ) – تنوين الكسر (دٍ).</li><li>انتبه للحروف المتشابهة: ب ت ث ن – ج ح خ – د ذ – ر ز – س ش – ص ض – ط ظ – ع غ.</li></ul>` },
+  kalima: { title: 'لَبِنَةُ كَلِمَة', short: 'قراءة الكلمات بدقة وسرعة وكتابتها', icon: '🔤', color: '#7c3aed', bg: '#ede9fe',
+    goals: ['قراءة سلسلة من الكلمات (من مقطعين إلى أربعة مقاطع) بدقة وسرعة.', 'تركيب كلمات من مقاطعها وكتابتها كتابة صحيحة.', 'توظيف معجم بسيط مرتبط بالقرية والمدينة والمهن والطبيعة.', 'التحقق من مدى التحكم في قراءة الكلمات وكتابتها.'],
+    summary: `<h4>📝 تذكير</h4><ul><li>المقطع: حرف متحرك وحده (مُ) أو مع حرف ساكن أو حرف مدّ بعده (مَنْ – ما).</li><li>مثال من الحصص: مُتَأَخِّرٌ ← مُ / تَ / أَخْ / خِ / رٌ.</li><li>نقرأ الكلمة مقطعا مقطعا ثم نقرؤها دفعة واحدة.</li><li>أوزان مدروسة: فاعِل (حارِس) – مَفْعول (مَفْتوح) – مَفْعِل (مَسْجِد) – تَفَعَّلَ (تَعَلَّمَ) – مُتَفَعِّل (مُتَنَقِّل) – اِسْتَفْعَلَ (اِسْتَرْجَعَ).</li></ul>` },
+  faqra: { title: 'لَبِنَةُ فِقْرَة', short: 'قراءة فقرات بطلاقة وفهمها', icon: '📄', color: '#b45309', bg: '#fef3c7',
+    goals: ['قراءة فقرات بسيطة بطلاقة وفهمها.', 'قراءة الكلمات البصرية بسرعة (هَذا، هَذِهِ، عِنْدي...).', 'إكمال جمل بكلمات مناسبة.', 'ترتيب كلمات لتكوين جمل مفيدة.'],
+    summary: `<h4>📝 استراتيجية الكلمات المفتاح</h4><ul><li>أقرأ السؤال وأحدد الكلمة المفتاح (كيف؟ متى؟ أين؟ لماذا؟ ماذا؟).</li><li>أبحث في الفقرة عن الكلمة المرتبطة بالسؤال.</li><li>أقرأ الجملة التي توجد فيها، وأختار الجواب.</li></ul><h4>📝 ترتيب الجملة</h4><ul><li>أبحث عن الفعل أو الكلمة التي تبدأ بها الجملة، ثم أرتب الباقي حتى يصير للجملة معنى.</li></ul>` },
+  uqsusa: { title: 'لَبِنَةُ أُقْصوصَة', short: 'قراءة أقصوصة بطلاقة والإجابة عن أسئلة الفهم', icon: '📚', color: '#be123c', bg: '#ffe4e6',
+    goals: ['توقع مضمون النص انطلاقا من العنوان.', 'قراءة أقصوصة بطلاقة والإجابة عن أسئلة الفهم.', 'قراءة كلمات وتحديد موضعها في النص.', 'تنمية المعجم: المرادف والضد.'],
+    summary: `<h4>📝 قبل القراءة</h4><ul><li>أقرأ العنوان، وأتوقع: «قَدْ يَتَحَدَّثُ النَّصُّ عَنْ...»، «رُبَّما...».</li></ul><h4>📝 أثناء القراءة وبعدها</h4><ul><li>أقرأ قراءة مسحية بالعين لأجد الكلمة بسرعة.</li><li>أجيب عن الأسئلة مستعينا بالكلمات المفتاح.</li><li>المرادف: كلمة لها نفس المعنى (مسرور = فرحان). الضد: كلمة لها معنى معاكس (نظيف ≠ متسخ).</li></ul>` },
+  nass: { title: 'لَبِنَةُ نَصّ', short: 'فهم النص واستثماره (مستويات الفهم الأربعة)', icon: '🏅', color: '#1d4ed8', bg: '#dbeafe',
+    goals: ['قراءة النص قراءة معبرة، واستخراج معلومات صريحة منه.', 'الاستنتاج والتفسير والتقويم مع التعليل بأدلة من النص.', 'ترتيب أحداث النص (في البداية، ثم، بعد ذلك، وأخيرا).', 'تعرف الظواهر اللغوية: الفاعل، المفعول به، الماضي والمضارع، اسم الإشارة، اسم الفاعل، الفعل الصحيح والمعتل، المجرد والمزيد، النواسخ.'],
+    summary: `<h4>📝 مستويات الفهم الأربعة</h4><ol><li>أستخرج معلومة صريحة من النص.</li><li>أستنتج معلومة غير مكتوبة مباشرة.</li><li>أفسر وأربط بين الأفكار.</li><li>أقوّم وأعلل: «أَرى أَنَّ... لِأَنَّ... وَدَليلي...».</li></ol><h4>📝 ظواهر لغوية</h4><ul><li>الفاعل: من قام بالفعل (مرفوع). المفعول به: من وقع عليه الفعل (منصوب).</li><li>كان وأخواتها: ترفع الاسم وتنصب الخبر.</li><li>اسم الفاعل من الثلاثي على وزن «فاعِل»: كاتِب، سامِع.</li></ul>` }
+};
+
+const ACTS = {
+  harf: [
+    { id: 'common', icon: '👂', title: 'الْحَرْفُ الْمُشْتَرَك', count: N, desc: 'أقرأ ثلاث كلمات وأكتشف الحرف الذي يتكرر فيها.',
+      reminder: () => tips(['أقرأ الكلمات الثلاث ببطء.', 'أبحث عن الحرف الذي يوجد في الكلمات الثلاث.', 'أختار ذلك الحرف.']) + ex('مثال محلول', `<p>${big('ديكٌ – دُبٌّ – دِرْهَمٌ')}</p><p>الحرف المشترك هو <span class="letter-chip">د</span> (حرف الدّال) كما في كلمة «ديك».</p>`),
+      build: lv => pickFresh('ar_common', LETTERS.map(x => x.l), N).map(l => { const L = LBY[l]; const o = makeOptions(l, shuffle([...confOf(l), ...LETTERS.map(x => x.l)]), 4);
+        return { kind: 'mcq', q: `ما الْحَرْفُ الَّذي يَتَكَرَّرُ في هَذِهِ الْكَلِماتِ؟<div style="margin-top:8px">${L.w.map(([w, e]) => `<span class="word-chip">${e} ${w}</span>`).join(' ')}</div>`, speak: L.w.map(x => x[0]).join('، '), options: o.options, answer: o.answer, big: true, center: true, explain: `الْحَرْفُ الْمُشْتَرَكُ هُوَ <strong>${l}</strong> (حَرْفُ ${L.n}).` }; }) },
+    { id: 'haraka', icon: 'ـَـ', title: 'الْحَرْفُ وَالْحَرَكَة', count: N, desc: 'أقرأ الحرف مع الحركات القصيرة والطويلة والتنوين.',
+      reminder: () => tips(['الفتحة (دَ) – الضمة (دُ) – الكسرة (دِ) – السكون (دْ).', 'المد: بالألف (دا) – بالواو (دو) – بالياء (دي).', 'التنوين: داً – دٌ – دٍ.']) + ex('مثال محلول', `<p>المطلوب: حرف <strong>الدّال</strong> مع <strong>الضَّمَّة</strong></p><p>الجواب: ${big('دُ')}</p>`),
+      build: lv => fillItems(N, () => { const L = pick(LETTERS.filter(x => x.l !== 'أ')), fam = pick([HARAKAT, MADD, TANWIN]), h = pick(fam), right = h.f(L.l);
+        const o = makeOptions(right, fam.filter(x => x !== h).map(x => x.f(L.l)).concat(HARAKAT.map(x => x.f(L.l))), 4);
+        return { kind: 'mcq', q: `اِخْتَرِ الْمَقْطَعَ: حَرْفُ <strong>${L.n}</strong> مَعَ <strong>${h.n}</strong>`, options: o.options, answer: o.answer, big: true, center: true, explain: `${L.n} + ${h.n} = <strong style="font-size:1.4rem">${right}</strong>` }; }) },
+    { id: 'missing', icon: '🧩', title: 'الْحَرْفُ النّاقِص', count: N, desc: 'أكمل الكلمة بالحرف المناسب وأنتبه للحروف المتشابهة.',
+      reminder: () => tips(['أنظر إلى الصورة وأقرأ الكلمة.', 'أنطق الكلمة كاملة لأسمع الحرف الناقص.', 'أنتبه للحروف المتشابهة: د/ذ، س/ش، ص/ض، ع/غ، ح/ج/خ.']) + ex('مثال محلول', `<p>🐺 ${big('...ئْبٌ')}</p><p>الحرف الناقص: <span class="letter-chip">ذِ</span> ← ذِئْبٌ</p>`),
+      build: lv => fillItems(N, () => { const L = pick(LETTERS), [w, e] = pick(L.w), u = units(w); const idx = u.map((x, i) => i).filter(i => confOf(base(u[i])).length); if (!idx.length) return null;
+        const i = pick(idx), right = u[i], dis = confOf(base(right)).map(b => b + marks(right));
+        const shown = u.map((x, k) => k === i ? '<span class="gap">ـــ</span>' : x).join('');
+        const o = makeOptions(right, dis, Math.min(4, dis.length + 1));
+        return { kind: 'mcq', q: `${picHtml(e)}أَكْمِلِ الْكَلِمَةَ بِالْحَرْفِ النّاقِصِ:<div class="q-big">${shown}</div>`, speak: w, options: o.options, answer: o.answer, big: true, center: true, explain: `الْكَلِمَةُ هِيَ: <strong>${w}</strong>` }; }) },
+    { id: 'build', icon: '🔡', title: 'أُرَكِّبُ الْكَلِمَة', count: N, desc: 'أرتب الحروف المشكولة لأكتب الكلمة.',
+      reminder: () => tips(['أنظر إلى الصورة وأقرأ اسمها في ذهني.', 'أختار الحرف الأول ثم الذي يليه... من اليمين إلى اليسار.', 'إذا أخطأت أنقر على الحرف لأرجعه.']) + ex('مثال محلول', `<p>🐟 الحروف: مَ – كٌ – سَ</p><p>الكلمة: ${big('سَمَكٌ')} ← سَ + مَ + كٌ</p>`),
+      build: lv => pickFresh('ar_build', LETTERS.flatMap(L => L.w).filter(([w]) => units(w).length >= 3 && units(w).length <= 5), N, x => x[0]).map(([w, e]) => { const u = units(w);
+        return { kind: 'order', dir: 'rtl', joiner: '', q: `${picHtml(e)}رَتِّبِ الْحُروفَ لِتَكْتُبَ الْكَلِمَةَ`, speak: w, tiles: u, answer: u, explain: `<div style="margin-top:4px">الْكَلِمَةُ: <strong>${w}</strong></div>` }; }) }
+  ],
+  kalima: [
+    { id: 'flash', icon: '⚡', title: 'أَقْرَأُ بِسُرْعَةٍ وَدِقَّة', count: N, desc: 'تظهر الكلمة لحظة ثم تختفي (شريط الوقت)، فأختارها من بين كلمات متشابهة.',
+      reminder: lv => tips(['أركز جيدا قبل ظهور الكلمة.', 'أقرأ الكلمة بسرعة ودقة قبل امتلاء شريط الوقت.', 'أنتبه: الكلمات المقترحة متشابهة، يختلف فيها حرف أو حركة.']) + ex('مثال محلول', `<p>ظهرت: ${big('حارِسٌ')}</p><p>أختار «حارِسٌ» وليس «جارِسٌ» ولا «حارِشٌ».</p>`),
+      build: lv => pickFresh('ar_flash', [...DICTEE, ...THEME_WORDS.map(x => x.w)], N).map(w => { const o = makeOptions(w, lookAlikes(w, 3), 4);
+        return { kind: 'mcq', q: 'اِقْرَأِ الْكَلِمَةَ بِسُرْعَةٍ قَبْلَ أَنْ تَخْتَفِيَ، ثُمَّ اخْتَرْها:', flash: { html: w, ms: lv <= 3 ? 2600 : lv === 4 ? 2000 : 1600 }, options: o.options, answer: o.answer, big: true, center: true, explain: `الْكَلِمَةُ هِيَ: <strong>${w}</strong>` }; }) },
+    { id: 'pic', icon: '🖼️', title: 'الْكَلِمَةُ وَالصّورَة', count: N, desc: 'أقرأ الكلمات وأختار الكلمة التي تناسب الصورة (معجم القرية، المدينة، المهن...).',
+      reminder: () => tips(['أتأمل الصورة جيدا.', 'أقرأ الكلمات المقترحة كلمة كلمة.', 'أختار الكلمة التي تدل على الصورة.']) + ex('مثال محلول', `<p>${picHtml('🚜')} الكلمات: جَرّارٌ – جَبَلٌ – دَجاجَةٌ</p><p>الجواب: ${big('جَرّارٌ')}</p>`),
+      build: lv => pickFresh('ar_pic', THEME_WORDS.filter(x => x.e), N, x => x.w).map(x => { const same = THEMES[x.t].map(y => y[0]).filter(w => w !== x.w); const o = makeOptions(x.w, same, 3);
+        return { kind: 'mcq', q: `${picHtml(x.e)}اِخْتَرِ الْكَلِمَةَ الْمُناسِبَةَ لِلصّورَةِ <span class="badge">${x.t}</span>`, options: o.options, answer: o.answer, big: true, center: true, explain: `${x.e} ← <strong>${x.w}</strong>` }; }) },
+    { id: 'syll', icon: '🧱', title: 'أُرَكِّبُ الْكَلِمَةَ مِنْ مَقاطِعِها', count: N, desc: 'أرتب المقاطع الصوتية لتكوين الكلمة.',
+      reminder: () => tips(['أقرأ كل مقطع وحده.', 'أبدأ بالمقطع الأول من اليمين.', 'أقرأ الكلمة كاملة بعد التركيب للتحقق.']) + ex('مثال محلول', `<p>المقاطع: رٌ – تَ – مُ – خِّ – أَ</p><p>الكلمة: ${big('مُتَأَخِّرٌ')} ← مُ / تَ / أَ / خِّ / رٌ</p>`),
+      build: lv => pickFresh('ar_syll', [...DICTEE, ...THEME_WORDS.map(x => x.w)].filter(w => { const n = syllables(w).length; return n >= 2 && n <= (lv <= 3 ? 4 : 6); }), N).map(w => { const s = syllables(w);
+        return { kind: 'order', dir: 'rtl', joiner: '', q: 'رَتِّبِ الْمَقاطِعَ لِتُكَوِّنَ كَلِمَةً:', speak: w, tiles: s, answer: s, explain: `<div>الْكَلِمَةُ: <strong>${w}</strong> ← ${s.join(' / ')}</div>` }; }) },
+    { id: 'imlaa', icon: '✍️', title: 'الْإِمْلاء: أَخْتارُ الْكِتابَةَ الصَّحيحَة', count: N, desc: 'أتأمل الصورة (أو أستمع) وأختار الكلمة المكتوبة كتابة صحيحة.',
+      reminder: () => tips(['أنتبه للتاء المربوطة (ـة) في آخر الاسم المؤنث: زَهْرَةٌ.', 'التنوين يُكتب حركة ولا يُكتب نونا: كِتابٌ (وليس كِتابُنْ).', 'أنتبه للشدة (ّ) وحروف المد.']) + ex('مثال محلول', `<p>🌸 الاقتراحات: زَهْرَهٌ – زَهْرَتٌ – زَهْرَةٌ</p><p>الكتابة الصحيحة: ${big('زَهْرَةٌ')}</p>`),
+      build: lv => pickFresh('ar_imlaa', THEME_WORDS.filter(x => x.e && misspell(x.w).length >= 2), N, x => x.w).map(x => { const o = makeOptions(x.w, misspell(x.w), 4);
+        return { kind: 'mcq', q: `${picHtml(x.e)}اِخْتَرِ الْكَلِمَةَ الْمَكْتوبَةَ كِتابَةً صَحيحَةً:`, speak: x.w, options: o.options, answer: o.answer, big: true, center: true, explain: `الْكِتابَةُ الصَّحيحَةُ: <strong>${x.w}</strong>` }; }) }
+  ],
+  faqra: [
+    { id: 'visual', icon: '👀', title: 'الْكَلِماتُ الْبَصَرِيَّة', count: N, desc: 'أقرأ الكلمات البصرية الكثيرة الاستعمال بسرعة (هَذا، عِنْدي، بِماذا...).',
+      reminder: () => tips(['الكلمات البصرية نقرؤها بالنظر دفعة واحدة دون تهجٍّ.', 'أنظر إلى الكلمة قبل أن تختفي.', 'أنتبه للكلمات المتشابهة: هَذا / هَذِهِ، الَّذي / الَّتي.']) + ex('مثال محلول', `<p>ظهرت: ${big('بِماذا')}</p><p>أختار «بِماذا».</p>`),
+      build: lv => pickFresh('ar_visual', VISUAL, N).map(w => { const o = makeOptions(w, [...lookAlikes(w, 2), ...VISUAL.filter(v => v !== w && bare(v).length === bare(w).length)], 4);
+        return { kind: 'mcq', q: 'اِقْرَأِ الْكَلِمَةَ بِسُرْعَةٍ، ثُمَّ اخْتَرْها:', flash: { html: w, ms: lv <= 3 ? 1800 : 1300 }, options: o.options, answer: o.answer, big: true, center: true, explain: `الْكَلِمَةُ: <strong>${w}</strong>` }; }) },
+    { id: 'order', icon: '🔀', title: 'أُرَتِّبُ الْكَلِماتِ لِأُكَوِّنَ جُمْلَة', count: N, desc: 'أرتب الكلمات المبعثرة لتكوين جملة مفيدة.',
+      reminder: () => tips(['أقرأ كل الكلمات أولا.', 'أبحث عن الكلمة التي تبدأ بها الجملة (غالبا فعل أو اسم مُعرَّف).', 'أقرأ الجملة بعد الترتيب: هل لها معنى؟']) + ex('مثال محلول', `<p>الكلمات: الْحَيِّ – كَريمٌ – مَلْعَبِ – ذَهَبَ – إِلى</p><p>الجملة: ${big('ذَهَبَ كَريمٌ إِلى مَلْعَبِ الْحَيِّ.')}</p>`),
+      build: lv => pickFresh('ar_order', SENTENCES.filter(s => { const n = s.s.split(' ').length; return n >= 3 && n <= (lv <= 3 ? 6 : 8) && Math.abs(s.lv - lv) <= 2; }), N, x => x.s).map(s => { const w = s.s.replace(/[.،]/g, '').split(' ');
+        return { kind: 'order', dir: 'rtl', joiner: ' ', q: 'رَتِّبِ الْكَلِماتِ لِتُكَوِّنَ جُمْلَةً مُفيدَةً:', tiles: w, answer: w, explain: `<div>الْجُمْلَةُ: <strong>${s.s}</strong></div>` }; }) },
+    { id: 'complete', icon: '✏️', title: 'أُكْمِلُ الْجُمْلَة', count: N, desc: 'أكمل الجملة بالكلمة المناسبة.',
+      reminder: () => tips(['أقرأ الجملة كاملة أولا.', 'أفكر في معناها: ما الكلمة الناقصة؟', 'أجرب كل اقتراح وأقرأ الجملة به، ثم أختار.']) + ex('مثال محلول', `<p>غَسَلَتِ الْفَتاةُ وَجْهَها بِالْماءِ وَ... (الصّابونِ – الْحِبْرِ – الطّينِ)</p><p>الجواب: ${big('الصّابونِ')}</p>`),
+      build: lv => pickFresh('ar_complete', byLevel(SENTENCES, lv), N, x => x.s).map(s => { const o = makeOptions(s.b, s.d, 3);
+        return { kind: 'mcq', q: `أَكْمِلِ الْجُمْلَةَ:<div class="q-big" style="font-size:1.5rem">${s.s.replace(s.b, '<span class="gap">.......</span>')}</div>`, options: o.options, answer: o.answer, center: true, explain: s.s }; }) },
+    { id: 'read', icon: '📖', title: 'أَقْرَأُ الْفِقْرَةَ وَأَفْهَم', count: N, desc: 'أقرأ الفقرة وأجيب عن أسئلة الفهم بالكلمات المفتاح.',
+      reminder: () => tips(['أقرأ الفقرة قراءة هامسة مرة أولى.', 'أحدد الكلمة المفتاح في السؤال (أين؟ متى؟ لماذا؟...).', 'أبحث في الفقرة عن الجملة التي تجيب، ثم أختار.']) + ex('مثال محلول', `<p>«ذَهَبَ أَحْمَدُ إِلَى الْمَسْبَحِ لِيَتَعَلَّمَ السِّباحَةَ...»</p><p>السؤال: لماذا ذهب أحمد إلى المسبح؟ الكلمة المفتاح: <strong>لماذا</strong> ← نبحث عن السبب: <strong>لِيَتَعَلَّمَ السِّباحَةَ</strong>.</p>`),
+      build: lv => textQuestions(FAQRA, lv, 'ar_faqra', N) }
+  ],
+  uqsusa: [
+    { id: 'predict', icon: '🔮', title: 'أَتَوَقَّعُ مِنَ الْعُنْوان', count: 6, desc: 'أقرأ العنوان وأختار التوقع الأنسب لمضمون النص.',
+      reminder: () => tips(['أقرأ العنوان كلمة كلمة.', 'أسأل نفسي: عمّن أو عمّ يتحدث هذا العنوان؟', 'أعبّر بـ: قد يتحدث النص عن... / ربما...']) + ex('مثال محلول', `<p>العنوان: «يَوْمُ الْعيدِ»</p><p>التوقع: أَتَوَقَّعُ أَنْ يَتَحَدَّثَ النَّصُّ عَنْ كَيْفِيَّةِ الِاحْتِفالِ بِيَوْمِ الْعيدِ.</p>`),
+      build: lv => pickFresh('ar_predict', PREDICT, 6, x => x.t).map(p => { const o = makeOptions(p.ok, p.bad, 3);
+        return { kind: 'mcq', q: `عُنْوانُ النَّصِّ: <div class="q-big" style="font-size:1.6rem">«${p.t}»</div>ما التَّوَقُّعُ الْأَنْسَبُ؟`, options: o.options, answer: o.answer, explain: 'التَّوَقُّعُ الْجَيِّدُ يَنْطَلِقُ مِنْ كَلِماتِ الْعُنْوانِ.' }; }) },
+    { id: 'locate', icon: '🔎', title: 'أَيْنَ الْكَلِمَة؟', count: N, desc: 'أقرأ قراءة مسحية بالعين لأحدد في أي سطر توجد الكلمة.',
+      reminder: () => tips(['لا أقرأ النص كله: أمرّر عيني بسرعة على الأسطر.', 'أبحث عن شكل الكلمة.', 'أحدد رقم السطر الذي توجد فيه.']) + ex('مثال محلول', `<p>كلمة «عِنْدي» هي الكلمة الأولى في السطر الثاني ← الجواب: <strong>السَّطْرُ 2</strong>.</p>`),
+      build: lv => fillItems(N, () => { const tx = pick(byLevel([...UQSUSA, ...FAQRA], lv)); const lines = sentencesOf(tx.text).slice(0, 5); if (lines.length < 3) return null;
+        const li = rand(0, lines.length - 1), cand = lines[li].replace(/[.،؛:«»!؟]/g, '').split(' ').filter(w => bare(w).length >= 4 && lines.filter(l => l.includes(w)).length === 1); if (!cand.length) return null;
+        const w = pick(cand), opts = lines.map((l, k) => `السَّطْرُ ${k + 1}`);
+        return { kind: 'mcq', passage: lines.map((l, k) => `<span class="ln"><b class="no">${k + 1}</b> ${l}</span>`).join(''), passageTitle: `«${tx.title}»`, q: `في أَيِّ سَطْرٍ توجَدُ كَلِمَةُ «<strong>${w}</strong>»؟`, options: opts, answer: li, center: true, explain: `توجَدُ في السَّطْرِ ${li + 1}: ${lines[li].replace(w, `<mark>${w}</mark>`)}` }; }) },
+    { id: 'read', icon: '📚', title: 'أَقْرَأُ الْأُقْصوصَةَ وَأَفْهَم', count: N, desc: 'أقرأ الأقصوصة بطلاقة وأجيب عن أسئلة الفهم.',
+      reminder: () => tips(['أقرأ العنوان وأتوقع.', 'أقرأ الأقصوصة بطلاقة، مع احترام علامات الترقيم.', 'أجيب: من؟ أين؟ متى؟ ماذا حدث؟ لماذا؟ ما العبرة؟']) + ex('مثال محلول', `<p>«...ثُمَّ أَنْزَلَ بُنْدُقِيَّتَهُ وَقَرَّرَ أَلّا يُؤْذِيَهُ»</p><p>ماذا قرر الصياد؟ ← <strong>ألا يؤذي الطائر</strong>.</p>`),
+      build: lv => textQuestions(UQSUSA, lv, 'ar_uqsusa', N) },
+    { id: 'lex', icon: '🔁', title: 'الْمُعْجَم: الْمُرادِفُ وَالضِّدّ', count: N, desc: 'أختار مرادف الكلمة أو ضدها أو معناها.',
+      reminder: () => tips(['المرادف: كلمة لها المعنى نفسه (باكِرًا = مُبَكِّرًا).', 'الضد: كلمة لها المعنى المعاكس (قوي ≠ ضعيف).', 'أقرأ السؤال جيدا: هل يطلب المرادف أم الضد؟']) + ex('مثال محلول', `<p>ضِدُّ «نَظيفٌ»: <strong>مُتَّسِخٌ</strong> — مُرادِفُ «مَسْرورٌ»: <strong>فَرْحانُ</strong></p>`),
+      build: lv => pickFresh('ar_lex', byLevel(LEX, lv), N, x => x.q).map(x => { const o = makeOptions(x.ok, x.bad, 3);
+        return { kind: 'mcq', q: x.q, options: o.options, answer: o.answer, center: true, big: false, explain: `${x.q} <strong>${x.ok}</strong>` }; }) }
+  ],
+  nass: [
+    { id: 'read', icon: '🏅', title: 'أَقْرَأُ النَّصَّ وَأَفْهَم', count: N, desc: 'أقرأ النص وأجيب عن أسئلة تغطي مستويات الفهم الأربعة.',
+      reminder: () => tips(['أستخرج: الجواب مكتوب في النص.', 'أستنتج: الجواب غير مكتوب، أفهمه من القرائن.', 'أقوّم: أحكم وأعلل: «أَرى أَنَّ... لِأَنَّ... وَدَليلي...».']) + ex('مثال محلول', `<p>«...اِجْتَمَعَتِ الْأَصْواتُ في وَقْتٍ واحِدٍ فَصارَتْ قُوَّةً واحِدَةً...»</p><p>ما العبرة؟ ← <strong>في الاتحاد قوة</strong> (تقويم مبني على دليل من النص).</p>`),
+      build: lv => textQuestions(NASS, lv, 'ar_nass', N) },
+    { id: 'events', icon: '🎞️', title: 'شَريطُ الْأَحْداث', count: 6, desc: 'أرتب أحداث النص حسب وقوعها.',
+      reminder: () => tips(['أستعمل روابط الحكي: في البداية، ثم، بعد ذلك، وأخيرا.', 'أبحث عن الحدث الأول الذي بدأت به القصة.', 'أتحقق: هل تتابع الأحداث منطقي؟']) + ex('مثال محلول', `<p>في البداية أخذ هانز قطعة الفضة، ثم بادلها بحصان، بعد ذلك صار له بقرة ثم كبش ثم إوزة، وأخيرا سقط الحجران في البئر.</p>`),
+      build: lv => pickFresh('ar_events', byLevel(EVENTS, lv), 6, x => x.t).map(e => ({ kind: 'order', dir: 'rtl', vertical: true, joiner: ' ', q: `رَتِّبْ أَحْداثَ «${e.t}» حَسَبَ وُقوعِها:`, tiles: e.e, answer: e.e })) },
+    { id: 'gram', icon: '🧠', title: 'ظَواهِرُ لُغَوِيَّة', count: N, desc: 'الفاعل، المفعول به، الماضي والمضارع، اسم الإشارة، اسم الفاعل، كان وأخواتها...',
+      reminder: () => tips(['الفاعل: من قام بالفعل؟ (مرفوع).', 'المفعول به: على من وقع الفعل؟ (منصوب).', 'كان وأخواتها: ترفع الاسم وتنصب الخبر.', 'اسم الفاعل من الثلاثي على وزن «فاعِل».']) + ex('مثال محلول', `<p>«يَلْعَبُ الْوَلَدُ الْكُرَةَ»: من يلعب؟ <strong>الْوَلَدُ</strong> (فاعل) — ماذا يلعب؟ <strong>الْكُرَةَ</strong> (مفعول به).</p>`),
+      build: lv => pickFresh('ar_gram', byLevel(GRAM, lv), N, x => x.q).map(g => { const o = makeOptions(g.ok, g.bad, g.bad.length + 1);
+        return { kind: 'mcq', q: g.q, options: o.options, answer: o.answer, center: true, explain: g.exp }; }) },
+    { id: 'lex', icon: '📗', title: 'الْمُعْجَم: الْمَعْنى مِنَ السِّياق', count: N, desc: 'أختار مرادف الكلمة أو ضدها أو معناها في السياق.',
+      reminder: () => tips(['أقرأ الكلمة داخل جملتها لأفهم معناها.', 'أعوّض الكلمة بالاقتراح: هل يبقى المعنى نفسه؟']) + ex('مثال محلول', `<p>«تَقَدَّمَ بِحَذَرٍ» ← بِحَذَرٍ = <strong>بِانْتِباهٍ وَحيطَةٍ</strong></p>`),
+      build: lv => pickFresh('ar_lex2', byLevel(LEX, Math.max(lv, 5)), N, x => x.q).map(x => { const o = makeOptions(x.ok, x.bad, 3);
+        return { kind: 'mcq', q: x.q, options: o.options, answer: o.answer, center: true, explain: `${x.q} <strong>${x.ok}</strong>` }; }) }
+  ]
+};
+
+/* مستوى التمكن → المسارات → اللبنات (مأخوذة من الحصص؛ ما لم تتوفر حصصه استُنتج من نفس التدرج) */
+const PATHS = {
+  2: { 1: ['harf', 'kalima'], 2: ['kalima', 'faqra'], 3: ['faqra', 'uqsusa'] },
+  3: { 1: ['harf', 'kalima', 'faqra'], 2: ['kalima', 'faqra', 'uqsusa'], 3: ['uqsusa', 'nass'] },
+  4: { 1: ['harf', 'kalima', 'faqra'], 2: ['kalima', 'faqra', 'uqsusa'], 3: ['uqsusa', 'nass'] },
+  5: { 1: ['harf', 'kalima', 'uqsusa'], 2: ['kalima', 'faqra', 'uqsusa'], 3: ['nass'] },
+  6: { 1: ['harf', 'kalima', 'uqsusa'], 2: ['kalima', 'faqra', 'uqsusa'], 3: ['uqsusa', 'nass'] }
+};
+
+window.APP = {
+  id: 'ar', sheet: 'العربية', store: 'guigou_ar_soutien', locale: 'ar-MA', ttsLang: 'ar', logo: 'ض', hero: '📚',
+  LEVELS: [2, 3, 4, 5, 6], PATHS, BRICKS, ACTS,
+  CLOUD_URL_DEFAULT: 'https://script.google.com/macros/s/AKfycbxpawsSglmg795p_5THXQA7iu4x5LlZA7ETr1kYW80abYr0ja8gCUkvR0o_AsIRioQ0/exec', CLOUD_SECRET: 'GL-b6ec70bd30e1d162',
+  DEFAULT_PWD: 'Guigou2026', RECOVERY_CODE: 'RB-ARBC-7Q2M',
+  sheetRow: r => {
+    const row = { 'معرف الجلسة': r.id, 'الاسم': r.name, 'مستوى التمكن': r.level, 'المسار': r.path, 'الفوج': r.group, 'تاريخ البدء': r.date, 'آخر تحديث': r.updated };
+    Object.keys(BRICKS).forEach(b => { const v = Object.entries(r.acts || {}).filter(([k]) => k.split('.')[0] === b).map(([, p]) => p); row[BRICKS[b].title.replace('لَبِنَةُ ', 'لبنة ').replace(/[ً-ْ]/g, '') + ' %'] = v.length ? Math.round(v.reduce((s, x) => s + x, 0) / v.length) : ''; });
+    row['الأنشطة المنجزة'] = `${r.done} / ${r.total}`; row['الرصيد'] = r.score; row['العلامة /20'] = r.grade20; row['نسبة النجاح %'] = r.pct;
+    row['التفاصيل'] = Object.entries(r.acts || {}).map(([k, p]) => { const [b, a] = k.split('.'); const act = (ACTS[b] || []).find(x => x.id === a); return `${BRICKS[b].title.replace(/[ً-ْ]/g, '')} / ${act ? act.title.replace(/[ً-ْ]/g, '') : a}: ${p}%`; }).join(' | ');
+    return row;
+  },
+  T: {
+    docTitle: 'دعم اللغة العربية — مستويات التمكن 2 إلى 6', appName: 'دعم اللغة العربية', badgeLevels: 'مستويات التمكن 2–6', badgeOffline: 'يعمل بدون إنترنت',
+    headerSub: 'برنامج دعم التعلمات الأساس — مدارس الريادة • مجموعة مدارس گيگو المركز', summaries: 'ملخصات الدروس', teacherSpace: 'فضاء الأستاذ', sound: 'الصوت',
+    welcomeTitle: 'مرحبا بك في فضاء أنشطة اللغة العربية', welcomeSub: 'قراءة الحروف والكلمات والفقرات والأقاصيص والنصوص — حسب مسارك',
+    byLine: 'إعداد: الأستاذ الحسين بوربيع — مجموعة مدارس گيگو المركز', nameLabel: 'الاسم والنسب:', namePh: 'اكتب اسمك الكامل...',
+    levelLabel: 'مستوى التمكن:', levelHint: 'مستوى التمكن الذي حدده رائز الموضعة (وليس المستوى الدراسي).', levelWord: 'المستوى', pathLabel: 'المسار:', pathWord: 'المسار',
+    groupLabel: 'الفوج:', groupPh: 'مثال: فوج 01', groups: ['فوج 01', 'فوج 02', 'فوج 03', 'فوج 04'], start: 'لنبدأ', reviewFirst: 'أراجع الملخصات أولا',
+    hello: 'أهلا بك يا', goalsIntro: 'في نهاية هذه الأنشطة ستكون قادرا على:', introNote: 'قبل كل نشاط ستجد <strong>بطاقة تذكير</strong> فيها ما تحتاجه ومثال محلول. اقرأها جيدا، ثم ابدأ. 🔄 التمارين <strong>تتجدد في كل محاولة</strong>، فيمكنك إعادة أي نشاط للتدرب أكثر.',
+    toActivities: 'إلى الأنشطة', menuTitle: 'لوحة الأنشطة', learner: 'المتعلم(ة)', balance: 'الرصيد', points: 'نقطة', changePath: 'تغيير المسار', resultCert: 'النتيجة والشهادة',
+    reminderTag: 'بطاقة التذكير والنمذجة', backMenu: '← القائمة', understood: 'فهمت، أبدأ النشاط ←', reminderBtn: 'بطاقة التذكير', next: 'التالي ←', endAct: 'إنهاء النشاط 🏁',
+    pointsCap: 'النقط', correctAnswers: 'إجابات صحيحة', successRate: 'نسبة النجاح', redo: 'أعيد النشاط', otherAct: 'إلى نشاط آخر ←',
+    certTitle: 'شهادة تشجيع — أنشطة دعم اللغة العربية', wellDone: 'أحسنت يا', levelGroup: 'المستوى والمسار والفوج', actsDone: 'الأنشطة المنجزة',
+    creditsAr: 'الأستاذ الحسين بوربيع — مجموعة مدارس گيگو المركز — مديرية بولمان', backActs: '← الأنشطة', printCert: 'طباعة الشهادة', newLearner: 'متعلم(ة) جديد(ة)',
+    dashTitle: 'سجل نتائج المتعلمين', dashSub: 'النتائج محفوظة على هذا الجهاز، وتُرسل إلى جدول Google عند توفر الإنترنت', exit: '← خروج', enterPwd: 'أدخل القن السري للاطلاع على النتائج:', pwdPh: 'القن السري...',
+    enter: 'دخول', forgot: 'نسيت القن؟', pwdNote: 'القن الافتراضي يُغيَّر من داخل اللوحة بعد أول دخول.', searchPh: 'بحث بالاسم أو الفوج...', allLevels: 'كل المستويات', allPaths: 'كل المسارات',
+    exportCsv: 'تصدير Excel / CSV', changePwd: 'تغيير القن', clearLog: 'تفريغ السجل', cloudTitle: 'الربط بالإنترنت (Google Sheets) — ورقة «العربية»',
+    cloudNote: 'تُرسل كل نتيجة إلى ورقة «العربية» في جدولك تلقائيا. إن انقطع الإنترنت تُحفظ هنا وتُرسل عند عودته.', saveLink: 'حفظ الرابط', test: 'اختبار', sendNow: 'أرسل الآن', sendAll: 'أرسل كل السجل المحلي',
+    avgByAct: 'متوسط النجاح حسب النشاط', avgNote: '(حسب التصفية الحالية — يساعد على تحديد التعثرات)', drawerSub: 'مرحلة دعم التعلمات الأساس — اللغة العربية', ok: 'حسنا', cancel: 'إلغاء',
+    footer: 'اللغة العربية • دعم التعلمات الأساس (مستويات التمكن 2–6) • مجموعة مدارس گيگو المركز — مديرية بولمان — أكاديمية فاس مكناس',
+    errName: 'اكتب اسمك أولا.', errLevel: 'اختر مستوى التمكن (من 2 إلى 6).', errPath: 'اختر المسار (1 أو 2 أو 3).', errGroup: 'اكتب الفوج أو اختره.',
+    askPath: 'اكتب رقم المسار الجديد (1 أو 2 أو 3):', questions: 'أسئلة', notDone: 'لم ينجز بعد', redoArrow: 'أعيد ←', startArrow: 'ابدأ ←', noItems: 'لا توجد تمارين كافية لهذا النشاط.',
+    leaveAct: 'هل تريد مغادرة النشاط؟ لن تُحتسب نقط هذا النشاط إلا إذا أكملته.', listen: 'استمع', bravo: 'أحسنت!', letsFix: 'لنصحح معا:', flashHidden: '🙈 اختفت الكلمة! اختر ما قرأته:',
+    tapTiles: 'انقر على البطاقات بالترتيب...', reset: 'إعادة', check: 'تحقق ✔', useAllTiles: 'استعمل كل البطاقات أولا.', rightOrder: 'الترتيب الصحيح',
+    msgHi: 'ممتاز! أنت متحكم في هذا النشاط.', msgMid: 'عمل جيد، أعد النشاط لتتحسن أكثر.', msgLo: 'لا بأس، راجع بطاقة التذكير ثم أعد المحاولة.',
+    certHi: 'أداء ممتاز! أنت متحكم في تعلمات هذا المسار.', certMid: 'أداء جيد، واصل التدرب لتتقن أكثر.', certLo: 'بداية طيبة! راجع بطاقات التذكير وأعد الأنشطة.',
+    activity: 'النشاط', rate: 'النسبة', wrongPwd: 'القن السري غير صحيح.', recoverAsk: 'أدخل رمز الاسترجاع الخاص بك لإرجاع القن الأصلي:', recoverBad: 'رمز الاسترجاع غير صحيح.',
+    recoverOk: p => 'تمت إعادة القن الأصلي: ' + p + ' — ادخل به ثم غيّره إن شئت.', newPwdAsk: 'اكتب القن السري الجديد (6 أحرف على الأقل):', pwdShort: 'القن قصير جدا.', pwdChanged: 'تم تغيير القن السري.', pwdSaveFail: 'تعذر الحفظ على هذا المتصفح.',
+    colName: 'الاسم', colLevel: 'المستوى', colPath: 'المسار', colGroup: 'الفوج', colDate: 'التاريخ', noResults: 'لا توجد نتائج مسجلة بعد', shownAttempts: 'عدد المحاولات المعروضة',
+    nothingExport: 'لا توجد نتائج للتصدير.', csvName: 'نتائج_دعم_العربية', clearAsk: 'هل تريد حذف كل النتائج المسجلة على هذا الجهاز نهائيا؟', brickGoals: 'أهداف اللبنة', brickActs: 'الأنشطة',
+    noUrl: 'لم يُحفظ رابط الجدول بعد.', nothingQueued: 'لا توجد نتائج في انتظار الإرسال.', sentNoConfirm: ' (أُرسلت دون تأكيد)', sentOk: n => `تم إرسال ${n} نتيجة إلى الجدول ✓`,
+    sentUnsure: 'أُرسلت النتائج، لكن تعذّر قراءة تأكيد الجدول. تحقق من الجدول.', badSecret: 'الرمز السري في السكريبت لا يطابق التطبيق.', offline: 'لا يوجد اتصال بالإنترنت الآن. ستُرسل النتائج لاحقا.',
+    blocked: 'المتصفح منع الاتصال بجدول Google رغم وجود الإنترنت. النتائج محفوظة وستُرسل لاحقا.', sheetError: 'وقع خطأ في الجدول. تحقق من نشر السكريبت.',
+    notLinked: '⚪ غير مربوط', pending: n => `⏳ في الانتظار: ${n}`, allSent: '🟢 كل النتائج أُرسلت', lastSend: 'آخر إرسال',
+    savedLocal: 'نتيجتك محفوظة على هذا الجهاز في سجل الأستاذ.', savedWillSend: 'نتيجتك محفوظة، وستُرسل إلى الأستاذ عند توفر الإنترنت.', sentToTeacher: 'تم إرسال نتيجتك إلى الأستاذ ✓',
+    urlMustStart: 'الرابط يجب أن يبدأ بـ https://script.google.com/', urlSaved: 'تم حفظ الرابط على هذا الجهاز.', urlDeleted: 'تم حذف الرابط.', pasteFirst: 'ألصق رابط السكريبت أولا.',
+    linkOk: 'الربط يعمل والرمز السري صحيح ✓', linkBadSecret: 'الرابط يعمل، لكن الرمز السري لا يطابق.', linkFail: 'تعذّر الوصول إلى جدول Google من هذه الصفحة.', emptyLog: 'السجل المحلي فارغ.'
+  }
+};
+/* expose small helpers to the engine scope */
+window.__ar = { syllables, units, misspell, lookAlikes, LETTERS, FAQRA, UQSUSA, NASS, SENTENCES, GRAM, LEX, EVENTS, PREDICT };
+})();
+
+</script>
+<script>
+/* =====================================================================
+   Shared engine — support apps (Arabic / French)
+   Same structure as the maths app: welcome → intro → menu → reminder →
+   play → activity done → results; teacher space; Google Sheets sync.
+   LHOUSSAINE BOURBI — S.S GUIGOU — BOULMANE 2026
+   ===================================================================== */
+const A = window.APP, T = A.T;
+
+/* ---------- sound (Web Audio, no files) ---------- */
+class Synth {
+  constructor() { this.ctx = null; this.muted = false; }
+  init() { if (!this.ctx) { const C = window.AudioContext || window.webkitAudioContext; if (C) this.ctx = new C(); } if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); }
+  tone(f, d = .15, type = 'sine', g = .14) {
+    if (this.muted) return; this.init(); if (!this.ctx) return;
+    try { const o = this.ctx.createOscillator(), gn = this.ctx.createGain(); o.type = type; o.frequency.setValueAtTime(f, this.ctx.currentTime); gn.gain.setValueAtTime(g, this.ctx.currentTime); gn.gain.exponentialRampToValueAtTime(.001, this.ctx.currentTime + d); o.connect(gn); gn.connect(this.ctx.destination); o.start(); o.stop(this.ctx.currentTime + d); } catch (e) {}
+  }
+  click() { this.tone(620, .05, 'triangle', .08); }
+  ok() { [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, .12), i * 70)); }
+  ko() { [240, 180].forEach((f, i) => setTimeout(() => this.tone(f, .18, 'sawtooth', .1), i * 110)); }
+  fanfare() { [523, 659, 784, 1046, 1318].forEach((f, i) => setTimeout(() => this.tone(f, .25, 'triangle', .18), i * 100)); }
+}
+const sound = new Synth();
+function toggleSound() { sound.muted = !sound.muted; $('btn-sound').textContent = sound.muted ? '🔇' : '🔊'; }
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const shuffle = arr => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uniq = arr => [...new Set(arr)];
+
+/* in-page dialogs (alert/confirm/prompt are blocked in some viewers) */
+function uiDialog(msg, { cancel = false, input = false } = {}, onOk) {
+  const m = $('ui-modal'), inp = $('ui-input');
+  $('ui-msg').textContent = msg; inp.style.display = input ? 'block' : 'none'; inp.value = '';
+  $('ui-cancel').style.display = cancel ? 'inline-flex' : 'none'; m.style.display = 'flex';
+  const close = () => { m.style.display = 'none'; };
+  $('ui-ok').onclick = () => { close(); if (onOk) onOk(inp.value); };
+  $('ui-cancel').onclick = close;
+  setTimeout(() => (input ? inp : $('ui-ok')).focus(), 30);
+  inp.onkeydown = e => { if (e.key === 'Enter') $('ui-ok').click(); };
+}
+const uiAlert = msg => uiDialog(msg);
+const uiConfirm = (msg, onYes) => uiDialog(msg, { cancel: true }, onYes);
+const uiPrompt = (msg, onOk) => uiDialog(msg, { cancel: true, input: true }, onOk);
+
+/* ---------- optional voice (never required to answer) ---------- */
+const TTS = {
+  voice: null, ready: false,
+  init() {
+    if (!('speechSynthesis' in window)) return;
+    const choose = () => { const vs = speechSynthesis.getVoices(); this.voice = vs.find(v => v.lang && v.lang.toLowerCase().startsWith(A.ttsLang)) || null; this.ready = !!this.voice; };
+    choose(); speechSynthesis.onvoiceschanged = choose;
+  },
+  say(text) {
+    if (!this.ready || sound.muted) return;
+    try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.voice = this.voice; u.lang = this.voice.lang; u.rate = .8; speechSynthesis.speak(u); } catch (e) {}
+  }
+};
+
+/* ---------- exercise bank memory (avoid repeats on this device) ---------- */
+const RECENT_KEY = A.store + '_recent';
+function recentGet(k) { try { return (JSON.parse(localStorage.getItem(RECENT_KEY) || '{}')[k]) || []; } catch (e) { return []; } }
+function recentAdd(k, ids, keep) { try { const all = JSON.parse(localStorage.getItem(RECENT_KEY) || '{}'); all[k] = [...ids, ...(all[k] || [])].slice(0, keep); localStorage.setItem(RECENT_KEY, JSON.stringify(all)); } catch (e) {} }
+/* n elements of pool, those not seen recently first */
+function pickFresh(key, pool, n, idOf = x => (typeof x === 'string' ? x : JSON.stringify(x))) {
+  const rec = new Set(recentGet(key));
+  const fresh = shuffle(pool.filter(p => !rec.has(idOf(p)))), old = shuffle(pool.filter(p => rec.has(idOf(p))));
+  const out = [...fresh, ...old].slice(0, n);
+  recentAdd(key, out.map(idOf), Math.max(n, Math.floor(pool.length * 0.7)));
+  return out;
+}
+/* n options: the answer + distinct distractors, shuffled; returns {options, answer} */
+function makeOptions(correct, distractors, n = 4) {
+  const ds = shuffle(uniq(distractors.filter(d => d !== correct))).slice(0, n - 1);
+  const options = shuffle([correct, ...ds]);
+  return { options, answer: options.indexOf(correct) };
+}
+/* fill up to n items by cycling a generator */
+function fillItems(n, gen) { const out = []; for (let i = 0; out.length < n && i < n * 6; i++) { const it = gen(i); if (it) out.push(it); } return out; }
+
+/* =====================================================================
+   STATE & STORAGE
+   ===================================================================== */
+const STORE_KEY = A.store + '_results', PWD_KEY = A.store + '_pwd';
+const CLOUD_KEY = A.store + '_cloud_url', QUEUE_KEY = A.store + '_queue', SYNC_KEY = A.store + '_lastsync';
+const state = { student: { name: '', group: '' }, level: null, path: null, sessionId: null, startedAt: null, results: {}, run: null, lastAct: null };
+function loadAll() { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { return []; } }
+function saveAll(arr) { try { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); } catch (e) {} }
+function getPwd() { try { return localStorage.getItem(PWD_KEY) || A.DEFAULT_PWD; } catch (e) { return A.DEFAULT_PWD; } }
+
+const bricksOf = (lv, p) => (A.PATHS[lv] && A.PATHS[lv][p]) || [];
+const actsOf = (lv, p) => bricksOf(lv, p).flatMap(b => (A.ACTS[b] || []).map(a => ({ ...a, brick: b, key: b + '.' + a.id })));
+const ACTKEY = {}; Object.entries(A.ACTS).forEach(([b, list]) => list.forEach(a => { ACTKEY[b + '.' + a.id] = { ...a, brick: b, key: b + '.' + a.id }; }));
+function totalScore() { return Object.values(state.results).reduce((s, r) => s + r.score, 0); }
+function maxTotal() { return actsOf(state.level, state.path).reduce((s, a) => s + a.count, 0); }
+function brickPct(acts, b) {
+  const v = Object.entries(acts || {}).filter(([k]) => k.split('.')[0] === b).map(([, p]) => p);
+  return v.length ? Math.round(v.reduce((s, x) => s + x, 0) / v.length) : undefined;
+}
+
+/* ---------- online sync (Google Sheets via Apps Script) ---------- */
+let memQueue = {}, flushing = false, lastNetError = '';
+function cloudUrl() { try { return (localStorage.getItem(CLOUD_KEY) || A.CLOUD_URL_DEFAULT || '').trim(); } catch (e) { return A.CLOUD_URL_DEFAULT || ''; } }
+function loadQueue() { try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || '{}'); } catch (e) { return memQueue; } }
+function saveQueue(q) { memQueue = q; try { localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); } catch (e) {} }
+function enqueue(rec) { const q = loadQueue(); q[rec.id] = rec; saveQueue(q); }
+function setSync(msg) { try { localStorage.setItem(SYNC_KEY, msg); } catch (e) {} }
+function getSync() { try { return localStorage.getItem(SYNC_KEY) || ''; } catch (e) { return ''; } }
+let jsonpN = 0;
+function jsonp(url, params, timeout = 15000) {
+  return new Promise((resolve, reject) => {
+    const cb = '__sp_cb' + (++jsonpN) + '_' + Date.now(), s = document.createElement('script');
+    const t = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, timeout);
+    function cleanup() { clearTimeout(t); try { delete window[cb]; } catch (e) { window[cb] = undefined; } s.remove(); }
+    window[cb] = data => { cleanup(); resolve(data); };
+    s.onerror = () => { cleanup(); reject(new Error('blocked')); };
+    s.src = url + (url.includes('?') ? '&' : '?') + Object.entries({ ...params, callback: cb }).map(([k, v]) => k + '=' + encodeURIComponent(v)).join('&');
+    document.head.appendChild(s);
+  });
+}
+function toRow(rec) { return A.sheetRow(rec); }
+async function postRecords(url, records) {
+  const payload = recs => ({ secret: A.CLOUD_SECRET, records: recs.map(r => ({ id: r.id, sheet: A.sheet, row: toRow(r) })) });
+  const body = JSON.stringify(payload(records));
+  try {
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body, redirect: 'follow' });
+    const j = await r.json(); if (j.ok) return 'ok'; if (j.error === 'secret') return 'secret';
+  } catch (e) { lastNetError = 'fetch: ' + e.message; }
+  try {
+    for (const rec of records) { const j = await jsonp(url, { p: JSON.stringify(payload([rec])) }); if (!j || !j.ok) return j && j.error === 'secret' ? 'secret' : 'error'; }
+    return 'ok';
+  } catch (e) { lastNetError += ' | jsonp: ' + e.message; }
+  try { await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body }); return 'sent'; }
+  catch (e) { lastNetError += ' | no-cors: ' + e.message; return 'offline'; }
+}
+async function flushQueue(manual) {
+  const url = cloudUrl();
+  if (!url) { if (manual) uiAlert(T.noUrl); renderCloudStatus(); return; }
+  if (flushing) return;
+  const q = loadQueue(), recs = Object.values(q);
+  if (!recs.length) { if (manual) uiAlert(T.nothingQueued); renderCloudStatus(); return; }
+  flushing = true; const res = await postRecords(url, recs); flushing = false;
+  if (res === 'ok' || res === 'sent') {
+    const now = loadQueue(); recs.forEach(r => { if (now[r.id] && JSON.stringify(now[r.id]) === JSON.stringify(r)) delete now[r.id]; }); saveQueue(now);
+    setSync(new Date().toLocaleString(A.locale) + (res === 'sent' ? T.sentNoConfirm : ''));
+  }
+  if (manual) uiAlert(res === 'ok' ? T.sentOk(recs.length) : res === 'sent' ? T.sentUnsure : res === 'secret' ? T.badSecret : res === 'offline' ? (navigator.onLine === false ? T.offline : T.blocked + ' [' + lastNetError + ']') : T.sheetError);
+  renderCloudStatus(res);
+}
+function renderCloudStatus() {
+  const pending = Object.keys(loadQueue()).length, url = cloudUrl(), el = $('cloud-status');
+  if (el) el.innerHTML = !url ? `<span style="color:var(--danger)">${T.notLinked}</span>`
+    : `${pending ? `<span style="color:#b45309">${T.pending(pending)}</span>` : `<span style="color:var(--success)">${T.allSent}</span>`} <span style="color:var(--muted);font-weight:600">• ${T.lastSend}: ${getSync() || '—'}</span>`;
+  const inp = $('cloud-url'); if (inp && !inp.value) inp.value = url;
+  const rs = $('res-sync');
+  if (rs && state.sessionId) { const mine = loadQueue()[state.sessionId]; rs.textContent = !url ? T.savedLocal : mine ? T.savedWillSend : T.sentToTeacher; }
+}
+function saveCloudUrl() {
+  const v = $('cloud-url').value.trim();
+  if (v && !/^https:\/\/script\.google(usercontent)?\.com\//.test(v)) return uiAlert(T.urlMustStart);
+  try { localStorage.setItem(CLOUD_KEY, v); } catch (e) {}
+  renderCloudStatus(); uiAlert(v ? T.urlSaved : T.urlDeleted); if (v) flushQueue();
+}
+async function testCloud() {
+  const url = $('cloud-url').value.trim() || cloudUrl(); if (!url) return uiAlert(T.pasteFirst);
+  let j = null, err = '';
+  try { const r = await fetch(url + (url.includes('?') ? '&' : '?') + 'secret=' + encodeURIComponent(A.CLOUD_SECRET)); j = await r.json(); }
+  catch (e) { err = 'fetch: ' + e.message; try { j = await jsonp(url, { secret: A.CLOUD_SECRET }); } catch (e2) { err += ' | jsonp: ' + e2.message; } }
+  if (j) uiAlert(j.secretOk ? T.linkOk : T.linkBadSecret); else uiAlert(T.linkFail + ' [' + err + ']');
+}
+function pushAllLocal() { const all = loadAll(); if (!all.length) return uiAlert(T.emptyLog); const q = loadQueue(); all.forEach(r => { q[r.id] = r; }); saveQueue(q); flushQueue(true); }
+window.addEventListener('online', () => flushQueue());
+setInterval(() => flushQueue(), 60000);
+setTimeout(() => flushQueue(), 1500);
+
+function saveSession() {
+  if (!state.sessionId) return;
+  const all = loadAll(), score = totalScore(), max = maxTotal();
+  const doneMax = Object.values(state.results).reduce((s, r) => s + r.max, 0);
+  const rec = {
+    id: state.sessionId, name: state.student.name, group: state.student.group, level: state.level, path: state.path,
+    date: state.startedAt, updated: new Date().toLocaleString(A.locale),
+    score, max, grade20: max ? Math.round(score / max * 200) / 10 : 0, pct: doneMax ? Math.round(score / doneMax * 100) : 0,
+    done: Object.keys(state.results).length, total: actsOf(state.level, state.path).length,
+    acts: Object.fromEntries(Object.entries(state.results).map(([k, r]) => [k, Math.round(r.score / r.max * 100)]))
+  };
+  const i = all.findIndex(r => r.id === rec.id); if (i >= 0) all[i] = rec; else all.unshift(rec);
+  saveAll(all); enqueue(rec); flushQueue();
+}
+
+/* =====================================================================
+   LAYOUT (built once from the language strings)
+   ===================================================================== */
+function mount() {
+  document.title = T.docTitle;
+  const lvCards = A.LEVELS.map(l => `<div class="level-card" data-level="${l}" onclick="pickLevel(${l})"><div class="big">${l}</div><div style="font-weight:800;font-size:.85rem">${T.levelWord} ${l}</div></div>`).join('');
+  const pathCards = [1, 2, 3].map(p => `<div class="level-card path-card" data-path="${p}" onclick="pickPath(${p})"><div class="big">${p}</div><div style="font-weight:800;font-size:.85rem">${T.pathWord} ${p}</div><div class="path-hint" id="ph-${p}"></div></div>`).join('');
+  document.body.innerHTML = `
+<header><div class="header-container">
+  <div class="brand"><div class="logo">${A.logo}</div><div>
+    <div class="brand-title"><span>${T.appName}</span><span class="badge">${T.badgeLevels}</span><span class="badge badge-amber">${T.badgeOffline}</span></div>
+    <div class="header-sub">${T.headerSub}</div></div></div>
+  <div class="header-actions">
+    <button class="btn btn-soft btn-sm" onclick="openDrawer()">📖 ${T.summaries}</button>
+    <button class="btn btn-secondary btn-sm" onclick="showScreen('screen-dashboard')">🛡️ ${T.teacherSpace}</button>
+    <button class="icon-btn" id="btn-sound" title="${T.sound}" onclick="toggleSound()">🔊</button>
+  </div></div></header>
+<main>
+  <section id="screen-welcome" class="screen active"><div class="card narrow">
+    <div style="text-align:center"><div style="font-size:3rem">${A.hero}</div>
+      <h2 style="font-size:1.35rem;font-weight:800;margin-bottom:4px">${T.welcomeTitle}</h2>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:20px">${T.welcomeSub}<br><strong>${T.byLine}</strong></p></div>
+    <div class="form-group"><label class="form-label" for="in-name">${T.nameLabel}</label>
+      <input type="text" id="in-name" class="form-input" placeholder="${T.namePh}" autocomplete="off"></div>
+    <div class="form-group"><span class="form-label">${T.levelLabel}</span>
+      <p class="hint">${T.levelHint}</p><div class="level-pick lv5">${lvCards}</div></div>
+    <div class="form-group"><span class="form-label">${T.pathLabel}</span><div class="level-pick lv3">${pathCards}</div></div>
+    <div class="form-group"><label class="form-label" for="in-group">${T.groupLabel}</label>
+      <input type="text" id="in-group" class="form-input" placeholder="${T.groupPh}" autocomplete="off">
+      <div class="chips">${T.groups.map(g => `<span class="chip" onclick="pickGroup(this,'${g}')">${g}</span>`).join('')}</div></div>
+    <p id="login-err" style="color:var(--danger);font-size:.85rem;font-weight:700;display:none;margin-bottom:8px"></p>
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+      <button type="button" class="btn btn-primary" style="flex:1;padding:12px" onclick="doLogin()">🚀 ${T.start}</button>
+      <button type="button" class="btn btn-soft" onclick="openDrawer()">📖 ${T.reviewFirst}</button></div>
+  </div></section>
+
+  <section id="screen-intro" class="screen"><div class="card mid">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:14px;gap:8px;flex-wrap:wrap">
+      <h3 style="font-size:1.15rem;font-weight:800">${T.hello} <span id="intro-name" style="color:var(--primary)"></span> 👋</h3><span class="badge" id="intro-level"></span></div>
+    <p style="font-size:.92rem;margin-bottom:10px">${T.goalsIntro}</p><div id="intro-goals"></div>
+    <p style="font-size:.85rem;color:var(--muted);margin:12px 0 16px">${T.introNote}</p>
+    <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn btn-soft" onclick="openDrawer()">📖 ${T.summaries}</button>
+      <button class="btn btn-primary" onclick="showMenu()">🎮 ${T.toActivities}</button></div>
+  </div></section>
+
+  <section id="screen-menu" class="screen">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div><h2 style="font-size:1.25rem;font-weight:800">${T.menuTitle}</h2>
+        <p style="font-size:.82rem;color:var(--muted)">${T.learner}: <strong id="menu-name"></strong> • <span id="menu-class"></span></p></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div style="background:#fff;border:1px solid var(--border);padding:6px 14px;border-radius:999px;font-weight:800;font-size:.85rem;color:var(--success)">${T.balance}: <span id="menu-score">0</span> ${T.points}</div>
+        <button class="btn btn-secondary btn-sm" onclick="changePath()">🔀 ${T.changePath}</button>
+        <button class="btn btn-accent btn-sm" id="btn-finish" style="display:none" onclick="finishAll()">🏆 ${T.resultCert}</button></div></div>
+    <div id="games-grid"></div>
+  </section>
+
+  <section id="screen-reminder" class="screen"><div class="card mid">
+    <div class="rem-head"><div class="gc-icon" id="rem-icon"></div><div style="flex:1"><span class="rem-tag">${T.reminderTag}</span>
+      <h3 style="font-size:1.15rem;font-weight:800;margin-top:4px" id="rem-title"></h3></div></div>
+    <div id="rem-body"></div>
+    <div class="row-actions"><button class="btn btn-secondary btn-sm" onclick="showMenu()">${T.backMenu}</button>
+      <button class="btn btn-primary" onclick="startRun()">${T.understood}</button></div>
+  </div></section>
+
+  <section id="screen-play" class="screen"><div class="card mid">
+    <div class="hud"><button class="btn btn-secondary btn-sm" onclick="leaveRun()">${T.backMenu}</button>
+      <span id="play-title"></span><span id="play-progress"></span><span style="color:var(--success)">⭐ <span id="play-score">0</span></span></div>
+    <div class="progress"><div id="play-bar" style="width:0%"></div></div>
+    <div id="play-area"></div><div id="play-feedback" class="feedback" style="display:none"></div>
+    <div class="row-actions"><button class="btn btn-soft btn-sm" onclick="showReminderAgain()">💡 ${T.reminderBtn}</button>
+      <button class="btn btn-primary" id="btn-next" style="display:none" onclick="nextItem()">${T.next}</button></div>
+  </div></section>
+
+  <section id="screen-actdone" class="screen"><div class="card narrow" style="text-align:center">
+    <div class="stars" id="ad-stars"></div><h3 style="font-size:1.25rem;font-weight:800" id="ad-title"></h3>
+    <p id="ad-msg" style="color:var(--muted);margin:6px 0 16px"></p>
+    <div class="stat-grid"><div class="stat"><div class="k">${T.pointsCap}</div><div class="v" id="ad-score"></div></div>
+      <div class="stat"><div class="k">${T.correctAnswers}</div><div class="v" id="ad-correct" style="color:var(--success)"></div></div>
+      <div class="stat"><div class="k">${T.successRate}</div><div class="v" id="ad-pct" style="color:var(--primary)"></div></div></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-secondary" onclick="openActivity(state.lastAct)">🔄 ${T.redo}</button>
+      <button class="btn btn-primary" onclick="showMenu()">${T.otherAct}</button></div>
+  </div></section>
+
+  <section id="screen-results" class="screen"><div class="card mid" style="text-align:center">
+    <div style="font-size:3.3rem">🏆</div><span class="badge" style="font-size:.85rem;padding:4px 12px">${T.certTitle}</span>
+    <h2 style="font-size:1.5rem;font-weight:900;margin:10px 0 4px">${T.wellDone} <span id="res-name"></span>!</h2>
+    <p id="res-msg" style="color:var(--muted);margin-bottom:18px"></p>
+    <div class="stat-grid"><div class="stat"><div class="k">${T.levelGroup}</div><div class="v" id="res-class" style="font-size:.9rem"></div></div>
+      <div class="stat"><div class="k">${T.actsDone}</div><div class="v" id="res-done" style="color:var(--primary)"></div></div>
+      <div class="stat"><div class="k">${T.balance}</div><div class="v" id="res-score" style="color:var(--success)"></div></div>
+      <div class="stat"><div class="k">${T.successRate}</div><div class="v" id="res-pct" style="color:#0369a1"></div></div></div>
+    <div class="table-wrap" style="margin-bottom:16px"><table class="res" id="res-table"></table></div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px">${T.creditsAr}<br><span class="ltr" style="font-weight:800">LHOUSSAINE BOURBI — S.S GUIGOU — BOULMANE 2026</span></p>
+    <div class="no-print" id="res-sync" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px;font-size:.8rem;color:#065f46;font-weight:700;margin-bottom:18px"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" class="no-print">
+      <button class="btn btn-secondary" onclick="showMenu()">${T.backActs}</button>
+      <button class="btn btn-secondary" onclick="window.print()">🖨️ ${T.printCert}</button>
+      <button class="btn btn-primary" onclick="restartApp()">🔄 ${T.newLearner}</button></div>
+  </div></section>
+
+  <section id="screen-dashboard" class="screen"><div class="card" style="max-width:1000px;margin:0 auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:14px;gap:8px;flex-wrap:wrap">
+      <div><h3 style="font-size:1.15rem;font-weight:800">🛡️ ${T.dashTitle}</h3><p style="font-size:.75rem;color:var(--muted)">${T.dashSub}</p></div>
+      <button class="btn btn-secondary btn-sm" onclick="leaveDashboard()">${T.exit}</button></div>
+    <div id="t-login" style="max-width:380px;margin:20px auto;text-align:center">
+      <p style="font-size:.88rem;font-weight:700;color:var(--muted);margin-bottom:10px">${T.enterPwd}</p>
+      <input type="password" id="t-pwd" class="form-input" placeholder="${T.pwdPh}" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')authTeacher()">
+      <button class="btn btn-primary" style="width:100%" onclick="authTeacher()">${T.enter}</button>
+      <button type="button" class="btn btn-secondary btn-sm" style="margin-top:10px" onclick="recoverPwd()">🔓 ${T.forgot}</button>
+      <p style="font-size:.72rem;color:var(--muted);margin-top:10px">${T.pwdNote}</p></div>
+    <div id="t-panel" style="display:none">
+      <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="text" id="t-search" class="form-input" placeholder="${T.searchPh}" style="max-width:220px" oninput="renderTeacher()">
+          <select id="t-level" class="form-select" style="max-width:150px" onchange="renderTeacher()"><option value="">${T.allLevels}</option>${A.LEVELS.map(l => `<option value="${l}">${T.levelWord} ${l}</option>`).join('')}</select>
+          <select id="t-path" class="form-select" style="max-width:150px" onchange="renderTeacher()"><option value="">${T.allPaths}</option>${[1, 2, 3].map(p => `<option value="${p}">${T.pathWord} ${p}</option>`).join('')}</select></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-soft btn-sm" onclick="exportCSV()">📥 ${T.exportCsv}</button>
+          <button class="btn btn-secondary btn-sm" onclick="changePwd()">🔑 ${T.changePwd}</button>
+          <button class="btn btn-secondary btn-sm" style="color:var(--danger)" onclick="clearResults()">🗑️ ${T.clearLog}</button></div></div>
+      <div style="margin-top:14px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px;padding:12px">
+        <div style="font-weight:800;font-size:.9rem;margin-bottom:6px">🌐 ${T.cloudTitle}</div>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">${T.cloudNote}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <input type="text" id="cloud-url" class="form-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1;min-width:220px;font-size:.8rem">
+          <button class="btn btn-primary btn-sm" onclick="saveCloudUrl()">💾 ${T.saveLink}</button>
+          <button class="btn btn-soft btn-sm" onclick="testCloud()">🔌 ${T.test}</button></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:.8rem;font-weight:700">
+          <span id="cloud-status"></span>
+          <button class="btn btn-secondary btn-sm" onclick="flushQueue(true)">📤 ${T.sendNow}</button>
+          <button class="btn btn-secondary btn-sm" onclick="pushAllLocal()">⬆️ ${T.sendAll}</button></div></div>
+      <div style="margin-top:14px;background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px">
+        <div style="font-weight:800;font-size:.9rem">${T.avgByAct} <span style="font-weight:600;color:var(--muted);font-size:.75rem">${T.avgNote}</span></div>
+        <div class="bars" id="t-bars"></div></div>
+      <div class="table-wrap"><table class="res"><thead id="t-head"></thead><tbody id="t-body"></tbody></table></div>
+    </div></div></section>
+</main>
+
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-header"><div><h4 style="font-weight:800">📖 ${T.summaries}</h4><span style="font-size:.72rem;color:var(--muted)">${T.drawerSub}</span></div>
+    <button class="icon-btn" onclick="closeDrawer()">✕</button></div>
+  <div class="drawer-content"><div class="tabs" id="drawer-tabs"></div><div id="drawer-body"></div></div>
+</aside>
+
+<div id="ui-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:200;align-items:center;justify-content:center;padding:16px">
+  <div class="card" style="max-width:420px;width:100%;text-align:center"><p id="ui-msg" style="font-weight:700;margin:8px 0 14px"></p>
+    <input id="ui-input" class="form-input" type="text" style="display:none;margin-bottom:14px">
+    <div style="display:flex;gap:10px;justify-content:center"><button class="btn btn-primary" id="ui-ok">${T.ok}</button><button class="btn btn-secondary" id="ui-cancel">${T.cancel}</button></div></div>
+</div>
+<footer>${T.footer}<br><span class="credit">LHOUSSAINE BOURBI — S.S GUIGOU — BOULMANE 2026</span></footer>`;
+  ['in-name', 'in-group'].forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } }));
+}
+
+/* =====================================================================
+   NAVIGATION
+   ===================================================================== */
+function showScreen(id) {
+  sound.click();
+  if (state.run && state.run.timer) { clearTimeout(state.run.timer); state.run.timer = null; }
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function brickNames(lv, p) { return bricksOf(lv, p).map(b => A.BRICKS[b].title).join(' ← '); }
+function pickLevel(l) {
+  sound.click(); state.level = l; $('login-err').style.display = 'none';
+  document.querySelectorAll('.level-card[data-level]').forEach(c => c.classList.toggle('active', Number(c.dataset.level) === l));
+  [1, 2, 3].forEach(p => { const h = $('ph-' + p); if (h) h.textContent = brickNames(l, p); });
+}
+function pickPath(p) { sound.click(); state.path = p; $('login-err').style.display = 'none'; document.querySelectorAll('.path-card').forEach(c => c.classList.toggle('active', Number(c.dataset.path) === p)); }
+function pickGroup(el, g) { sound.click(); $('in-group').value = g; document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === el)); }
+function loginError(msg) { const e = $('login-err'); e.textContent = msg; e.style.display = 'block'; sound.ko(); }
+function classLabel() { return `${T.levelWord} ${state.level} • ${T.pathWord} ${state.path} — ${state.student.group}`; }
+function doLogin() {
+  const name = $('in-name').value.trim(), group = $('in-group').value.trim();
+  if (!name) return loginError(T.errName);
+  if (!state.level) return loginError(T.errLevel);
+  if (!state.path) return loginError(T.errPath);
+  if (!group) return loginError(T.errGroup);
+  $('login-err').style.display = 'none'; sound.ok();
+  state.student = { name, group }; startSession();
+}
+function startSession() {
+  state.sessionId = 'S' + Date.now() + '-' + state.level + state.path;
+  state.startedAt = new Date().toLocaleString(A.locale); state.results = {};
+  $('intro-name').textContent = state.student.name; $('intro-level').textContent = classLabel();
+  $('intro-goals').innerHTML = bricksOf(state.level, state.path).map(b => `<div class="goal-block"><div class="goal-head">${A.BRICKS[b].icon} ${A.BRICKS[b].title}</div><ul class="rem-list">${A.BRICKS[b].goals.map(g => `<li>${g}</li>`).join('')}</ul></div>`).join('');
+  showScreen('screen-intro');
+}
+function changePath() {
+  uiPrompt(T.askPath, v => { const p = Number(String(v).trim()); if (![1, 2, 3].includes(p)) return uiAlert(T.errPath); if (Object.keys(state.results).length) saveSession(); state.path = p; startSession(); });
+}
+function showMenu() {
+  $('menu-name').textContent = state.student.name; $('menu-class').textContent = classLabel(); $('menu-score').textContent = totalScore();
+  $('btn-finish').style.display = Object.keys(state.results).length ? 'inline-flex' : 'none';
+  let n = 0;
+  $('games-grid').innerHTML = bricksOf(state.level, state.path).map(b => {
+    const B = A.BRICKS[b];
+    return `<div class="brick-sec"><div class="brick-head" style="border-color:${B.color}"><span class="gc-icon" style="background:${B.bg};color:${B.color}">${B.icon}</span><div><div style="font-weight:900">${B.title}</div><div style="font-size:.78rem;color:var(--muted)">${B.short}</div></div></div>
+      <div class="games-grid">${A.ACTS[b].map(a => { const key = b + '.' + a.id, r = state.results[key]; n++;
+        return `<div class="game-card ${r ? 'done' : ''}" onclick="openActivity('${key}')"><div><div class="gc-head"><div class="gc-icon" style="background:${B.bg};color:${B.color}">${a.icon}</div>
+        <div><div class="gc-title">${n}. ${a.title}</div><span class="badge">${a.count} ${T.questions}</span></div></div><p class="gc-desc">${a.desc}</p></div>
+        <div class="gc-foot"><span>${r ? `✅ ${r.score} / ${r.max}` : T.notDone}</span><span>${r ? T.redoArrow : T.startArrow}</span></div></div>`; }).join('')}</div></div>`;
+  }).join('');
+  showScreen('screen-menu');
+}
+function leaveDashboard() { $('t-login').style.display = 'block'; $('t-panel').style.display = 'none'; $('t-pwd').value = ''; if (state.sessionId) showMenu(); else showScreen('screen-welcome'); }
+
+/* =====================================================================
+   ACTIVITY ENGINE — two item kinds: 'mcq' and 'order'
+   ===================================================================== */
+function openActivity(key) {
+  const a = ACTKEY[key], B = A.BRICKS[a.brick];
+  state.lastAct = key;
+  let items = [];
+  try { items = a.build(state.level); } catch (e) { console.error(e); }
+  if (!items.length) return uiAlert(T.noItems);
+  state.run = { key, items, idx: 0, score: 0, max: items.length, correct: 0, locked: false, timer: null };
+  $('rem-icon').innerHTML = a.icon; $('rem-icon').style.background = B.bg; $('rem-icon').style.color = B.color;
+  $('rem-title').textContent = `${B.title} — ${a.title}`;
+  $('rem-body').innerHTML = a.reminder(state.level);
+  showScreen('screen-reminder');
+}
+function startRun() { const r = state.run; showScreen('screen-play'); if (r.resume && r.locked) { r.resume = false; return; } r.resume = false; renderItem(); }
+function showReminderAgain() {
+  const a = ACTKEY[state.run.key]; $('rem-body').innerHTML = a.reminder(state.level);
+  if (state.run.timer) { clearTimeout(state.run.timer); state.run.timer = null; }
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); $('screen-reminder').classList.add('active'); state.run.resume = true;
+}
+function leaveRun() { uiConfirm(T.leaveAct, showMenu); }
+function speakBtn(text) { return TTS.ready && text ? `<button class="btn btn-soft btn-sm speak" onclick="TTS.say(${esc(JSON.stringify(text))})">🔈 ${T.listen}</button>` : ''; }
+function renderItem() {
+  const r = state.run, a = ACTKEY[r.key], item = r.items[r.idx];
+  r.locked = false;
+  $('play-title').textContent = a.title; $('play-progress').textContent = `${r.idx + 1} / ${r.items.length}`;
+  $('play-score').textContent = r.score; $('play-bar').style.width = (r.idx / r.items.length * 100) + '%';
+  $('play-feedback').style.display = 'none'; $('btn-next').style.display = 'none';
+  const area = $('play-area'); area.innerHTML = '';
+  const finish = (ok, html) => {
+    if (r.locked) return; r.locked = true;
+    if (r.timer) { clearTimeout(r.timer); r.timer = null; }
+    if (ok) { r.score++; r.correct++; }
+    $('play-score').textContent = r.score;
+    const fb = $('play-feedback'); fb.style.display = 'block'; fb.className = 'feedback ' + (ok ? 'ok' : 'ko');
+    fb.innerHTML = (ok ? `<strong>👏 ${T.bravo} (+1)</strong>` : `<strong>${T.letsFix}</strong>`) + (html ? `<div style="margin-top:4px">${html}</div>` : '');
+    ok ? sound.ok() : sound.ko();
+    const nb = $('btn-next'); nb.style.display = 'inline-flex'; nb.textContent = r.idx + 1 < r.items.length ? T.next : T.endAct; setTimeout(() => nb.focus(), 50);
+  };
+  (item.kind === 'order' ? renderOrder : renderMcq)(item, area, finish);
+}
+function renderMcq(it, area, finish) {
+  const dirAttr = it.dir ? ` dir="${it.dir}"` : '';
+  let html = '';
+  if (it.passage) html += `<div class="passage"${dirAttr}>${it.passageTitle ? `<div class="p-title">${it.passageTitle}</div>` : ''}${it.passage}</div>`;
+  html += `<div class="q-box"${dirAttr}>${it.q}${speakBtn(it.speak)}</div>`;
+  if (it.flash) html += `<div class="flash-box" id="flash-box"><div class="flash-word">${it.flash.html}</div><div class="timer"><div id="flash-bar"></div></div></div>`;
+  html += `<div class="answers ${it.center ? 'center' : ''} ${it.big ? 'big' : ''}" id="ans" style="${it.flash ? 'visibility:hidden' : ''}">${it.options.map((o, i) => `<button class="ans-btn ${it.center ? 'center' : ''}" data-i="${i}"${dirAttr}>${o}</button>`).join('')}</div>`;
+  area.innerHTML = html;
+  const btns = [...area.querySelectorAll('.ans-btn')];
+  btns.forEach(b => b.onclick = () => {
+    const i = Number(b.dataset.i), ok = i === it.answer;
+    btns.forEach(x => x.disabled = true); b.classList.add(ok ? 'correct' : 'wrong'); btns[it.answer].classList.add('correct');
+    finish(ok, it.explain || '');
+  });
+  if (it.flash) {
+    const bar = $('flash-bar'); bar.style.transition = `width ${it.flash.ms}ms linear`; requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = '0%'; }));
+    state.run.timer = setTimeout(() => { const fbx = $('flash-box'); if (fbx) fbx.innerHTML = `<div class="flash-hidden">${T.flashHidden}</div>`; const an = $('ans'); if (an) an.style.visibility = 'visible'; state.run.timer = null; }, it.flash.ms);
+  }
+}
+function renderOrder(it, area, finish) {
+  const dirAttr = it.dir ? ` dir="${it.dir}"` : '';
+  area.innerHTML = `${it.passage ? `<div class="passage"${dirAttr}>${it.passage}</div>` : ''}<div class="q-box"${dirAttr}>${it.q}${speakBtn(it.speak)}</div>
+    <div class="order-slot ${it.joiner === '' ? 'tight' : ''} ${it.vertical ? 'vertical' : ''}" id="slot"${dirAttr}><span class="slot-ph">${T.tapTiles}</span></div>
+    <div class="order-pool ${it.vertical ? 'vertical' : ''}" id="pool"${dirAttr}></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px"><button class="btn btn-secondary btn-sm" id="o-reset">↺ ${T.reset}</button><button class="btn btn-primary" id="o-check">${T.check}</button></div>`;
+  const pool = $('pool'), slot = $('slot'), placed = [];
+  const tiles = shuffle(it.tiles.map((t, i) => ({ t, i })));
+  const draw = () => {
+    pool.innerHTML = ''; tiles.forEach(o => { if (placed.includes(o)) return; const b = document.createElement('button'); b.className = 'tile'; b.innerHTML = o.t; b.onclick = () => { sound.click(); placed.push(o); draw(); }; pool.appendChild(b); });
+    slot.innerHTML = placed.length ? '' : `<span class="slot-ph">${T.tapTiles}</span>`;
+    placed.forEach((o, k) => { const b = document.createElement('button'); b.className = 'tile placed'; b.innerHTML = o.t; b.onclick = () => { placed.splice(k, 1); draw(); }; slot.appendChild(b); });
+  };
+  draw();
+  $('o-reset').onclick = () => { placed.length = 0; draw(); };
+  $('o-check').onclick = () => {
+    if (placed.length < it.tiles.length) return uiAlert(T.useAllTiles);
+    const got = placed.map(o => o.t).join('\u0001'), want = it.answer.join('\u0001');
+    area.querySelectorAll('button').forEach(b => b.disabled = true);
+    const ok = got === want; slot.classList.add(ok ? 'ok' : 'ko');
+    finish(ok, (ok ? '' : `${T.rightOrder}: <div class="right-order"${dirAttr}>${it.answer.join(it.vertical ? '<br>' : (it.joiner === '' ? '' : ' '))}</div>`) + (it.explain || ''));
+  };
+}
+function nextItem() { const r = state.run; sound.click(); r.idx++; if (r.idx < r.items.length) renderItem(); else completeActivity(); }
+function completeActivity() {
+  const r = state.run, a = ACTKEY[r.key], prev = state.results[r.key];
+  if (!prev || r.score >= prev.score) state.results[r.key] = { score: r.score, max: r.max, correct: r.correct };
+  saveSession();
+  const pct = Math.round(r.score / r.max * 100);
+  $('ad-stars').textContent = pct >= 80 ? '⭐⭐⭐' : pct >= 50 ? '⭐⭐☆' : '⭐☆☆';
+  $('ad-title').textContent = a.title; $('ad-msg').textContent = pct >= 80 ? T.msgHi : pct >= 50 ? T.msgMid : T.msgLo;
+  $('ad-score').textContent = `${r.score} / ${r.max}`; $('ad-correct').textContent = `${r.correct} / ${r.items.length}`; $('ad-pct').textContent = pct + '%';
+  state.run = null; showScreen('screen-actdone'); sound.fanfare();
+}
+
+/* =====================================================================
+   RESULTS
+   ===================================================================== */
+const pctCell = v => v === undefined ? '<span class="pct na">—</span>' : `<span class="pct ${v >= 80 ? 'hi' : v >= 50 ? 'mid' : 'lo'}">${v}%</span>`;
+function finishAll() {
+  saveSession();
+  const score = totalScore(), acts = actsOf(state.level, state.path), done = Object.keys(state.results).length;
+  const doneMax = Object.values(state.results).reduce((s, r) => s + r.max, 0), pct = doneMax ? Math.round(score / doneMax * 100) : 0;
+  $('res-name').textContent = state.student.name; $('res-class').textContent = classLabel();
+  $('res-done').textContent = `${done} / ${acts.length}`; $('res-score').textContent = `${score} / ${maxTotal()}`; $('res-pct').textContent = pct + '%';
+  $('res-msg').textContent = pct >= 85 ? T.certHi : pct >= 60 ? T.certMid : T.certLo;
+  $('res-table').innerHTML = `<tr><th>${T.activity}</th><th>${T.pointsCap}</th><th>${T.rate}</th></tr>` + acts.map(a => {
+    const r = state.results[a.key], label = `${A.BRICKS[a.brick].icon} ${A.BRICKS[a.brick].title} — ${a.title}`;
+    if (!r) return `<tr><td>${label}</td><td>—</td><td><span class="pct na">${T.notDone}</span></td></tr>`;
+    const p = Math.round(r.score / r.max * 100); return `<tr><td>${label}</td><td>${r.score} / ${r.max}</td><td>${pctCell(p)}</td></tr>`;
+  }).join('');
+  showScreen('screen-results'); renderCloudStatus(); setTimeout(renderCloudStatus, 4000); sound.fanfare();
+}
+function restartApp() {
+  state.student = { name: '', group: '' }; state.level = null; state.path = null; state.sessionId = null; state.results = {}; state.run = null;
+  $('in-name').value = ''; $('in-group').value = ''; $('login-err').style.display = 'none';
+  document.querySelectorAll('.level-card, .chip').forEach(c => c.classList.remove('active')); [1, 2, 3].forEach(p => { $('ph-' + p).textContent = ''; });
+  showScreen('screen-welcome');
+}
+
+/* =====================================================================
+   TEACHER SPACE
+   ===================================================================== */
+function authTeacher() { if ($('t-pwd').value.trim() === getPwd()) { sound.ok(); $('t-login').style.display = 'none'; $('t-panel').style.display = 'block'; renderTeacher(); renderCloudStatus(); } else { sound.ko(); uiAlert(T.wrongPwd); } }
+function recoverPwd() { uiPrompt(T.recoverAsk, v => { if (v.trim().toUpperCase() !== A.RECOVERY_CODE) { sound.ko(); return uiAlert(T.recoverBad); } try { localStorage.removeItem(PWD_KEY); } catch (e) {} sound.ok(); uiAlert(T.recoverOk(A.DEFAULT_PWD)); }); }
+function changePwd() { uiPrompt(T.newPwdAsk, p => { if (p.trim().length < 6) return uiAlert(T.pwdShort); try { localStorage.setItem(PWD_KEY, p.trim()); uiAlert(T.pwdChanged); } catch (e) { uiAlert(T.pwdSaveFail); } }); }
+function filtered() {
+  const q = $('t-search').value.trim().toLowerCase(), lv = $('t-level').value, pa = $('t-path').value;
+  return loadAll().filter(r => (!lv || String(r.level) === lv) && (!pa || String(r.path) === pa) && (!q || r.name.toLowerCase().includes(q) || String(r.group).toLowerCase().includes(q)));
+}
+const BRICK_IDS = Object.keys(A.BRICKS);
+function renderTeacher() {
+  const rows = filtered();
+  $('t-head').innerHTML = `<tr><th>#</th><th>${T.colName}</th><th>${T.colLevel}</th><th>${T.colPath}</th><th>${T.colGroup}</th><th>${T.colDate}</th>${BRICK_IDS.map(b => `<th title="${A.BRICKS[b].title}">${A.BRICKS[b].icon} ${A.BRICKS[b].title}</th>`).join('')}<th>${T.balance}</th><th>/20</th><th>${T.rate}</th></tr>`;
+  $('t-body').innerHTML = rows.length ? rows.map((r, i) => `<tr><td>${i + 1}</td><td><strong>${esc(r.name)}</strong></td><td>${r.level}</td><td>${r.path}</td><td><span class="badge">${esc(r.group)}</span></td><td style="color:var(--muted);font-size:.72rem">${esc(r.updated || r.date)}</td>
+    ${BRICK_IDS.map(b => `<td>${pctCell(brickPct(r.acts, b))}</td>`).join('')}<td><strong>${r.score}</strong></td><td><strong style="color:#3730a3">${r.grade20}</strong></td><td>${pctCell(r.pct)}</td></tr>`).join('')
+    : `<tr><td colspan="${9 + BRICK_IDS.length}" style="text-align:center;color:var(--muted);padding:18px">${T.noResults}</td></tr>`;
+  const keys = Object.keys(ACTKEY);
+  $('t-bars').innerHTML = keys.map(k => {
+    const vals = rows.map(r => r.acts && r.acts[k]).filter(v => v !== undefined); if (!vals.length) return '';
+    const avg = Math.round(vals.reduce((s, v) => s + v, 0) / vals.length), col = avg >= 80 ? '#16a34a' : avg >= 50 ? '#eab308' : '#dc2626', a = ACTKEY[k];
+    return `<div class="bar-row"><span>${A.BRICKS[a.brick].icon} ${a.title}</span><div class="bar-track"><div class="bar-fill" style="width:${avg}%;background:${col}"></div></div><span>${avg}%</span></div>`;
+  }).join('') + `<div style="font-size:.75rem;color:var(--muted);margin-top:4px">${T.shownAttempts}: ${rows.length}</div>`;
+}
+function exportCSV() {
+  const rows = filtered(); if (!rows.length) return uiAlert(T.nothingExport);
+  const q = s => `"${String(s).replace(/"/g, '""')}"`, objs = rows.map(toRow), head = Object.keys(objs[0]);
+  const csv = '﻿' + [head.map(q).join(','), ...objs.map(o => head.map(h => q(o[h] === undefined ? '' : o[h])).join(','))].join('\n');
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+  const a = document.createElement('a'); a.href = url; a.download = `${T.csvName}_${new Date().toISOString().slice(0, 10)}.csv`; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function clearResults() { uiConfirm(T.clearAsk, () => { try { localStorage.removeItem(STORE_KEY); } catch (e) {} renderTeacher(); }); }
+
+/* =====================================================================
+   LESSON SUMMARIES (drawer)
+   ===================================================================== */
+function openDrawer() { sound.click(); renderDrawer(); $('drawer-overlay').style.display = 'block'; $('drawer').classList.add('open'); }
+function closeDrawer() { $('drawer-overlay').style.display = 'none'; $('drawer').classList.remove('open'); }
+function renderDrawer(b) {
+  const list = state.level && state.path ? bricksOf(state.level, state.path) : BRICK_IDS;
+  b = b || list[0];
+  $('drawer-tabs').innerHTML = list.map(x => `<button class="btn btn-sm ${x === b ? 'btn-primary' : 'btn-secondary'}" onclick="renderDrawer('${x}')">${A.BRICKS[x].icon} ${A.BRICKS[x].title}</button>`).join('');
+  const B = A.BRICKS[b];
+  $('drawer-body').innerHTML = `<h4>🎯 ${T.brickGoals}</h4><ul>${B.goals.map(g => `<li>${g}</li>`).join('')}</ul>${B.summary}
+    <h4>🎮 ${T.brickActs}</h4><ul>${A.ACTS[b].map(a => `<li><strong>${a.title}:</strong> ${a.desc}</li>`).join('')}</ul>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:16px">${T.byLine} — <span class="ltr">LHOUSSAINE BOURBI — S.S GUIGOU — BOULMANE 2026</span></p>`;
+}
+
+/* ---------- boot ---------- */
+mount(); TTS.init();
+
+</script>
+</body>
+</html>
